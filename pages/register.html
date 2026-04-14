@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Music Box - Đăng Ký</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'mb-purple': {
+                            light: '#c4b5fd',
+                            main: '#8b5cf6',
+                            dark: '#6d28d9'
+                        },
+                        'mb-dark': '#1e1b4b',
+                    }
+                }
+            }
+        }
+    </script>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Plus Jakarta Sans', sans-serif; }
+        .glass-card {
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+        }
+        [x-cloak] { display: none !important; }
+        
+        .glow-bg {
+            position: absolute;
+            width: 300px;
+            height: 300px;
+            background: radial-gradient(circle, rgba(139,92,246,0.15) 0%, rgba(30,27,75,0) 70%);
+            border-radius: 50%;
+            z-index: 0;
+            pointer-events: none;
+        }
+    </style>
+</head>
+
+<body class="bg-[#1e1b4b] min-h-screen text-white flex items-center justify-center relative overflow-hidden py-10" x-data="registerForm()">
+
+    <div class="glow-bg top-[-50px] right-[-50px] w-[400px] h-[400px]"></div>
+    <div class="glow-bg bottom-[-50px] left-[-50px]"></div>
+
+    <main class="w-full max-w-md px-6 relative z-10">
+        
+        <div class="flex flex-col items-center justify-center mb-6">
+            <h1 class="text-3xl font-extrabold tracking-tighter">MUSIC<span class="text-mb-purple-main">BOX</span></h1>
+            <p class="text-mb-purple-light text-sm mt-1">Trở thành khách hàng VIP ngay hôm nay</p>
+        </div>
+
+        <div class="glass-card rounded-3xl p-8 border-t border-white/10">
+            <h2 class="text-xl font-bold mb-6 text-center">Tạo tài khoản mới</h2>
+
+            <div x-show="errorMessage" x-cloak 
+                 class="mb-6 p-3 rounded-xl bg-rose-500/10 border border-rose-500/20 flex items-center gap-3 text-rose-400 text-sm"
+                 x-transition:enter="transition ease-out duration-300">
+                <svg class="w-5 h-5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path></svg>
+                <span x-text="errorMessage"></span>
+            </div>
+
+            <div x-show="successMessage" x-cloak 
+                 class="mb-6 p-3 rounded-xl bg-emerald-500/10 border border-emerald-500/20 flex items-center gap-3 text-emerald-400 text-sm"
+                 x-transition:enter="transition ease-out duration-300">
+                <svg class="w-5 h-5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                <span x-text="successMessage"></span>
+            </div>
+
+            <form @submit.prevent="handleRegister" class="space-y-4">
+                <div>
+                    <label class="block text-xs font-semibold text-mb-purple-light uppercase tracking-wider mb-2">Họ và tên</label>
+                    <input type="text" x-model="fullname" 
+                        class="w-full bg-black/20 border border-white/10 rounded-xl py-3 px-4 text-sm text-white placeholder-gray-600 focus:outline-none focus:border-mb-purple-main focus:ring-1 focus:ring-mb-purple-main transition-all" 
+                        placeholder="VD: Nguyễn Anh Tuấn">
+                </div>
+
+                <div>
+                    <label class="block text-xs font-semibold text-mb-purple-light uppercase tracking-wider mb-2">Số điện thoại</label>
+                    <input type="tel" x-model="phone" 
+                        class="w-full bg-black/20 border border-white/10 rounded-xl py-3 px-4 text-sm text-white placeholder-gray-600 focus:outline-none focus:border-mb-purple-main focus:ring-1 focus:ring-mb-purple-main transition-all" 
+                        placeholder="VD: 0901234567">
+                </div>
+
+                <div class="relative">
+                    <label class="block text-xs font-semibold text-mb-purple-light uppercase tracking-wider mb-2">Mật khẩu</label>
+                    <input :type="showPassword ? 'text' : 'password'" x-model="password" 
+                        class="w-full bg-black/20 border border-white/10 rounded-xl py-3 pl-4 pr-12 text-sm text-white placeholder-gray-600 focus:outline-none focus:border-mb-purple-main focus:ring-1 focus:ring-mb-purple-main transition-all" 
+                        placeholder="Tối thiểu 6 ký tự">
+                    <button type="button" @click="showPassword = !showPassword" class="absolute bottom-3 right-4 text-gray-500 hover:text-white transition-colors">
+                        <svg x-show="!showPassword" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" /><path d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" /></svg>
+                        <svg x-show="showPassword" x-cloak class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.875 18.825A10.05 10.05 0 0112 19c-4.478 0-8.268-2.943-9.543-7a9.97 9.97 0 011.563-3.029m5.858.908a3 3 0 114.243 4.243M9.878 9.878l4.242 4.242M9.88 9.88l-3.29-3.29m7.532 7.532l3.29 3.29M3 3l3.59 3.59m0 0A9.953 9.953 0 0112 5c4.478 0 8.268 2.943 9.543 7a10.025 10.025 0 01-4.132 5.411m0 0L21 21" /></svg>
+                    </button>
+                </div>
+
+                <div class="relative">
+                    <label class="block text-xs font-semibold text-mb-purple-light uppercase tracking-wider mb-2">Xác nhận mật khẩu</label>
+                    <input :type="showConfirmPassword ? 'text' : 'password'" x-model="confirmPassword" 
+                        class="w-full bg-black/20 border border-white/10 rounded-xl py-3 pl-4 pr-12 text-sm text-white placeholder-gray-600 focus:outline-none focus:border-mb-purple-main focus:ring-1 focus:ring-mb-purple-main transition-all" 
+                        placeholder="Nhập lại mật khẩu ở trên">
+                    <button type="button" @click="showConfirmPassword = !showConfirmPassword" class="absolute bottom-3 right-4 text-gray-500 hover:text-white transition-colors">
+                        <svg x-show="!showConfirmPassword" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" /><path d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" /></svg>
+                        <svg x-show="showConfirmPassword" x-cloak class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.875 18.825A10.05 10.05 0 0112 19c-4.478 0-8.268-2.943-9.543-7a9.97 9.97 0 011.563-3.029m5.858.908a3 3 0 114.243 4.243M9.878 9.878l4.242 4.242M9.88 9.88l-3.29-3.29m7.532 7.532l3.29 3.29M3 3l3.59 3.59m0 0A9.953 9.953 0 0112 5c4.478 0 8.268 2.943 9.543 7a10.025 10.025 0 01-4.132 5.411m0 0L21 21" /></svg>
+                    </button>
+                </div>
+
+                <div class="flex items-center gap-2 pt-2">
+                    <input type="checkbox" id="terms" x-model="agreeTerms" class="w-4 h-4 rounded border-white/10 bg-black/20 text-mb-purple-main focus:ring-mb-purple-main accent-mb-purple-main cursor-pointer">
+                    <label for="terms" class="text-xs text-gray-400 cursor-pointer">Tôi đồng ý với <a href="#" class="text-mb-purple-main hover:underline">Điều khoản & Dịch vụ</a></label>
+                </div>
+
+                <button type="submit" :disabled="isLoading" 
+                    class="w-full bg-mb-purple-main hover:bg-mb-purple-dark text-white font-bold py-3.5 rounded-xl transition-all shadow-[0_4px_15px_rgba(139,92,246,0.3)] flex justify-center items-center gap-2 mt-2 disabled:opacity-70 disabled:cursor-not-allowed">
+                    <span x-show="!isLoading">Đăng Ký Ngay</span>
+                    <svg x-show="isLoading" x-cloak class="animate-spin h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                        <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                        <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                    </svg>
+                    <span x-show="isLoading" x-cloak>Đang xử lý...</span>
+                </button>
+            </form>
+
+            <div class="mt-6 text-center">
+                <p class="text-sm text-gray-400">Đã có tài khoản? 
+                    <a href="login.html" class="text-mb-purple-main font-bold hover:text-mb-purple-light transition-colors ml-1">Đăng nhập</a>
+                </p>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        function registerForm() {
+            return {
+                fullname: '',
+                phone: '',
+                password: '',
+                confirmPassword: '',
+                agreeTerms: false,
+                showPassword: false,
+                showConfirmPassword: false,
+                isLoading: false,
+                errorMessage: '',
+                successMessage: '',
+
+                handleRegister() {
+                    // Reset trạng thái
+                    this.errorMessage = '';
+                    this.successMessage = '';
+
+                    // 1. Kiểm tra rỗng
+                    if (!this.fullname.trim() || !this.phone.trim() || !this.password || !this.confirmPassword) {
+                        this.errorMessage = 'Vui lòng điền đầy đủ tất cả thông tin!';
+                        return;
+                    }
+
+                    // 2. Kiểm tra định dạng số điện thoại (10 số, bắt đầu bằng 0)
+                    const phoneRegex = /(84|0[3|5|7|8|9])+([0-9]{8})\b/;
+                    if (!phoneRegex.test(this.phone)) {
+                        this.errorMessage = 'Số điện thoại không hợp lệ (VD: 0901234567)!';
+                        return;
+                    }
+
+                    // 3. Kiểm tra độ dài mật khẩu
+                    if (this.password.length < 6) {
+                        this.errorMessage = 'Mật khẩu phải có ít nhất 6 ký tự!';
+                        return;
+                    }
+
+                    // 4. Kiểm tra khớp mật khẩu
+                    if (this.password !== this.confirmPassword) {
+                        this.errorMessage = 'Xác nhận mật khẩu không khớp!';
+                        return;
+                    }
+
+                    // 5. Kiểm tra tick điều khoản
+                    if (!this.agreeTerms) {
+                        this.errorMessage = 'Bạn phải đồng ý với Điều khoản & Dịch vụ!';
+                        return;
+                    }
+
+                    // Nếu qua hết chốt chặn -> Xử lý API ảo
+                    this.isLoading = true;
+                    
+                    setTimeout(() => {
+                        this.isLoading = false;
+                        this.successMessage = 'Đăng ký thành công! Đang chuyển hướng...';
+                        
+                        // Chuyển hướng về trang Đăng nhập sau 1.5s
+                        setTimeout(() => {
+                            window.location.href = 'login.html';
+                        }, 1500);
+                    }, 1500);
+                }
+            }
+        }
+    </script>
+</body>
+</html>
