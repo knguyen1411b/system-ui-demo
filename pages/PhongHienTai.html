@@ -1,0 +1,541 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Music Box - Room Service</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'mb-purple': { 400: '#a78bfa', 500: '#8b5cf6', 600: '#7c3aed' },
+                        'mb-dark': '#0f172a',
+                    }
+                }
+            }
+        }
+    </script>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap"
+        rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+        }
+
+        .glass-card {
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        [x-cloak] {
+            display: none !important;
+        }
+
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 4px;
+        }
+
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: rgba(139, 92, 246, 0.3);
+            border-radius: 10px;
+        }
+
+        /* Hiệu ứng chuyển động cho nền của Tab đang chọn */
+        .tab-active-bg {
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        /* Bo góc mượt cho các nút menu */
+        .nav-tab {
+            position: relative;
+            z-index: 10;
+            transition: color 0.3s;
+        }
+    </style>
+</head>
+
+<body class="bg-gradient-to-br from-[#1e1b4b] to-[#0f172a] min-h-screen text-white flex flex-col"
+    x-data="roomManager()">
+
+    <header class="bg-[#0f172a]/80 backdrop-blur-md sticky top-0 z-[100] border-b border-white/10">
+        <div class="max-w-[1440px] mx-auto px-6 py-3 flex items-center justify-between">
+            <div class="flex items-center gap-6">
+                <a href="../index.html"
+                    class="p-2 hover:bg-white/10 rounded-xl transition-all group text-gray-400 hover:text-mb-purple-400">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1a1 0 001 1h3m10-11l2 2m-2-2v10a1a1 0 01-1 1h-3m-6 0a1a1 0 001-1v-4a1a1 0 011-1h2a1a1 0 011 1v4a1a1 0 001 1m-6 0h6">
+                        </path>
+                    </svg>
+                </a>
+                <span class="text-xl font-extrabold tracking-tighter">MUSIC<span
+                        class="text-mb-purple-400">BOX</span></span>
+            </div>
+            <div class="flex items-center gap-4">
+                <button @click="openSupportModal = true"
+                    class="bg-rose-500/20 text-rose-400 border border-rose-500/50 px-4 py-2 rounded-lg text-xs font-bold hover:bg-rose-500 hover:text-white transition-all">
+                    GỌI HỖ TRỢ
+                </button>
+                <a href="./trangcanhan.html" class="flex items-center gap-4">
+                    <div class="flex items-center gap-3 pl-4 border-l border-white/10">
+                        <div class="text-right hidden sm:block">
+                            <p class="text-[10px] text-gray-500 font-bold uppercase tracking-tighter">Khách hàng</p>
+                            <p class="text-xs font-bold text-white">Nguyễn Văn A</p>
+                        </div>
+                        <div class="w-10 h-10 rounded-lg border border-white/10 p-0.5 bg-white/5">
+                            <img src="https://i.pravatar.cc/150?u=a" class="w-full h-full rounded-md object-cover">
+                        </div>
+                    </div>
+
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <main class="max-w-[1440px] mx-auto px-6 py-8 w-full flex-grow grid grid-cols-1 lg:grid-cols-12 gap-8">
+
+        <div class="lg:col-span-4 space-y-6">
+            <div class="glass-card rounded-3xl p-6 border-l-4 border-mb-purple-500">
+                <div class="flex justify-between items-start mb-6">
+                    <div>
+                        <span class="text-[10px] font-bold text-emerald-400 uppercase tracking-widest">Đang sử
+                            dụng</span>
+                        <h1 class="text-4xl font-black mt-1 uppercase">Phòng 402</h1>
+                        <p class="text-gray-400 text-xs">Phí dịch vụ: 110.000đ/h</p>
+                    </div>
+                </div>
+                <div class="bg-white/5 rounded-2xl p-5 space-y-4">
+                    <div class="flex justify-between items-end"><span
+                            class="text-gray-400 text-[10px] uppercase font-bold">Thời gian</span><span
+                            class="font-mono text-2xl font-bold text-mb-purple-400" x-text="formattedDuration"></span>
+                    </div>
+                    <div class="pt-4 border-t border-white/10 flex justify-between items-end">
+                        <span class="text-gray-400 text-[10px] uppercase font-bold">Tiền phòng</span>
+                        <div class="text-right"><span class="text-2xl font-black"
+                                x-text="roomTotalFormatted"></span><span class="text-xs text-gray-500 ml-1">đ</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="glass-card rounded-3xl p-6">
+                <div class="flex flex-col gap-4 mb-6">
+                    <h3 class="text-xs font-bold uppercase text-gray-400 tracking-widest">Lịch sử gọi dịch vụ</h3>
+
+                    <div class="grid grid-cols-2 gap-2">
+                        <div class="bg-white/5 rounded-xl p-3 border border-white/5">
+                            <p class="text-[10px] text-gray-500 uppercase font-bold">Tất cả</p>
+                            <p class="text-xl font-black text-white" x-text="orderedServices.length"></p>
+                        </div>
+                        <div class="bg-amber-500/10 rounded-xl p-3 border border-amber-500/20">
+                            <p class="text-[10px] text-amber-500 uppercase font-bold">Đang chờ</p>
+                            <p class="text-xl font-black text-amber-500" x-text="countPending"></p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="space-y-3 max-h-[350px] overflow-y-auto pr-2 custom-scrollbar">
+                    <template x-for="item in orderedServices" :key="item.id">
+                        <div
+                            class="flex items-center justify-between p-3 bg-white/5 rounded-xl border border-white/5 transition-all hover:bg-white/10">
+                            <div class="flex items-center gap-3">
+                                <div class="w-8 h-8 rounded-lg bg-mb-purple-600/20 text-mb-purple-400 flex items-center justify-center text-[10px] font-bold"
+                                    x-text="item.qty + 'x'"></div>
+                                <div>
+                                    <p class="text-xs font-bold" x-text="item.name"></p>
+                                    <p class="text-[9px] text-gray-500" x-text="item.time"></p>
+                                </div>
+                            </div>
+                            <div class="flex flex-col items-end gap-1">
+                                <span class="text-[9px] px-2 py-1 rounded font-bold uppercase tracking-tighter"
+                                    :class="item.status === 'Đã giao' ? 'text-emerald-400 bg-emerald-400/10' : 'text-amber-400 bg-amber-400/10 animate-pulse'"
+                                    x-text="item.status"></span>
+                            </div>
+                        </div>
+                    </template>
+
+                    <template x-if="orderedServices.length === 0">
+                        <div class="text-center py-10">
+                            <p class="text-gray-600 text-[10px] uppercase">Chưa có yêu cầu nào</p>
+                        </div>
+                    </template>
+                </div>
+            </div>
+        </div>
+
+        <div class="lg:col-span-8 space-y-6">
+            <div class="sticky top-[73px] bg-[#0f172a]/90 backdrop-blur-xl z-40 py-4 -mx-2 px-2">
+                <div class="relative flex p-1 bg-white/5 rounded-2xl w-full max-w-2xl overflow-hidden border border-white/10"
+                    x-data="{ 
+            tabWidth: 0, 
+            tabOffset: 0,
+            updateTabPos(el) {
+                this.tabWidth = el.offsetWidth;
+                this.tabOffset = el.offsetLeft;
+            }
+         }" x-init="setTimeout(() => updateTabPos($el.querySelector('.nav-tab-active')), 100)">
+
+                    <div class="absolute inset-y-1 bg-mb-purple-600 rounded-xl tab-active-bg shadow-[0_0_15px_rgba(139,92,246,0.4)]"
+                        :style="`width: ${tabWidth}px; transform: translateX(${tabOffset}px)`"></div>
+
+                    <button @click="activeTab = 'all'; updateTabPos($el)"
+                        :class="activeTab === 'all' ? 'nav-tab-active text-white' : 'text-gray-400 hover:text-white'"
+                        class="nav-tab flex-1 py-2.5 text-[10px] font-black uppercase tracking-widest transition-colors relative">
+                        Tất cả
+                    </button>
+
+                    <button @click="activeTab = 'food'; updateTabPos($el)"
+                        :class="activeTab === 'food' ? 'nav-tab-active text-white' : 'text-gray-400 hover:text-white'"
+                        class="nav-tab flex-1 py-2.5 text-[10px] font-black uppercase tracking-widest transition-colors relative">
+                        Thức ăn
+                    </button>
+
+                    <button @click="activeTab = 'drink'; updateTabPos($el)"
+                        :class="activeTab === 'drink' ? 'nav-tab-active text-white' : 'text-gray-400 hover:text-white'"
+                        class="nav-tab flex-1 py-2.5 text-[10px] font-black uppercase tracking-widest transition-colors relative">
+                        Đồ uống
+                    </button>
+
+                    <button @click="activeTab = 'cart'; updateTabPos($el)"
+                        :class="activeTab === 'cart' ? 'nav-tab-active text-white' : 'text-gray-400 hover:text-white'"
+                        class="nav-tab flex-1 py-2.5 text-[10px] font-black uppercase tracking-widest transition-colors relative flex items-center justify-center gap-2">
+                        Giỏ hàng
+                        <span
+                            :class="activeTab === 'cart' ? 'bg-white text-mb-purple-600' : 'bg-mb-purple-600 text-white'"
+                            class="px-1.5 py-0.5 rounded-md text-[9px] transition-colors" x-text="cart.length"></span>
+                    </button>
+                </div>
+            </div>
+
+            <div x-show="activeTab !== 'cart'" class="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-4">
+                <template x-for="s in filteredServices" :key="s.id">
+                    <div class="glass-card rounded-2xl p-3 flex flex-col group transition-all hover:border-mb-purple-500/50"
+                        x-data="{ itemQty: 1 }">
+                        <div class="aspect-square rounded-xl overflow-hidden mb-3 relative">
+                            <img :src="s.img"
+                                class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
+                            <div class="absolute top-2 right-2 px-2 py-0.5 rounded-md bg-black/60 backdrop-blur-md text-[8px] font-bold uppercase tracking-tighter"
+                                x-text="s.type === 'food' ? 'Thức ăn' : 'Đồ uống'"></div>
+                        </div>
+
+                        <h4 class="font-bold text-xs mb-1 line-clamp-1" x-text="s.name"></h4>
+                        <p class="text-mb-purple-400 font-bold text-xs mb-3" x-text="s.price.toLocaleString() + 'đ'">
+                        </p>
+
+                        <div
+                            class="flex items-center justify-between bg-white/5 rounded-xl p-1 mb-2 border border-white/5">
+                            <button @click="if(itemQty > 1) itemQty--"
+                                class="w-7 h-7 flex items-center justify-center hover:bg-white/10 rounded-lg text-gray-400 transition-colors">-</button>
+                            <span class="text-[10px] font-bold w-6 text-center" x-text="itemQty"></span>
+                            <button @click="itemQty++"
+                                class="w-7 h-7 flex items-center justify-center hover:bg-white/10 rounded-lg text-gray-400 transition-colors">+</button>
+                        </div>
+
+                        <button @click="addToCart(s, itemQty); itemQty = 1"
+                            class="w-full py-2 bg-mb-purple-600 hover:bg-mb-purple-500 rounded-xl text-[10px] font-bold uppercase transition-all shadow-lg shadow-mb-purple-600/20 active:scale-95">
+                            Thêm vào giỏ
+                        </button>
+                    </div>
+                </template>
+            </div>
+
+            <div x-show="activeTab === 'cart'" x-transition class="space-y-4">
+                <div x-show="cart.length > 0">
+                    <div class="flex items-center justify-between p-4 glass-card rounded-2xl mb-4 border-dashed">
+                        <label class="flex items-center gap-3 cursor-pointer">
+                            <input type="checkbox" @change="toggleAll" :checked="isAllSelected"
+                                class="w-5 h-5 rounded border-white/20 bg-white/10 text-mb-purple-600">
+                            <span class="text-xs font-bold uppercase">Chọn tất cả</span>
+                        </label>
+                        <span class="text-xs text-gray-500"
+                            x-text="'Đã chọn (' + cart.filter(i=>i.selected).length + ')'"></span>
+                    </div>
+
+                    <div class="space-y-3">
+                        <template x-for="(item, index) in cart" :key="index">
+                            <div class="glass-card rounded-2xl p-4 flex items-center justify-between"
+                                :class="item.selected ? 'border-mb-purple-500 bg-mb-purple-500/5' : ''">
+                                <div class="flex items-center gap-4">
+                                    <input type="checkbox" x-model="item.selected"
+                                        class="w-5 h-5 rounded border-white/20 text-mb-purple-600">
+                                    <img :src="item.img" class="w-12 h-12 rounded-lg object-cover">
+                                    <div>
+                                        <p class="text-xs font-bold" x-text="item.name"></p>
+                                        <p class="text-[10px] text-mb-purple-400 font-bold"
+                                            x-text="item.price.toLocaleString() + 'đ'"></p>
+                                    </div>
+                                </div>
+                                <div class="flex items-center gap-3 bg-black/40 rounded-xl p-1">
+                                    <button @click="if(item.qty > 1) item.qty--"
+                                        class="w-8 h-8 flex items-center justify-center hover:bg-white/10 rounded-lg">-</button>
+                                    <span class="text-xs font-bold w-4 text-center" x-text="item.qty"></span>
+                                    <button @click="item.qty++"
+                                        class="w-8 h-8 flex items-center justify-center hover:bg-white/10 rounded-lg">+</button>
+                                    <button @click="cart.splice(index, 1)"
+                                        class="w-8 h-8 flex items-center justify-center text-rose-500 ml-2">
+                                        <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+                                            <path
+                                                d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z">
+                                            </path>
+                                        </svg>
+                                    </button>
+                                </div>
+                            </div>
+                        </template>
+                    </div>
+
+                    <div class="glass-card rounded-2xl p-6 border-t-4 border-mb-purple-500 mb-8">
+                        <div class="flex flex-col gap-3">
+                            <div
+                                class="flex justify-between items-center text-gray-400 text-xs uppercase tracking-widest">
+                                <span>Số lượng đã chọn:</span>
+                                <span class="text-white font-bold" x-text="selectedItemsCount + ' món'"></span>
+                            </div>
+                            <div class="flex justify-between items-center border-t border-white/5 pt-3">
+                                <span class="text-sm font-bold uppercase tracking-tighter">Tổng tiền tạm tính:</span>
+                                <div class="text-right">
+                                    <span class="text-2xl font-black text-mb-purple-400"
+                                        x-text="cartTotalFormatted"></span>
+                                    <span class="text-xs font-bold text-mb-purple-400 ml-1">đ</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+
+                    <div class="mt-8 flex justify-center sticky bottom-6">
+                        <button @click="openConfirmModal = true" :disabled="!cart.some(i => i.selected)"
+                            class="bg-mb-purple-600 hover:bg-mb-purple-500 disabled:bg-gray-700 px-12 py-4 rounded-2xl font-black text-xs uppercase tracking-widest shadow-2xl transition-all">
+                            Xác nhận gọi món
+                        </button>
+                    </div>
+                </div>
+                <div x-show="cart.length === 0"
+                    class="text-center py-20 bg-white/5 rounded-3xl border border-dashed border-white/10">
+                    <p class="text-gray-500 text-sm">Giỏ hàng đang trống.</p>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <div x-show="openConfirmModal" x-cloak class="fixed inset-0 z-[200] flex items-center justify-center px-4">
+        <div class="absolute inset-0 bg-black/90 backdrop-blur-sm"></div>
+        <div class="glass-card max-w-sm w-full rounded-3xl p-8 relative z-10 text-center">
+            <h3 class="text-xl font-black mb-2 uppercase">GỌI DỊCH VỤ?</h3>
+            <p class="text-gray-400 text-xs mb-6">Món đã gọi sẽ KHÔNG ĐƯỢC hoàn trả/hủy. Xác nhận đặt món?</p>
+            <button @click="confirmOrder()"
+                class="w-full py-4 bg-mb-purple-600 hover:bg-mb-purple-500 rounded-xl font-bold uppercase text-xs mb-3">Xác
+                nhận</button>
+            <button @click="openConfirmModal = false"
+                class="w-full py-2 text-gray-500 text-xs font-bold uppercase tracking-widest">Hủy</button>
+        </div>
+    </div>
+
+    <div x-show="showSuccess" x-cloak x-transition
+        class="fixed bottom-10 left-1/2 -translate-x-1/2 z-[300] bg-emerald-500 px-8 py-4 rounded-2xl font-bold">Yêu cầu
+        đã được gửi!</div>
+
+
+
+    <footer class="border-t border-white/5 bg-[#0f172a] py-8 text-center text-gray-500 text-sm">
+        <p>© 2026 MusicBox Inc. • Team AnD2</p>
+    </footer>
+
+
+
+
+    <div x-show="openSupportModal" x-cloak class="fixed inset-0 z-[250] flex items-center justify-center px-4">
+        <div @click="openSupportModal = false" x-show="openSupportModal" x-transition.opacity
+            class="absolute inset-0 bg-black/90 backdrop-blur-sm"></div>
+
+        <div x-show="openSupportModal" x-transition.scale.95
+            class="glass-card max-w-md w-full rounded-3xl overflow-hidden relative z-10 border-t-4 border-rose-500">
+            <div class="p-8">
+                <div class="flex items-center gap-4 mb-6">
+                    <div class="w-12 h-12 bg-rose-500/20 rounded-2xl flex items-center justify-center text-rose-500">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M18.364 5.636l-3.536 3.536m0 5.656l3.536 3.536M9.172 9.172L5.636 5.636m3.536 9.192l-3.536 3.536M21 12a9 9 0 11-18 0 9 9 0 0118 0zm-5 0a4 4 0 11-8 0 4 4 0 018 0z">
+                            </path>
+                        </svg>
+                    </div>
+                    <div>
+                        <h3 class="text-xl font-black uppercase tracking-tight">Yêu cầu hỗ trợ</h3>
+                        <p class="text-gray-400 text-xs">Nhân viên sẽ có mặt trong ít phút</p>
+                    </div>
+                </div>
+
+                <div class="space-y-4">
+                    <div>
+                        <label class="text-[10px] font-bold text-gray-500 uppercase tracking-widest ml-1">Vị trí
+                            phòng</label>
+                        <div
+                            class="mt-1 bg-white/5 border border-white/10 px-4 py-3 rounded-xl font-bold text-rose-400">
+                            Phòng 402 (VIP)
+                        </div>
+                    </div>
+
+                    <div>
+                        <label class="text-[10px] font-bold text-gray-500 uppercase tracking-widest ml-1">Nội dung / Ghi
+                            chú</label>
+                        <textarea x-model="supportNote" rows="4"
+                            placeholder="VD: Điều hòa quá lạnh, lỗi mic, cần thêm hóa đơn..."
+                            class="mt-1 w-full bg-white/5 border border-white/10 px-4 py-3 rounded-xl text-sm focus:border-rose-500 outline-none transition-all placeholder:text-gray-600"></textarea>
+                    </div>
+
+                    <div class="flex flex-col gap-3 pt-2">
+                        <button @click="sendSupportRequest()"
+                            class="w-full py-4 bg-rose-500 hover:bg-rose-600 rounded-xl font-black text-xs uppercase tracking-widest shadow-lg shadow-rose-500/20 transition-all">
+                            Gửi yêu cầu ngay
+                        </button>
+                        <button @click="openSupportModal = false"
+                            class="w-full py-2 text-gray-500 hover:text-white text-[10px] font-bold uppercase tracking-widest transition-all">
+                            Để sau
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function roomManager() {
+            return {
+                activeTab: 'all',
+                openConfirmModal: false,
+                showSuccess: false,
+                cart: [],
+                roomPricePerHour: 110000,
+                durationSeconds: 3600 + (15 * 60), // Bắt đầu ở 1h 15p
+
+                availableServices: [
+                    { id: 1, type: 'drink', name: 'Bia Heineken (Lon)', price: 35000, img: 'https://www.heinemann-shop.com/medias/527Wx527H-null?context=bWFzdGVyfGltYWdlc3w5MzA2NnxpbWFnZS9qcGVnfGFEQTBMMmd4WkM4eE16UTNNVEF5TXpZeU9ETXhPQzgxTWpkWGVEVXlOMGhmYm5Wc2JBfDNiNDZkOWY4YmNhMjU4ZDgyYzFhMWQ0NDRiZTkxNzcyOTVhODNlZmY3NzJjYzU0NGQ2MDZlNjkxNzM1ZmRlZTA&v=1774732419673' },
+                    { id: 2, type: 'drink', name: 'Bia Tiger Crystal', price: 32000, img: 'https://images.unsplash.com/photo-1597290282695-edc43d0e7129?w=400' },
+                    { id: 3, type: 'drink', name: 'Nước suối Aquafina', price: 15000, img: 'https://images.unsplash.com/photo-1548839140-29a749e1cf4d?w=400' },
+                    { id: 4, type: 'drink', name: 'Coca Cola', price: 20000, img: 'https://images.unsplash.com/photo-1622483767028-3f66f32aef97?w=400' },
+                    { id: 5, type: 'food', name: 'Trái cây dĩa (Lớn)', price: 250000, img: 'https://images.unsplash.com/photo-1519996529931-28324d5a630e?w=400' },
+                    { id: 6, type: 'food', name: 'Snack khoai tây', price: 45000, img: 'https://images.unsplash.com/photo-1566478989037-eec170784d0b?w=400' },
+                    { id: 7, type: 'food', name: 'Mực nướng ngũ vị', price: 185000, img: 'https://images.unsplash.com/photo-1599487488170-d11ec9c172f0?w=400' },
+                    { id: 8, type: 'food', name: 'Cơm chiên hải sản', price: 120000, img: 'https://vcdn1-giadinh.vnecdn.net/2025/05/28/Cmranghisn5vnexpress-174842034-1727-7546-1748420387.jpg?w=1200&h=0&q=100&dpr=1&fit=crop&s=vlLW1iww55QTXwxN4Zde0g' },
+                    { id: 9, type: 'food', name: 'Gà rán KFC (Phần)', price: 95000, img: 'https://content.jdmagicbox.com/v2/comp/mumbai/m1/022pxx22.xx22.200829100417.u5m1/catalogue/kfc-mumbai-fast-food-1gtb5g7j7r.jpg' },
+                    { id: 10, type: 'drink', name: 'Rượu vang đỏ', price: 850000, img: 'https://images.unsplash.com/photo-1510812431401-41d2bd2722f3?w=400' },
+                    { id: 11, type: 'food', name: 'Đậu phộng rang muối', price: 25000, img: 'https://cdn2.fptshop.com.vn/unsafe/1920x0/filters:format(webp):quality(75)/2024_5_13_638511979750318955_lac-rang-muoi-duong-1.jpg' },
+                    { id: 12, type: 'drink', name: 'Soda chanh', price: 30000, img: 'https://images.unsplash.com/photo-1513558161293-cdaf765ed2fd?w=400' }
+                ],
+
+                orderedServices: [
+                    { id: 101, name: 'Bia Heineken (Lon)', qty: 6, time: '20:15', status: 'Đã giao' }
+                ],
+
+                get filteredServices() {
+                    if (this.activeTab === 'all') return this.availableServices;
+                    return this.availableServices.filter(s => s.type === this.activeTab);
+                },
+
+                get formattedDuration() {
+                    let h = Math.floor(this.durationSeconds / 3600);
+                    let m = Math.floor((this.durationSeconds % 3600) / 60);
+                    let s = this.durationSeconds % 60;
+                    return [h, m, s].map(v => v < 10 ? '0' + v : v).join(':');
+                },
+
+                get roomTotalFormatted() {
+                    return Math.floor((this.durationSeconds / 3600) * this.roomPricePerHour).toLocaleString();
+                },
+
+                get isAllSelected() { return this.cart.length > 0 && this.cart.every(i => i.selected); },
+
+                toggleAll() { let state = !this.isAllSelected; this.cart.forEach(i => i.selected = state); },
+
+                addToCart(s, amount) {
+                    // Tìm xem món này đã có trong giỏ chưa
+                    let existing = this.cart.find(i => i.id === s.id);
+
+                    if (existing) {
+                        // Nếu có rồi thì cộng dồn số lượng mới vào
+                        existing.qty += amount;
+                    } else {
+                        // Nếu chưa có thì thêm mới vào giỏ với số lượng đã chọn
+                        // Mặc định món mới thêm vào sẽ được 'selected' để sẵn sàng đặt
+                        this.cart.push({
+                            ...s,
+                            qty: amount,
+                            selected: true
+                        });
+                    }
+
+                    // Hiệu ứng Toast nhỏ báo hiệu thành công (nếu muốn)
+                    // this.showSuccess = true; 
+                    // setTimeout(() => this.showSuccess = false, 2000);
+                },
+
+                // Hàm đếm số dịch vụ đang chờ (chưa giao)
+                get countPending() {
+                    return this.orderedServices.filter(item => item.status === 'Đang chuẩn bị').length;
+                },
+
+                // Đếm tổng số lượng các món đã được tick chọn
+                get selectedItemsCount() {
+                    return this.cart
+                        .filter(item => item.selected)
+                        .reduce((sum, item) => sum + item.qty, 0);
+                },
+
+                // Tính tổng tiền các món đã được tick chọn
+                get cartTotalFormatted() {
+                    const total = this.cart
+                        .filter(item => item.selected)
+                        .reduce((sum, item) => sum + (item.price * item.qty), 0);
+                    return total.toLocaleString();
+                },
+
+                confirmOrder() {
+                    // Chỉ lấy những món đã được tick chọn để đưa vào lịch sử
+                    let itemsToOrder = this.cart.filter(i => i.selected);
+
+                    itemsToOrder.forEach(item => {
+                        this.orderedServices.unshift({
+                            id: Date.now() + Math.random(),
+                            name: item.name,
+                            qty: item.qty,
+                            time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
+                            status: 'Đang chuẩn bị'
+                        });
+                    });
+
+                    // Xóa những món đã đặt khỏi giỏ hàng, giữ lại những món chưa tick
+                    this.cart = this.cart.filter(i => !i.selected);
+
+                    this.openConfirmModal = false;
+                    this.showSuccess = true;
+                    setTimeout(() => this.showSuccess = false, 3000);
+                },
+
+
+                openSupportModal: false,
+                supportNote: '', // Lưu ghi chú hỗ trợ
+
+                sendSupportRequest() {
+                    // Logic gửi yêu cầu hỗ trợ (gọi API hoặc thông báo)
+                    console.log("Yêu cầu hỗ trợ từ Phòng 402:", this.supportNote);
+
+                    // Reset và đóng modal
+                    this.supportNote = '';
+                    this.openSupportModal = false;
+
+                    // Hiển thị thông báo thành công
+                    this.showSuccess = true;
+                    setTimeout(() => this.showSuccess = false, 3000);
+                },
+            }
+        }
+    </script>
+</body>
+
+</html>
