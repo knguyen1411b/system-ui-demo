@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>MusicBox - Quản lý bảng giá</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap"
         rel="stylesheet">
     <style>
@@ -21,8 +22,8 @@
             backdrop-filter: blur(12px);
         }
 
-        .sidebar-active {
-            background: linear-gradient(90deg, rgba(168, 85, 247, 0.15) 0%, transparent 100%);
+        .sidebar-item.active {
+            background: rgba(255, 255, 255, 0.1);
             border-left: 4px solid #a855f7;
             color: white;
         }
@@ -38,7 +39,7 @@
     </style>
 </head>
 
-<body>
+<body x-data="{ user: {name: 'Nguyễn Văn Quản Lý'} }">
     <div class="flex h-screen overflow-hidden">
         <aside class="w-64 glass border-r border-white/10 flex flex-col">
             <div class="p-6 flex items-center gap-3">
@@ -53,7 +54,7 @@
             </div>
 
             <nav class="flex-1 mt-4 px-3 space-y-1">
-                <a href="bangdieukhien.html"
+                <a href="./bangdieukhien.html"
                     class="w-full flex items-center gap-3 px-4 py-3 rounded-xl text-gray-400 hover:text-white hover:bg-white/5 transition-all">
                     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
