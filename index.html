@@ -19,20 +19,26 @@
             }
         }
     </script>
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap"
+        rel="stylesheet">
     <style>
-        body { font-family: 'Plus Jakarta Sans', sans-serif; }
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+        }
+
         .glass-card {
             background: rgba(255, 255, 255, 0.03);
             backdrop-filter: blur(12px);
             border: 1px solid rgba(255, 255, 255, 0.1);
         }
-        [x-cloak] { display: none !important; }
+
+        [x-cloak] {
+            display: none !important;
+        }
     </style>
 </head>
 
-<body class="bg-gradient-to-br from-[#1e1b4b] to-[#0f172a] min-h-screen text-white flex flex-col" 
-      x-data="{ 
+<body class="bg-gradient-to-br from-[#1e1b4b] to-[#0f172a] min-h-screen text-white flex flex-col" x-data="{ 
         step: 0, 
         selectedRoom: null,
         paymentStatus: '', 
@@ -47,68 +53,190 @@
             <div class="flex items-center gap-3">
                 <div class="p-2 bg-mb-purple-600 rounded-xl shadow-[0_0_15px_rgba(139,92,246,0.5)]">
                     <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19V6l12-3v13M9 19c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zm12-3c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2z"></path>
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M9 19V6l12-3v13M9 19c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zm12-3c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2z">
+                        </path>
                     </svg>
                 </div>
-                <span class="text-xl font-extrabold tracking-tighter">MUSIC<span class="text-mb-purple-400">BOX</span></span>
+                <span class="text-xl font-extrabold tracking-tighter">MUSIC<span
+                        class="text-mb-purple-400">BOX</span></span>
             </div>
-            <button class="bg-mb-purple-600 hover:bg-mb-purple-500 px-6 py-2 rounded-lg text-sm font-bold transition-all">Đăng nhập</button>
+            <button
+                class="bg-mb-purple-600 hover:bg-mb-purple-500 px-6 py-2 rounded-lg text-sm font-bold transition-all">Đăng
+                nhập</button>
         </div>
     </header>
 
     <main class="max-w-[1440px] mx-auto px-6 py-10 w-full flex-grow">
-        <div class="mb-8 flex flex-col md:flex-row md:items-end justify-between gap-4 border-l-4 border-mb-purple-500 pl-6">
+        <div
+            class="mb-8 flex flex-col md:flex-row md:items-end justify-between gap-4 border-l-4 border-mb-purple-500 pl-6">
             <div>
-                <h1 class="text-3xl md:text-4xl font-black tracking-tight text-white uppercase">Danh sách <span class="text-mb-purple-400">Phòng Hát</span></h1>
-                <p class="text-gray-400 text-sm mt-1 max-w-md">Hệ thống âm thanh chuẩn quốc tế, không gian hiện đại.</p>
+                <h1 class="text-3xl md:text-4xl font-black tracking-tight text-white uppercase">Danh sách <span
+                        class="text-mb-purple-400">Phòng Hát</span></h1>
+                <p class="text-gray-400 text-sm mt-1 max-w-md line-clamp-1">Hệ thống âm thanh chuẩn quốc tế, không gian
+                    hiện đại.</p>
+            </div>
+            <div class="text-right hidden md:block">
+                <span class="text-[10px] text-gray-500 uppercase tracking-widest font-bold">Trạng thái hiện tại</span>
+                <p class="text-sm text-emerald-400 font-semibold">● 12 Phòng Trống</p>
+            </div>
+        </div>
+
+        <div
+            class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-10 p-4 glass-card rounded-2xl relative z-40">
+            <div class="relative">
+                <input type="text" placeholder="Tìm tên phòng..."
+                    class="w-full bg-white/5 border border-white/10 px-10 py-3 rounded-xl text-sm focus:border-mb-purple-500 outline-none text-white transition-all">
+                <svg class="w-4 h-4 absolute left-3 top-3.5 text-gray-400" fill="none" stroke="currentColor"
+                    viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+                </svg>
+            </div>
+
+            <div class="relative" x-data="{ open: false, selected: 'Tất cả loại phòng' }">
+                <button @click="open = !open"
+                    class="w-full flex items-center justify-between bg-white/5 border border-white/10 px-4 py-3 rounded-xl text-sm text-white focus:border-mb-purple-500 transition-all">
+                    <span x-text="selected"></span>
+                    <svg class="w-4 h-4 text-gray-400 transition-transform" :class="open ? 'rotate-180' : ''"
+                        fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path d="M19 9l-7 7-7-7" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                    </svg>
+                </button>
+                <div x-show="open" @click.away="open = false" x-cloak
+                    x-transition:enter="transition ease-out duration-200" x-transition:enter-start="opacity-0 scale-95"
+                    x-transition:enter-end="opacity-100 scale-100"
+                    class="absolute z-[60] w-full mt-2 bg-[#1e1b4b] border border-white/10 rounded-xl shadow-[0_10px_30px_rgba(0,0,0,0.5)] overflow-hidden">
+                    <div @click="selected = 'Tất cả loại phòng'; open = false"
+                        class="px-4 py-3 hover:bg-mb-purple-600 cursor-pointer text-sm">Tất cả loại phòng</div>
+                    <div @click="selected = 'Phòng VIP'; open = false"
+                        class="px-4 py-3 hover:bg-mb-purple-600 cursor-pointer text-sm border-t border-white/5">Phòng
+                        VIP</div>
+                    <div @click="selected = 'Phòng Thường'; open = false"
+                        class="px-4 py-3 hover:bg-mb-purple-600 cursor-pointer text-sm border-t border-white/5">Phòng
+                        Thường</div>
+                </div>
+            </div>
+
+            <div class="relative" x-data="{ open: false, selected: 'Tất cả trạng thái' }">
+                <button @click="open = !open"
+                    class="w-full flex items-center justify-between bg-white/5 border border-white/10 px-10 py-3 rounded-xl text-sm text-white focus:border-mb-purple-500 transition-all">
+                    <span x-text="selected"></span>
+                    <svg class="w-4 h-4 absolute left-3 text-emerald-400" fill="none" stroke="currentColor"
+                        viewBox="0 0 24 24">
+                        <path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" stroke-width="2" stroke-linecap="round"
+                            stroke-linejoin="round" />
+                    </svg>
+                    <svg class="w-4 h-4 text-gray-400 transition-transform" :class="open ? 'rotate-180' : ''"
+                        fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path d="M19 9l-7 7-7-7" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                    </svg>
+                </button>
+                <div x-show="open" @click.away="open = false" x-cloak
+                    x-transition:enter="transition ease-out duration-200"
+                    class="absolute z-[60] w-full mt-2 bg-[#1e1b4b] border border-white/10 rounded-xl shadow-[0_10px_30px_rgba(0,0,0,0.5)] overflow-hidden">
+                    <div @click="selected = 'Tất cả trạng thái'; open = false"
+                        class="px-4 py-3 hover:bg-mb-purple-600 cursor-pointer text-sm">Tất cả trạng thái</div>
+                    <div @click="selected = 'Còn trống'; open = false"
+                        class="px-4 py-3 hover:bg-mb-purple-600 cursor-pointer text-sm border-t border-white/5">Còn
+                        trống</div>
+                    <div @click="selected = 'Đang bận'; open = false"
+                        class="px-4 py-3 hover:bg-mb-purple-600 cursor-pointer text-sm border-t border-white/5">Đang bận
+                    </div>
+                </div>
+            </div>
+
+            <div class="relative" x-data="{ open: false, selected: 'Sắp xếp theo giá' }">
+                <button @click="open = !open"
+                    class="w-full flex items-center justify-between bg-white/5 border border-white/10 px-10 py-3 rounded-xl text-sm text-white focus:border-mb-purple-500 transition-all">
+                    <span x-text="selected"></span>
+                    <svg class="w-4 h-4 absolute left-3 text-rose-400" fill="none" stroke="currentColor"
+                        viewBox="0 0 24 24">
+                        <path d="M19 9l-7 7-7-7" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                    </svg>
+                    <svg class="w-4 h-4 text-gray-400 transition-transform" :class="open ? 'rotate-180' : ''"
+                        fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path d="M19 9l-7 7-7-7" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                    </svg>
+                </button>
+                <div x-show="open" @click.away="open = false" x-cloak
+                    x-transition:enter="transition ease-out duration-200"
+                    class="absolute z-[60] w-full mt-2 bg-[#1e1b4b] border border-white/10 rounded-xl shadow-[0_10px_30px_rgba(0,0,0,0.5)] overflow-hidden">
+                    <div @click="selected = 'Giá thấp đến cao'; open = false"
+                        class="px-4 py-3 hover:bg-mb-purple-600 cursor-pointer text-sm">Giá thấp đến cao</div>
+                    <div @click="selected = 'Giá cao đến thấp'; open = false"
+                        class="px-4 py-3 hover:bg-mb-purple-600 cursor-pointer text-sm border-t border-white/5">Giá cao
+                        đến thấp</div>
+                </div>
             </div>
         </div>
 
         <div id="room-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 relative z-10">
-            </div>
+        </div>
+
+        <div class="mt-16 flex justify-center">
+            <button class="group flex flex-col items-center gap-2 text-mb-purple-400 hover:text-white transition-all">
+                <span class="font-bold tracking-widest uppercase text-xs">Xem thêm phòng</span>
+                <svg class="w-6 h-6 animate-bounce" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                </svg>
+            </button>
+        </div>
     </main>
 
-    <div x-show="step > 0" x-cloak class="fixed inset-0 z-[110] bg-black/80 backdrop-blur-sm flex items-center justify-center p-4">
-        
-        <div x-show="step === 1" class="glass-card w-full max-w-md rounded-3xl p-8 border-mb-purple-500/30 shadow-2xl" @click.away="step = 0">
+    <div x-show="step > 0" x-cloak
+        class="fixed inset-0 z-[110] bg-black/80 backdrop-blur-sm flex items-center justify-center p-4">
+
+        <div x-show="step === 1" class="glass-card w-full max-w-md rounded-3xl p-8 border-mb-purple-500/30 shadow-2xl"
+            @click.away="step = 0">
             <h2 class="text-2xl font-black mb-4 text-center">XÁC NHẬN ĐẶT PHÒNG</h2>
-            
+
             <template x-if="selectedRoom">
                 <div class="space-y-4 mb-8">
                     <div class="flex justify-between items-center p-3 bg-white/5 rounded-xl">
                         <span class="text-gray-400">Phòng:</span>
-                        <span class="font-bold text-mb-purple-400" x-text="'Phòng ' + selectedRoom.id + ' (' + selectedRoom.loai + ')'"></span>
+                        <span class="font-bold text-mb-purple-400"
+                            x-text="'Phòng ' + selectedRoom.id + ' (' + selectedRoom.loai + ')'"></span>
                     </div>
                     <div class="flex justify-between items-center p-3 bg-white/5 rounded-xl">
                         <span class="text-gray-400">Giá cọc:</span>
-                        <span class="font-bold text-xl text-emerald-400" x-text="selectedRoom.loai === 'VIP' ? '200.000đ' : '100.000đ'"></span>
+                        <span class="font-bold text-xl text-emerald-400"
+                            x-text="selectedRoom.loai === 'VIP' ? '200.000đ' : '100.000đ'"></span>
                     </div>
                     <div class="p-3 bg-rose-500/10 border border-rose-500/20 rounded-xl text-center">
-                        <p class="text-xs text-rose-400 font-semibold italic uppercase">⚠️ Thanh toán ngay trong 5 phút để giữ phòng</p>
+                        <p class="text-xs text-rose-400 font-semibold italic uppercase">⚠️ Thanh toán ngay trong 5 phút
+                            để giữ phòng</p>
                     </div>
                 </div>
             </template>
 
             <div class="grid grid-cols-2 gap-3">
-                <button @click="step = 0" class="py-3 rounded-xl bg-white/5 hover:bg-white/10 font-bold transition-all">Để sau</button>
-                <button @click="step = 2" class="py-3 rounded-xl bg-mb-purple-600 hover:bg-mb-purple-500 font-bold shadow-lg shadow-mb-purple-600/30 transition-all">Thanh toán ngay</button>
+                <button @click="step = 0"
+                    class="py-3 rounded-xl bg-white/5 hover:bg-white/10 font-bold transition-all">Để sau</button>
+                <button @click="step = 2"
+                    class="py-3 rounded-xl bg-mb-purple-600 hover:bg-mb-purple-500 font-bold shadow-lg shadow-mb-purple-600/30 transition-all">Thanh
+                    toán ngay</button>
             </div>
         </div>
 
         <div x-show="step === 2" class="bg-white text-slate-800 w-full max-w-md rounded-3xl overflow-hidden shadow-2xl">
             <div class="bg-[#005baa] p-4 flex justify-center">
-                <img src="https://vnpay.vn/wp-content/uploads/2020/07/Logo-VNPAYQR-update.png" class="h-8 invert brightness-0">
+                <img src="https://vnpay.vn/wp-content/uploads/2020/07/Logo-VNPAYQR-update.png"
+                    class="h-8 invert brightness-0">
             </div>
             <div class="p-8 text-center">
-                <p class="text-sm font-semibold text-gray-500 mb-1 uppercase tracking-widest">Đang kết nối đến cổng thanh toán...</p>
+                <p class="text-sm font-semibold text-gray-500 mb-1 uppercase tracking-widest">Đang kết nối đến cổng
+                    thanh toán...</p>
                 <h3 class="text-xl font-bold mb-6">Music Box - Thanh toán đặt phòng</h3>
-                
+
                 <div class="space-y-3 mb-8">
-                    <button @click="step = 3; paymentStatus = 'success'" class="w-full py-4 rounded-xl border-2 border-emerald-500 text-emerald-600 font-bold hover:bg-emerald-50 flex items-center justify-center gap-2 transition-all">
+                    <button @click="step = 3; paymentStatus = 'success'"
+                        class="w-full py-4 rounded-xl border-2 border-emerald-500 text-emerald-600 font-bold hover:bg-emerald-50 flex items-center justify-center gap-2 transition-all">
                         <span class="w-2 h-2 bg-emerald-500 rounded-full animate-ping"></span>
                         Giả lập: Thanh toán thành công
                     </button>
-                    <button @click="step = 3; paymentStatus = 'fail'" class="w-full py-4 rounded-xl border-2 border-rose-500 text-rose-600 font-bold hover:bg-rose-50 transition-all">
+                    <button @click="step = 3; paymentStatus = 'fail'"
+                        class="w-full py-4 rounded-xl border-2 border-rose-500 text-rose-600 font-bold hover:bg-rose-50 transition-all">
                         Giả lập: Thanh toán lỗi/Hủy
                     </button>
                 </div>
@@ -116,28 +244,39 @@
             </div>
         </div>
 
-        <div x-show="step === 3" class="glass-card w-full max-w-md rounded-3xl p-8 text-center border-white/10 shadow-2xl">
-            
+        <div x-show="step === 3"
+            class="glass-card w-full max-w-md rounded-3xl p-8 text-center border-white/10 shadow-2xl">
+
             <div x-show="paymentStatus === 'success'">
-                <div class="w-20 h-20 bg-emerald-500/20 text-emerald-500 rounded-full flex items-center justify-center mx-auto mb-6">
-                    <svg class="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path></svg>
+                <div
+                    class="w-20 h-20 bg-emerald-500/20 text-emerald-500 rounded-full flex items-center justify-center mx-auto mb-6">
+                    <svg class="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path>
+                    </svg>
                 </div>
                 <h2 class="text-3xl font-black mb-2 uppercase">Thành công!</h2>
                 <p class="text-gray-400 mb-8">Phòng của bạn đã được giữ chỗ thành công. Hẹn gặp bạn tại Music Box!</p>
-                <button @click="step = 0" class="w-full py-4 rounded-xl bg-mb-purple-600 hover:bg-mb-purple-500 font-bold shadow-lg shadow-mb-purple-600/30 transition-all">
+                <button @click="step = 0"
+                    class="w-full py-4 rounded-xl bg-mb-purple-600 hover:bg-mb-purple-500 font-bold shadow-lg shadow-mb-purple-600/30 transition-all">
                     Xem phòng đã đặt
                 </button>
             </div>
 
             <div x-show="paymentStatus === 'fail'">
-                <div class="w-20 h-20 bg-rose-500/20 text-rose-500 rounded-full flex items-center justify-center mx-auto mb-6">
-                    <svg class="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M6 18L18 6M6 6l12 12"></path></svg>
+                <div
+                    class="w-20 h-20 bg-rose-500/20 text-rose-500 rounded-full flex items-center justify-center mx-auto mb-6">
+                    <svg class="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M6 18L18 6M6 6l12 12">
+                        </path>
+                    </svg>
                 </div>
                 <h2 class="text-3xl font-black mb-2 uppercase text-rose-400">Thất bại</h2>
                 <p class="text-gray-400 mb-8">Giao dịch bị hủy hoặc lỗi kết nối. Vui lòng thử lại sau ít phút.</p>
                 <div class="grid grid-cols-2 gap-3">
-                    <button @click="step = 0" class="py-3 rounded-xl bg-white/5 hover:bg-white/10 font-bold transition-all">Trang chủ</button>
-                    <button @click="step = 2" class="py-3 rounded-xl bg-rose-600 hover:bg-rose-500 font-bold transition-all">Thử lại</button>
+                    <button @click="step = 0"
+                        class="py-3 rounded-xl bg-white/5 hover:bg-white/10 font-bold transition-all">Trang chủ</button>
+                    <button @click="step = 2"
+                        class="py-3 rounded-xl bg-rose-600 hover:bg-rose-500 font-bold transition-all">Thử lại</button>
                 </div>
             </div>
         </div>
@@ -220,4 +359,5 @@
         document.addEventListener('DOMContentLoaded', () => { render(roomData); });
     </script>
 </body>
+
 </html>
