@@ -275,6 +275,12 @@
             font-weight: bold;
             cursor: pointer;
         }
+        /* Màu tím làm nổi bật mục Thuê phòng */
+.submenu a.active-link {
+    color: white;
+    background: var(--purple-dark);
+    font-weight: bold;
+}
     </style>
 </head>
 <body>
@@ -291,15 +297,15 @@
         </div>
 
         <div class="menu-container">
-            <div class="menu-item">
-                <div class="menu-title" onclick="toggleAccordion(this)">
-                    Quản lý phòng <i class="fas fa-chevron-down"></i>
-                </div>
-                <div class="submenu">
-                    <a href="#">Thuê phòng</a>
-                    <a href="#">Trả phòng</a>
-                </div>
-            </div>
+            <div class="menu-item active"> 
+    <div class="menu-title" onclick="toggleAccordion(this)">
+        Quản lý phòng <i class="fas fa-chevron-down"></i>
+    </div>
+    <div class="submenu">
+        <a href="thuephong.html" class="active-link">Thuê phòng</a>
+        <a href="traphong.html">Trả phòng</a>
+    </div>
+</div>
 
             <div class="menu-item">
                 <div class="menu-title" onclick="toggleAccordion(this)">
