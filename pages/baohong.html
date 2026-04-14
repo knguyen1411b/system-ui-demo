@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MusicBox - Tiếp nhận báo hỏng</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --purple-light: #c4b5fd;
+            --main-purple: #8b5cf6;
+            --purple-dark: #6d28d9;
+            --deep-dark: #1e1b4b;
+            --glass-bg: rgba(255, 255, 255, 0.05);
+            --text-white: #ffffff;
+            --accent-orange: #ff9800;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', sans-serif; }
+
+        body {
+            background-color: var(--deep-dark);
+            color: var(--text-white);
+            display: flex;
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        /* SIDEBAR */
+        .sidebar {
+            width: 280px;
+            background-color: rgba(0, 0, 0, 0.3);
+            border-right: 1px solid var(--purple-dark);
+            display: flex;
+            flex-direction: column;
+        }
+
+        .brand { padding: 25px; font-size: 22px; font-weight: bold; letter-spacing: 2px; border-bottom: 1px solid var(--glass-bg); }
+        .user-profile { padding: 20px; display: flex; align-items: center; gap: 15px; border-bottom: 1px solid var(--glass-bg); }
+        .avatar { width: 50px; height: 50px; border-radius: 50%; border: 2px solid var(--main-purple); display: flex; align-items: center; justify-content: center; background: #444; }
+        .user-info .name { font-weight: bold; display: block; }
+        .user-info .role { color: var(--accent-orange); font-size: 13px; }
+
+        .menu-container { flex: 1; overflow-y: auto; padding-top: 10px; }
+        
+        /* Hiệu ứng cho tiêu đề menu chính (Quản lý phòng, Tiếp nhận...) */
+        .menu-title { 
+            padding: 15px 20px; 
+            display: flex; 
+            justify-content: space-between; 
+            align-items: center; 
+            color: var(--accent-orange); 
+            cursor: pointer;
+            transition: all 0.3s ease; /* Tạo hiệu ứng mượt */
+        }
+
+        .menu-title:hover {
+            color: var(--main-purple); /* Đổi sang màu tím khi hover */
+            transform: scale(1.02); /* Chữ to ra một chút */
+            background: var(--glass-bg);
+        }
+
+        .submenu { display: none; background: rgba(0, 0, 0, 0.2); }
+        
+        /* Hiệu ứng cho các mục con (Thuê phòng, Báo hỏng...) */
+        .submenu a { 
+    display: block; 
+    padding: 12px 45px; 
+    color: var(--purple-light); 
+    text-decoration: none; 
+    font-size: 14px;
+    transition: all 0.3s ease; /* Tạo hiệu ứng mượt mà */
+}
+
+.submenu a:hover {
+    /* Màu tím nhạt hơn so với màu hiện tại (var(--purple-light)) */
+    color: #e2e8f0; 
+    /* Chữ to ra một chút */
+    transform: scale(1.05); 
+    /* Đảm bảo chữ không bị mờ khi phóng to */
+    display: inline-block;
+    width: 100%;
+}
+
+/* Giữ nguyên các phần khác, không thêm hover vào .menu-title */
+.menu-title:hover {
+    transform: none;
+    color: var(--accent-orange);
+}
+        
+        .menu-item.active .submenu { display: block; }
+        .menu-item.active .fa-chevron-down { transform: rotate(180deg); }
+        
+        /* Mục đang được chọn */
+        .submenu a.active-link { 
+            background: var(--purple-dark); 
+            color: white; 
+            font-weight: bold; 
+            border-left: 4px solid var(--main-purple);
+        }
+
+        /* MAIN CONTENT */
+        .main-content { flex: 1; padding: 40px; overflow-y: auto; }
+        .header-top { margin-bottom: 30px; }
+        .header-top h1 { font-size: 24px; text-transform: uppercase; }
+
+        .support-container {
+            background: var(--glass-bg);
+            border-radius: 12px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            overflow: hidden;
+        }
+
+        .support-table { width: 100%; border-collapse: collapse; }
+        .support-table th {
+            text-align: left;
+            padding: 15px 20px;
+            background: rgba(139, 92, 246, 0.1);
+            color: var(--purple-light);
+            font-size: 12px;
+            text-transform: uppercase;
+        }
+
+        .support-table td {
+            padding: 15px 20px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            font-size: 14px;
+        }
+
+        .time-text { color: var(--purple-light); font-size: 13px; font-weight: 500; }
+        .content-text { color: #aaa; font-size: 13px; font-style: italic; max-width: 200px; }
+
+        select {
+            background: #000;
+            color: white;
+            border: 1px solid #444;
+            padding: 6px;
+            border-radius: 4px;
+        }
+
+        .btn-save {
+            background: var(--main-purple);
+            color: white;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 4px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="sidebar">
+        <div class="brand">MUSICBOX</div>
+        <div class="user-profile">
+            <div class="avatar"><i class="fas fa-user"></i></div>
+            <div class="user-info">
+                <span class="name">Nguyễn Quốc Đạt</span>
+                <span class="role">Nhân viên</span>
+            </div>
+        </div>
+        <div class="menu-container">
+            <div class="menu-item">
+                <div class="menu-title" onclick="toggleAccordion(this)"><b>Quản lý phòng </b><i class="fas fa-chevron-down"></i></div>
+                <div class="submenu">
+                    <a href="thuephong.html">Thuê phòng</a>
+                    <a href="traphong.html">Trả phòng</a>
+                </div>
+            </div>
+            <div class="menu-item active">
+                <div class="menu-title" onclick="toggleAccordion(this)"><b>Tiếp nhận yêu cầu</b> <i class="fas fa-chevron-down"></i></div>
+                <div class="submenu">
+                    <a href="dichvu.html">Dịch vụ</a>
+                    <a href="baohong.html" class="active-link">Báo hỏng</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="main-content">
+        <div class="header-top">
+            <h1>Tiếp nhận yêu cầu hỗ trợ</h1>
+        </div>
+
+        <div class="support-container">
+            <table class="support-table">
+                <thead>
+                    <tr>
+                        <th>Phòng</th>
+                        <th>Thời gian</th>
+                        <th>Loại thiết bị</th>
+                        <th>Tiêu đề</th>
+                        <th>Nội dung</th>
+                        <th>Trạng thái</th>
+                        <th>Thao tác</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><b style="color: var(--accent-orange);">P101</b></td>
+                        <td class="time-text">14:20 14/04/2026</td>
+                        <td>Microphone</td>
+                        <td>Mất tiếng</td>
+                        <td class="content-text">Micro bên trái không lên tiếng dù đã thay pin.</td>
+                        <td>
+                            <select>
+                                <option>Đã tiếp nhận</option>
+                                <option>Đã xử lý</option>
+                            </select>
+                        </td>
+                        <td><button class="btn-save" onclick="alert('Đã cập nhật P101')">LƯU</button></td>
+                    </tr>
+                    <tr>
+                        <td><b style="color: var(--accent-orange);">P302</b></td>
+                        <td class="time-text">14:45 14/04/2026</td>
+                        <td>Loa</td>
+                        <td>Tiếng bị rè</td>
+                        <td class="content-text">Loa sub có hiện tượng rè khi mở âm lượng lớn.</td>
+                        <td>
+                            <select>
+                                <option>Đã tiếp nhận</option>
+                                <option>Đã xử lý</option>
+                            </select>
+                        </td>
+                        <td><button class="btn-save" onclick="alert('Đã cập nhật P302')">LƯU</button></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <script>
+        function toggleAccordion(element) {
+            element.parentElement.classList.toggle('active');
+        }
+    </script>
+</body>
+</html>
