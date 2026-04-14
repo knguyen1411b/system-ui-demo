@@ -3,10 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MusicBox - Tiếp nhận báo hỏng</title>
+    <title>MusicBox - Tiếp nhận yêu cầu dịch vụ</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        /* 1. KHAI BÁO MÀU SẮC ĐỒNG BỘ */
+        /* 1. KHAI BÁO BIẾN MÀU SẮC */
         :root {
             --purple-light: #c4b5fd;
             --main-purple: #8b5cf6;
@@ -32,7 +32,7 @@
             overflow: hidden;
         }
 
-        /* 2. SIDEBAR (Theo mẫu Navbar mới nhất) */
+        /* 2. SIDEBAR - GIỮ NGUYÊN PHONG CÁCH */
         .sidebar {
             width: 280px;
             background-color: rgba(0, 0, 0, 0.3);
@@ -72,16 +72,9 @@
         .user-info .name { font-weight: bold; display: block; }
         .user-info .role { color: var(--accent-orange); font-size: 13px; }
 
-        .menu-container {
-            flex: 1;
-            overflow-y: auto;
-            padding-top: 10px;
-        }
-
-        .menu-item {
-            border-bottom: 1px solid rgba(255,255,255,0.05);
-        }
-
+        /* Menu Accordion */
+        .menu-container { flex: 1; overflow-y: auto; padding-top: 10px; }
+        .menu-item { border-bottom: 1px solid rgba(255,255,255,0.05); }
         .menu-title {
             padding: 15px 20px;
             display: flex;
@@ -92,14 +85,9 @@
             cursor: pointer;
             transition: 0.3s;
         }
-
         .menu-title:hover { background: var(--glass-bg); }
 
-        .submenu {
-            display: none;
-            background: rgba(0, 0, 0, 0.2);
-        }
-
+        .submenu { display: none; background: rgba(0, 0, 0, 0.2); }
         .submenu a { 
     display: block; 
     padding: 12px 45px; 
@@ -125,16 +113,16 @@
     color: var(--accent-orange);
 }
 
-        /* Trạng thái mở menu và in tím */
+        /* Trạng thái Menu đang mở và in tím mục Dịch vụ */
         .menu-item.active .submenu { display: block; }
         .menu-item.active .fa-chevron-down { transform: rotate(180deg); }
-        .submenu a.active-link {
-            color: white !important;
-            background: var(--purple-dark);
-            font-weight: bold;
+        .submenu a.active-link { 
+            background: var(--purple-dark); 
+            color: white; 
+            font-weight: bold; 
         }
 
-        /* 3. NỘI DUNG CHÍNH (Trang Báo Hỏng) */
+        /* 3. NỘI DUNG CHÍNH (GOM NHÓM THEO PHÒNG) */
         .main-content {
             flex: 1;
             padding: 40px;
@@ -144,53 +132,87 @@
         .header-top { margin-bottom: 30px; }
         .header-top h1 { font-size: 24px; text-transform: uppercase; }
 
-        .support-container {
+        .room-group-card {
             background: var(--glass-bg);
             border-radius: 12px;
             border: 1px solid rgba(255, 255, 255, 0.1);
+            margin-bottom: 30px;
             overflow: hidden;
+            transition: 0.3s;
         }
 
-        .support-table { width: 100%; border-collapse: collapse; }
-        .support-table th {
-            text-align: left;
-            padding: 15px 20px;
-            background: rgba(139, 92, 246, 0.1);
-            color: var(--purple-light);
-            font-size: 12px;
-            text-transform: uppercase;
-        }
+        .room-group-card:hover { border-color: var(--main-purple); }
 
-        .support-table td {
-            padding: 15px 20px;
+        .room-header {
+            background: rgba(139, 92, 246, 0.15);
+            padding: 15px 25px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
             border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .room-header h2 {
+            color: var(--accent-orange);
+            font-size: 18px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        /* Table Style */
+        .service-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .service-table th {
+            text-align: left;
+            padding: 12px 25px;
+            font-size: 12px;
+            color: var(--purple-light);
+            text-transform: uppercase;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .service-table td {
+            padding: 12px 25px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.02);
             font-size: 14px;
         }
 
-        .time-text { color: var(--purple-light); font-size: 13px; font-weight: 500; }
-        .content-text { color: #aaa; font-size: 13px; font-style: italic; max-width: 250px; }
+        .img-thumb {
+            width: 50px;
+            height: 50px;
+            border-radius: 6px;
+            object-fit: cover;
+            border: 1px solid var(--purple-dark);
+        }
 
         select {
-            background: #000;
+            background: #0b0a24;
             color: white;
             border: 1px solid #444;
-            padding: 6px;
+            padding: 6px 10px;
             border-radius: 4px;
             outline: none;
         }
 
-        .btn-save-row {
+        select:focus { border-color: var(--main-purple); }
+
+        .btn-save {
             background: var(--main-purple);
             color: white;
             border: none;
-            padding: 8px 15px;
+            padding: 7px 15px;
             border-radius: 4px;
             font-weight: bold;
             cursor: pointer;
             transition: 0.3s;
         }
 
-        .btn-save-row:hover { background: var(--purple-dark); }
+        .btn-save:hover { background: var(--purple-dark); }
+
     </style>
 </head>
 <body>
@@ -217,13 +239,13 @@
                 </div>
             </div>
 
-            <div class="menu-item active"> 
+            <div class="menu-item active">
                 <div class="menu-title" onclick="toggleAccordion(this)">
                     Tiếp nhận yêu cầu <i class="fas fa-chevron-down"></i>
                 </div>
                 <div class="submenu">
-                    <a href="dichvu.html">Dịch vụ</a>
-                    <a href="baohong.html" class="active-link">Báo hỏng</a>
+                    <a href="dichvu.html" class="active-link">Dịch vụ</a>
+                    <a href="baohong.html">Báo hỏng</a>
                 </div>
             </div>
         </div>
@@ -231,50 +253,83 @@
 
     <div class="main-content">
         <div class="header-top">
-            <h1>Tiếp nhận yêu cầu hỗ trợ</h1>
+            <h1>Tiếp nhận yêu cầu dịch vụ</h1>
         </div>
 
-        <div class="support-container">
-            <table class="support-table">
+        <div class="room-group-card">
+            <div class="room-header">
+                <h2><i class="fas fa-microphone-alt"></i> PHÒNG 402</h2>
+                <span style="font-size: 13px; opacity: 0.7;">02 Yêu cầu mới</span>
+            </div>
+            <table class="service-table">
                 <thead>
                     <tr>
-                        <th>Phòng</th>
-                        <th>Thời gian</th>
-                        <th>Loại thiết bị</th>
-                        <th>Tiêu đề</th>
-                        <th>Nội dung</th>
+                        <th>Hình ảnh</th>
+                        <th>Dịch vụ</th>
+                        <th>Số lượng</th>
                         <th>Trạng thái</th>
-                        <th>Thao tác</th>
+                        <th>Hành động</th>
                     </tr>
                 </thead>
                 <tbody>
                     <tr>
-                        <td><b style="color: var(--accent-orange);">P101</b></td>
-                        <td class="time-text">14:20 14/04/2026</td>
-                        <td>Microphone</td>
-                        <td>Mất tiếng</td>
-                        <td class="content-text">Micro bên trái không lên tiếng dù đã thay pin mới.</td>
+                        <td><img src="https://images.unsplash.com/photo-1544145945-f904253db0ad?q=80&w=100" class="img-thumb" alt="bia"></td>
+                        <td><b>Bia Heineken (Lon)</b></td>
+                        <td><span style="color: var(--accent-orange); font-weight: bold;">06</span></td>
                         <td>
                             <select>
-                                <option>Đã tiếp nhận</option>
-                                <option>Đã xử lý</option>
+                                <option>Chờ xử lý</option>
+                                <option>Hủy yêu cầu</option>
+                                <option>Hoàn thành</option>
                             </select>
                         </td>
-                        <td><button class="btn-save-row" onclick="alert('Đã cập nhật P101')">LƯU</button></td>
+                        <td><button class="btn-save" onclick="handleUpdate('Phòng 402 - Bia')">LƯU</button></td>
                     </tr>
                     <tr>
-                        <td><b style="color: var(--accent-orange);">P302</b></td>
-                        <td class="time-text">14:45 14/04/2026</td>
-                        <td>Loa</td>
-                        <td>Tiếng bị rè</td>
-                        <td class="content-text">Loa sub có hiện tượng rè khi khách mở âm lượng cực đại.</td>
+                        <td><img src="https://images.unsplash.com/photo-1595981267035-7b04ca84a82d?q=80&w=100" class="img-thumb" alt="fruit"></td>
+                        <td><b>Đĩa trái cây thập cẩm</b></td>
+                        <td><span style="color: var(--accent-orange); font-weight: bold;">01</span></td>
                         <td>
                             <select>
-                                <option>Đã tiếp nhận</option>
-                                <option>Đã xử lý</option>
+                                <option>Chờ xử lý</option>
+                                <option>Hủy yêu cầu</option>
+                                <option>Hoàn thành</option>
                             </select>
                         </td>
-                        <td><button class="btn-save-row" onclick="alert('Đã cập nhật P302')">LƯU</button></td>
+                        <td><button class="btn-save" onclick="handleUpdate('Phòng 402 - Trái cây')">LƯU</button></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="room-group-card">
+            <div class="room-header">
+                <h2><i class="fas fa-microphone-alt"></i> PHÒNG 305</h2>
+                <span style="font-size: 13px; opacity: 0.7;">01 Yêu cầu mới</span>
+            </div>
+            <table class="service-table">
+                <thead>
+                    <tr>
+                        <th>Hình ảnh</th>
+                        <th>Dịch vụ</th>
+                        <th>Số lượng</th>
+                        <th>Trạng thái</th>
+                        <th>Hành động</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><img src="https://images.unsplash.com/photo-1513558161293-cdaf765ed2fd?q=80&w=100" class="img-thumb" alt="water"></td>
+                        <td><b>Nước suối Aquafina</b></td>
+                        <td><span style="color: var(--accent-orange); font-weight: bold;">03</span></td>
+                        <td>
+                            <select>
+                                <option>Chờ xử lý</option>
+                                <option>Hủy yêu cầu</option>
+                                <option>Hoàn thành</option>
+                            </select>
+                        </td>
+                        <td><button class="btn-save" onclick="handleUpdate('Phòng 305 - Nước suối')">LƯU</button></td>
                     </tr>
                 </tbody>
             </table>
@@ -286,6 +341,11 @@
         function toggleAccordion(element) {
             const menuItem = element.parentElement;
             menuItem.classList.toggle('active');
+        }
+
+        // Xử lý thông báo khi bấm Lưu
+        function handleUpdate(info) {
+            alert("Đã cập nhật trạng thái cho: " + info);
         }
     </script>
 </body>

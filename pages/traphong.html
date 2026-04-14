@@ -111,19 +111,30 @@
             background: rgba(0, 0, 0, 0.2);
         }
 
-        .submenu a {
-            display: block;
-            padding: 12px 45px;
-            color: var(--purple-light);
-            text-decoration: none;
-            font-size: 14px;
-            transition: 0.2s;
-        }
+        .submenu a { 
+    display: block; 
+    padding: 12px 45px; 
+    color: var(--purple-light); 
+    text-decoration: none; 
+    font-size: 14px;
+    transition: all 0.3s ease; /* Tạo hiệu ứng mượt mà */
+}
 
-        .submenu a:hover {
-            color: white;
-            background: var(--purple-dark);
-        }
+.submenu a:hover {
+    /* Màu tím nhạt hơn so với màu hiện tại (var(--purple-light)) */
+    color: #e2e8f0; 
+    /* Chữ to ra một chút */
+    transform: scale(1.05); 
+    /* Đảm bảo chữ không bị mờ khi phóng to */
+    display: inline-block;
+    width: 100%;
+}
+
+/* Giữ nguyên các phần khác, không thêm hover vào .menu-title */
+.menu-title:hover {
+    transform: none;
+    color: var(--accent-orange);
+}
 
         .menu-item.active .submenu {
             display: block;
@@ -230,8 +241,8 @@
                     Quản lý phòng <i class="fas fa-chevron-down"></i>
                 </div>
                 <div class="submenu">
-                    <a href="#">Thuê phòng</a>
-                    <a href="#" style="color:white; font-weight:bold; background: var(--purple-dark);">Trả phòng</a>
+                    <a href="thuephong.html">Thuê phòng</a>
+                    <a href="traphong.html" style="color:white; font-weight:bold; background: var(--purple-dark);">Trả phòng</a>
                 </div>
             </div>
 
@@ -240,8 +251,8 @@
                     Tiếp nhận yêu cầu <i class="fas fa-chevron-down"></i>
                 </div>
                 <div class="submenu">
-                    <a href="#">Dịch vụ</a>
-                    <a href="#">Báo hỏng</a>
+                    <a href="dichvu.html">Dịch vụ</a>
+                    <a href="baohong.html">Báo hỏng</a>
                 </div>
             </div>
         </div>
