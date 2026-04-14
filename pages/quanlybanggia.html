@@ -150,129 +150,258 @@
                         <thead>
                             <tr
                                 class="border-b border-white/10 bg-white/5 uppercase tracking-widest text-gray-400 font-bold">
-                                <th class="px-6 py-4">Mã giá</th>
-                                <th class="px-6 py-4">Tên khung giờ</th>
-                                <th class="px-6 py-4 text-center">Từ giờ</th>
-                                <th class="px-6 py-4 text-center">Đến giờ</th>
-                                <th class="px-6 py-4">Loại ngày</th>
-                                <th class="px-6 py-4 text-right">Giá/Giờ</th>
-                                <th class="px-6 py-4 text-center">Sửa</th>
+                                <th class="px-4 py-4">Mã giá</th>
+                                <th class="px-4 py-4">Tên khung giờ</th>
+                                <th class="px-4 py-4 text-center">Từ giờ</th>
+                                <th class="px-4 py-4 text-center">Đến giờ</th>
+                                <th class="px-4 py-4">Loại ngày</th>
+                                <th class="px-4 py-4">Loại phòng</th>
+                                <th class="px-4 py-4 text-right">Giá/Giờ</th>
+                                <th class="px-4 py-4 text-center">Sửa</th>
                             </tr>
                         </thead>
                         <tbody class="divide-y divide-white/5 text-gray-300">
                             <tr class="hover:bg-white/5 transition-colors">
-                                <td class="px-6 py-4 font-mono text-purple-400 font-bold">BG001</td>
-                                <td class="px-6 py-4 font-semibold text-white">Sáng sớm (Thường)</td>
-                                <td class="px-6 py-4 text-center">8.0</td>
-                                <td class="px-6 py-4 text-center">17.0</td>
-                                <td class="px-6 py-4">
-                                    <span
+                                <td class="px-4 py-4 font-mono text-purple-400 font-bold">BG001</td>
+                                <td class="px-4 py-4 font-semibold text-white">Giờ thường</td>
+                                <td class="px-4 py-4 text-center">8.0</td>
+                                <td class="px-4 py-4 text-center">17.0</td>
+                                <td class="px-4 py-4"><span
                                         class="px-3 py-1 bg-blue-500/10 text-blue-400 rounded-full text-[10px] font-bold border border-blue-500/20">NGÀY
-                                        THƯỜNG</span>
+                                        THƯỜNG</span></td>
+                                <td class="px-4 py-4"><span
+                                        class="px-2 py-1 rounded bg-yellow-400/10 text-yellow-400 font-bold text-xs">VIP</span>
                                 </td>
-                                <td class="px-6 py-4 text-right font-black text-white">150.000đ</td>
-                                <td class="px-6 py-4 text-center">
-                                    <button onclick="toggleModal(true)"
-                                        class="text-purple-400 hover:scale-110 transition-transform">
-                                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <td class="px-4 py-4 text-right font-black text-white">200.000đ</td>
+                                <td class="px-4 py-4 text-center"><button
+                                        class="text-purple-400 hover:scale-110 transition-transform"><svg
+                                            class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                                 d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z">
                                             </path>
-                                        </svg>
-                                    </button>
-                                </td>
+                                        </svg></button></td>
                             </tr>
-
                             <tr class="hover:bg-white/5 transition-colors">
-                                <td class="px-6 py-4 font-mono text-purple-400 font-bold">BG002</td>
-                                <td class="px-6 py-4 font-semibold text-white">Giờ cao điểm (Tối)</td>
-                                <td class="px-6 py-4 text-center">17.0</td>
-                                <td class="px-6 py-4 text-center">23.5</td>
-                                <td class="px-6 py-4">
-                                    <span
+                                <td class="px-4 py-4 font-mono text-purple-400 font-bold">BG002</td>
+                                <td class="px-4 py-4 font-semibold text-white">Giờ thường</td>
+                                <td class="px-4 py-4 text-center">8.0</td>
+                                <td class="px-4 py-4 text-center">17.0</td>
+                                <td class="px-4 py-4"><span
                                         class="px-3 py-1 bg-blue-500/10 text-blue-400 rounded-full text-[10px] font-bold border border-blue-500/20">NGÀY
-                                        THƯỜNG</span>
+                                        THƯỜNG</span></td>
+                                <td class="px-4 py-4"><span
+                                        class="px-2 py-1 rounded bg-purple-400/10 text-purple-400 font-bold text-xs">Thường</span>
                                 </td>
-                                <td class="px-6 py-4 text-right font-black text-white">250.000đ</td>
-                                <td class="px-6 py-4 text-center">
-                                    <button onclick="toggleModal(true)"
-                                        class="text-purple-400 hover:scale-110 transition-transform">
-                                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <td class="px-4 py-4 text-right font-black text-white">120.000đ</td>
+                                <td class="px-4 py-4 text-center"><button
+                                        class="text-purple-400 hover:scale-110 transition-transform"><svg
+                                            class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                                 d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z">
                                             </path>
-                                        </svg>
-                                    </button>
+                                        </svg></button></td>
+                            </tr>
+                            <tr class="hover:bg-white/5 transition-colors">
+                                <td class="px-4 py-4 font-mono text-purple-400 font-bold">BG003</td>
+                                <td class="px-4 py-4 font-semibold text-white">Giờ cao điểm</td>
+                                <td class="px-4 py-4 text-center">17.0</td>
+                                <td class="px-4 py-4 text-center">23.0</td>
+                                <td class="px-4 py-4"><span
+                                        class="px-3 py-1 bg-blue-500/10 text-blue-400 rounded-full text-[10px] font-bold border border-blue-500/20">NGÀY
+                                        THƯỜNG</span></td>
+                                <td class="px-4 py-4"><span
+                                        class="px-2 py-1 rounded bg-yellow-400/10 text-yellow-400 font-bold text-xs">VIP</span>
                                 </td>
+                                <td class="px-4 py-4 text-right font-black text-white">250.000đ</td>
+                                <td class="px-4 py-4 text-center"><button
+                                        class="text-purple-400 hover:scale-110 transition-transform"><svg
+                                            class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z">
+                                            </path>
+                                        </svg></button></td>
+                            </tr>
+                            <tr class="hover:bg-white/5 transition-colors">
+                                <td class="px-4 py-4 font-mono text-purple-400 font-bold">BG004</td>
+                                <td class="px-4 py-4 font-semibold text-white">Giờ cao điểm</td>
+                                <td class="px-4 py-4 text-center">17.0</td>
+                                <td class="px-4 py-4 text-center">23.0</td>
+                                <td class="px-4 py-4"><span
+                                        class="px-3 py-1 bg-blue-500/10 text-blue-400 rounded-full text-[10px] font-bold border border-blue-500/20">NGÀY
+                                        THƯỜNG</span></td>
+                                <td class="px-4 py-4"><span
+                                        class="px-2 py-1 rounded bg-purple-400/10 text-purple-400 font-bold text-xs">Thường</span>
+                                </td>
+                                <td class="px-4 py-4 text-right font-black text-white">180.000đ</td>
+                                <td class="px-4 py-4 text-center"><button
+                                        class="text-purple-400 hover:scale-110 transition-transform"><svg
+                                            class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z">
+                                            </path>
+                                        </svg></button></td>
                             </tr>
 
                             <tr class="hover:bg-white/5 transition-colors">
-                                <td class="px-6 py-4 font-mono text-purple-400 font-bold">BG003</td>
-                                <td class="px-6 py-4 font-semibold text-white">Ban ngày cuối tuần</td>
-                                <td class="px-6 py-4 text-center">8.0</td>
-                                <td class="px-6 py-4 text-center">16.0</td>
-                                <td class="px-6 py-4">
-                                    <span
-                                        class="px-3 py-1 bg-orange-500/10 text-orange-400 rounded-full text-[10px] font-bold border border-orange-500/20">CUỐI
-                                        TUẦN</span>
+                                <td class="px-4 py-4 font-mono text-purple-400 font-bold">BG005</td>
+                                <td class="px-4 py-4 font-semibold text-white">Giờ thường</td>
+                                <td class="px-4 py-4 text-center">8.0</td>
+                                <td class="px-4 py-4 text-center">17.0</td>
+                                <td class="px-4 py-4"><span
+                                        class="px-3 py-1 bg-rose-500/10 text-rose-400 rounded-full text-[10px] font-bold border border-rose-500/20">CUỐI
+                                        TUẦN</span></td>
+                                <td class="px-4 py-4"><span
+                                        class="px-2 py-1 rounded bg-yellow-400/10 text-yellow-400 font-bold text-xs">VIP</span>
                                 </td>
-                                <td class="px-6 py-4 text-right font-black text-white">200.000đ</td>
-                                <td class="px-6 py-4 text-center">
-                                    <button onclick="toggleModal(true)"
-                                        class="text-purple-400 hover:scale-110 transition-transform">
-                                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <td class="px-4 py-4 text-right font-black text-white">300.000đ</td>
+                                <td class="px-4 py-4 text-center"><button
+                                        class="text-purple-400 hover:scale-110 transition-transform"><svg
+                                            class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                                 d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z">
                                             </path>
-                                        </svg>
-                                    </button>
+                                        </svg></button></td>
+                            </tr>
+                            <tr class="hover:bg-white/5 transition-colors">
+                                <td class="px-4 py-4 font-mono text-purple-400 font-bold">BG006</td>
+                                <td class="px-4 py-4 font-semibold text-white">Giờ thường</td>
+                                <td class="px-4 py-4 text-center">8.0</td>
+                                <td class="px-4 py-4 text-center">17.0</td>
+                                <td class="px-4 py-4"><span
+                                        class="px-3 py-1 bg-rose-500/10 text-rose-400 rounded-full text-[10px] font-bold border border-rose-500/20">CUỐI
+                                        TUẦN</span></td>
+                                <td class="px-4 py-4"><span
+                                        class="px-2 py-1 rounded bg-purple-400/10 text-purple-400 font-bold text-xs">Thường</span>
                                 </td>
+                                <td class="px-4 py-4 text-right font-black text-white">220.000đ</td>
+                                <td class="px-4 py-4 text-center"><button
+                                        class="text-purple-400 hover:scale-110 transition-transform"><svg
+                                            class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z">
+                                            </path>
+                                        </svg></button></td>
+                            </tr>
+                            <tr class="hover:bg-white/5 transition-colors">
+                                <td class="px-4 py-4 font-mono text-purple-400 font-bold">BG007</td>
+                                <td class="px-4 py-4 font-semibold text-white">Giờ cao điểm</td>
+                                <td class="px-4 py-4 text-center">17.0</td>
+                                <td class="px-4 py-4 text-center">23.0</td>
+                                <td class="px-4 py-4"><span
+                                        class="px-3 py-1 bg-rose-500/10 text-rose-400 rounded-full text-[10px] font-bold border border-rose-500/20">CUỐI
+                                        TUẦN</span></td>
+                                <td class="px-4 py-4"><span
+                                        class="px-2 py-1 rounded bg-yellow-400/10 text-yellow-400 font-bold text-xs">VIP</span>
+                                </td>
+                                <td class="px-4 py-4 text-right font-black text-white">350.000đ</td>
+                                <td class="px-4 py-4 text-center"><button
+                                        class="text-purple-400 hover:scale-110 transition-transform"><svg
+                                            class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z">
+                                            </path>
+                                        </svg></button></td>
+                            </tr>
+                            <tr class="hover:bg-white/5 transition-colors">
+                                <td class="px-4 py-4 font-mono text-purple-400 font-bold">BG008</td>
+                                <td class="px-4 py-4 font-semibold text-white">Giờ cao điểm</td>
+                                <td class="px-4 py-4 text-center">17.0</td>
+                                <td class="px-4 py-4 text-center">23.0</td>
+                                <td class="px-4 py-4"><span
+                                        class="px-3 py-1 bg-rose-500/10 text-rose-400 rounded-full text-[10px] font-bold border border-rose-500/20">CUỐI
+                                        TUẦN</span></td>
+                                <td class="px-4 py-4"><span
+                                        class="px-2 py-1 rounded bg-purple-400/10 text-purple-400 font-bold text-xs">Thường</span>
+                                </td>
+                                <td class="px-4 py-4 text-right font-black text-white">280.000đ</td>
+                                <td class="px-4 py-4 text-center"><button
+                                        class="text-purple-400 hover:scale-110 transition-transform"><svg
+                                            class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z">
+                                            </path>
+                                        </svg></button></td>
                             </tr>
 
                             <tr class="hover:bg-white/5 transition-colors">
-                                <td class="px-6 py-4 font-mono text-purple-400 font-bold">BG004</td>
-                                <td class="px-6 py-4 font-semibold text-white">Tối cuối tuần (Full)</td>
-                                <td class="px-6 py-4 text-center">16.0</td>
-                                <td class="px-6 py-4 text-center">24.0</td>
-                                <td class="px-6 py-4">
-                                    <span
-                                        class="px-3 py-1 bg-orange-500/10 text-orange-400 rounded-full text-[10px] font-bold border border-orange-500/20">CUỐI
-                                        TUẦN</span>
+                                <td class="px-4 py-4 font-mono text-purple-400 font-bold">BG009</td>
+                                <td class="px-4 py-4 font-semibold text-white">Giờ thường</td>
+                                <td class="px-4 py-4 text-center">8.0</td>
+                                <td class="px-4 py-4 text-center">17.0</td>
+                                <td class="px-4 py-4"><span
+                                        class="px-3 py-1 bg-amber-500/10 text-amber-400 rounded-full text-[10px] font-bold border border-amber-500/20">NGÀY
+                                        LỄ</span></td>
+                                <td class="px-4 py-4"><span
+                                        class="px-2 py-1 rounded bg-yellow-400/10 text-yellow-400 font-bold text-xs">VIP</span>
                                 </td>
-                                <td class="px-6 py-4 text-right font-black text-white">350.000đ</td>
-                                <td class="px-6 py-4 text-center">
-                                    <button onclick="toggleModal(true)"
-                                        class="text-purple-400 hover:scale-110 transition-transform">
-                                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <td class="px-4 py-4 text-right font-black text-white">400.000đ</td>
+                                <td class="px-4 py-4 text-center"><button
+                                        class="text-purple-400 hover:scale-110 transition-transform"><svg
+                                            class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                                 d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z">
                                             </path>
-                                        </svg>
-                                    </button>
-                                </td>
+                                        </svg></button></td>
                             </tr>
-
                             <tr class="hover:bg-white/5 transition-colors">
-                                <td class="px-6 py-4 font-mono text-purple-400 font-bold">BG005</td>
-                                <td class="px-6 py-4 font-semibold text-white">Tết / Lễ lớn (Trọn ngày)</td>
-                                <td class="px-6 py-4 text-center">0.0</td>
-                                <td class="px-6 py-4 text-center">24.0</td>
-                                <td class="px-6 py-4">
-                                    <span
-                                        class="px-3 py-1 bg-red-500/10 text-red-400 rounded-full text-[10px] font-bold border border-red-500/20">NGÀY
-                                        LỄ</span>
+                                <td class="px-4 py-4 font-mono text-purple-400 font-bold">BG010</td>
+                                <td class="px-4 py-4 font-semibold text-white">Giờ thường</td>
+                                <td class="px-4 py-4 text-center">8.0</td>
+                                <td class="px-4 py-4 text-center">17.0</td>
+                                <td class="px-4 py-4"><span
+                                        class="px-3 py-1 bg-amber-500/10 text-amber-400 rounded-full text-[10px] font-bold border border-amber-500/20">NGÀY
+                                        LỄ</span></td>
+                                <td class="px-4 py-4"><span
+                                        class="px-2 py-1 rounded bg-purple-400/10 text-purple-400 font-bold text-xs">Thường</span>
                                 </td>
-                                <td class="px-6 py-4 text-right font-black text-white">500.000đ</td>
-                                <td class="px-6 py-4 text-center">
-                                    <button onclick="toggleModal(true)"
-                                        class="text-purple-400 hover:scale-110 transition-transform">
-                                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <td class="px-4 py-4 text-right font-black text-white">320.000đ</td>
+                                <td class="px-4 py-4 text-center"><button
+                                        class="text-purple-400 hover:scale-110 transition-transform"><svg
+                                            class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                                 d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z">
                                             </path>
-                                        </svg>
-                                    </button>
+                                        </svg></button></td>
+                            </tr>
+                            <tr class="hover:bg-white/5 transition-colors">
+                                <td class="px-4 py-4 font-mono text-purple-400 font-bold">BG011</td>
+                                <td class="px-4 py-4 font-semibold text-white">Giờ cao điểm</td>
+                                <td class="px-4 py-4 text-center">17.0</td>
+                                <td class="px-4 py-4 text-center">23.0</td>
+                                <td class="px-4 py-4"><span
+                                        class="px-3 py-1 bg-amber-500/10 text-amber-400 rounded-full text-[10px] font-bold border border-amber-500/20">NGÀY
+                                        LỄ</span></td>
+                                <td class="px-4 py-4"><span
+                                        class="px-2 py-1 rounded bg-yellow-400/10 text-yellow-400 font-bold text-xs">VIP</span>
                                 </td>
+                                <td class="px-4 py-4 text-right font-black text-white">500.000đ</td>
+                                <td class="px-4 py-4 text-center"><button
+                                        class="text-purple-400 hover:scale-110 transition-transform"><svg
+                                            class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z">
+                                            </path>
+                                        </svg></button></td>
+                            </tr>
+                            <tr class="hover:bg-white/5 transition-colors">
+                                <td class="px-4 py-4 font-mono text-purple-400 font-bold">BG012</td>
+                                <td class="px-4 py-4 font-semibold text-white">Giờ cao điểm</td>
+                                <td class="px-4 py-4 text-center">17.0</td>
+                                <td class="px-4 py-4 text-center">23.0</td>
+                                <td class="px-4 py-4"><span
+                                        class="px-3 py-1 bg-amber-500/10 text-amber-400 rounded-full text-[10px] font-bold border border-amber-500/20">NGÀY
+                                        LỄ</span></td>
+                                <td class="px-4 py-4"><span
+                                        class="px-2 py-1 rounded bg-purple-400/10 text-purple-400 font-bold text-xs">Thường</span>
+                                </td>
+                                <td class="px-4 py-4 text-right font-black text-white">420.000đ</td>
+                                <td class="px-4 py-4 text-center"><button
+                                        class="text-purple-400 hover:scale-110 transition-transform"><svg
+                                            class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z">
+                                            </path>
+                                        </svg></button></td>
                             </tr>
                         </tbody>
                     </table>
