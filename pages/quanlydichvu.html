@@ -1,0 +1,803 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MusicBox - Quản lý dịch vụ</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
+
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap"
+        rel="stylesheet">
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background-color: #0b0f1a;
+            color: white;
+            margin: 0;
+        }
+
+        .glass {
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .hidden {
+            display: none !important;
+        }
+
+        select option {
+            background-color: #1e293b !important;
+            color: white;
+        }
+
+        .sidebar-item.active {
+            background: rgba(255, 255, 255, 0.1);
+            border-left: 4px solid #a855f7;
+        }
+
+        /* Card hover */
+        .service-card {
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .service-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 20px 40px rgba(168, 85, 247, 0.15);
+        }
+
+        .service-card .card-actions {
+            opacity: 0;
+            transition: opacity 0.2s ease;
+        }
+
+        .service-card:hover .card-actions {
+            opacity: 1;
+        }
+
+        /* Image zoom */
+        .card-img {
+            transition: transform 0.4s ease;
+        }
+
+        .service-card:hover .card-img {
+            transform: scale(1.08);
+        }
+
+        /* Modal backdrop */
+        .modal-backdrop {
+            animation: fadeIn 0.2s ease;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+
+            to {
+                opacity: 1;
+            }
+        }
+
+        .modal-panel {
+            animation: slideUp 0.25s ease;
+        }
+
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Toast */
+        #toast {
+            transition: all 0.3s ease;
+        }
+
+        /* Scrollbar */
+        ::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: transparent;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: rgba(168, 85, 247, 0.3);
+            border-radius: 3px;
+        }
+
+        /* Empty state */
+        .empty-state {
+            animation: fadeIn 0.3s ease;
+        }
+
+        /* Stock bar */
+        .stock-bar-fill {
+            transition: width 0.6s ease;
+        }
+    </style>
+</head>
+
+<body x-data="{ user: {name: 'Nguyễn Văn Quản Lý'} }">
+    <div class="flex h-screen overflow-hidden">
+
+        <!-- SIDEBAR -->
+        <aside class="w-64 glass border-r border-white/10 flex flex-col flex-shrink-0">
+            <div class="p-6 flex items-center gap-3">
+                <div class="p-2 bg-purple-600 rounded-lg shadow-lg shadow-purple-500/30">
+                    <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M9 19V6l12-3v13M9 19c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zm12-3c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2z" />
+                    </svg>
+                </div>
+                <span class="text-xl font-black tracking-tighter">MUSIC<span class="text-purple-400">BOX</span></span>
+            </div>
+
+            <nav class="flex-1 mt-4 px-3 space-y-1">
+                <a href="dashboard.html"
+                    class="w-full flex items-center gap-3 px-4 py-3 rounded-xl text-gray-400 hover:text-white hover:bg-white/5 transition-all">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
+                    </svg>
+                    <span class="text-sm font-bold">Dashboard</span>
+                </a>
+                <a href="quanlytaikhoan.html"
+                    class="w-full flex items-center gap-3 px-4 py-3 rounded-xl text-gray-400 hover:text-white hover:bg-white/5 transition-all">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z" />
+                    </svg>
+                    <span class="text-sm font-bold">Quản lý tài khoản</span>
+                </a>
+                <a href="quanlyphong.html"
+                    class="w-full flex items-center gap-3 px-4 py-3 rounded-xl text-gray-400 hover:text-white hover:bg-white/5 transition-all">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
+                    </svg>
+                    <span class="text-sm font-bold">Quản lý phòng</span>
+                </a>
+                <a href="./quanlyloaiphong.html"
+                    class="w-full flex items-center gap-3 px-4 py-3 rounded-xl text-gray-400 hover:text-white hover:bg-white/5 transition-all group">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4">
+                        </path>
+                    </svg>
+                    <span class="text-sm font-bold">Quản lý loại phòng</span>
+                </a>
+                <a href="quanlydichvu.html"
+                    class="sidebar-item active w-full flex items-center gap-3 px-4 py-3 rounded-xl text-white transition-all">
+                    <svg class="w-5 h-5 text-purple-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4" />
+                    </svg>
+                    <span class="text-sm font-bold">Quản lý dịch vụ</span>
+                </a>
+                <a href="quanlybanggia.html"
+                    class="w-full flex items-center gap-3 px-4 py-3 rounded-xl text-gray-400 hover:text-white hover:bg-white/5 transition-all">
+                    <svg class="w-5 h-5 " fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4" />
+                    </svg>
+                    <span class="text-sm font-bold">Quản lý bảng giá</span>
+                </a>
+            </nav>
+
+            <!-- Stats bottom -->
+            <div class="p-4 border-t border-white/10 space-y-3">
+                <div class="glass rounded-2xl p-3 space-y-2">
+                    <p class="text-[10px] uppercase text-gray-500 font-bold tracking-widest">Tổng quan kho</p>
+                    <div class="flex justify-between">
+                        <span class="text-xs text-gray-400">Tổng SKU</span>
+                        <span id="statTotal" class="text-xs font-bold text-purple-300">—</span>
+                    </div>
+                    <div class="flex justify-between">
+                        <span class="text-xs text-gray-400">Sắp hết hàng</span>
+                        <span id="statLow" class="text-xs font-bold text-rose-400">—</span>
+                    </div>
+                    <div class="flex justify-between">
+                        <span class="text-xs text-gray-400">Đồ uống</span>
+                        <span id="statDrink" class="text-xs font-bold text-cyan-400">—</span>
+                    </div>
+                    <div class="flex justify-between">
+                        <span class="text-xs text-gray-400">Thức ăn</span>
+                        <span id="statFood" class="text-xs font-bold text-orange-400">—</span>
+                    </div>
+                </div>
+                <div class="p-4 border-t border-white/10 space-y-2" x-data="{ openSettings: false }">
+                <div @click="openSettings = !openSettings"
+                    class="flex items-center justify-between p-2 rounded-xl hover:bg-white/5 cursor-pointer transition-all group relative">
+
+                    <div class="flex items-center gap-3">
+                        <div
+                            class="w-10 h-10 rounded-full bg-gradient-to-tr from-purple-600 to-pink-500 flex items-center justify-center font-bold text-sm shadow-lg shadow-purple-500/20">
+                            QL
+                        </div>
+                        <div>
+                            <p class="text-xs font-bold text-gray-200" x-text="user.name">Quản lý</p>
+                            <p class="text-[10px] text-gray-500 uppercase font-medium tracking-wider">Admin Role</p>
+                        </div>
+                    </div>
+
+                    <div class="text-gray-500 group-hover:text-white transition-colors">
+                        <svg class="w-4 h-4" :class="openSettings ? 'rotate-90' : ''" fill="none" stroke="currentColor"
+                            viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z">
+                            </path>
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                        </svg>
+                    </div>
+
+                    <div x-show="openSettings" x-transition:enter="transition ease-out duration-100"
+                        x-transition:enter-start="opacity-0 transform scale-95"
+                        x-transition:leave="transition ease-in duration-75" @click.away="openSettings = false"
+                        class="absolute bottom-full left-0 w-full mb-2 p-2 glass rounded-2xl shadow-2xl z-50">
+                        <button onclick="confirmLogout()"
+                            class="w-full flex items-center gap-3 px-3 py-2 rounded-xl text-red-400 hover:bg-red-500/10 transition-all group">
+                            <svg class="w-4 h-4 group-hover:scale-110 transition-transform" fill="none"
+                                stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1">
+                                </path>
+                            </svg>
+                            <span class="text-xs font-bold">Đăng xuất hệ thống</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <script>
+                function confirmLogout() {
+                    if (confirm('Bạn có chắc chắn muốn đăng xuất?')) {
+                        window.location.href = '../index.html';
+                    }
+                }
+            </script>
+            </div>
+        </aside>
+
+        <!-- MAIN -->
+        <main class="flex-1 overflow-y-auto p-8">
+
+
+            <!-- Header -->
+            <header class="flex justify-between items-start mb-8">
+                <div>
+                    <h2 class="text-2xl font-black tracking-tight">Kho dịch vụ & Sản phẩm</h2>
+                    <p class="text-gray-400 text-sm mt-1">Quản lý thực đơn, đơn giá và lượng tồn kho</p>
+                </div>
+                <button onclick="openFormModal()"
+                    class="bg-purple-600 hover:bg-purple-500 px-6 py-3 rounded-2xl font-bold transition-all shadow-lg shadow-purple-600/30 text-sm flex items-center gap-2">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 4v16m8-8H4" />
+                    </svg>
+                    Thêm dịch vụ
+                </button>
+            </header>
+
+            <!-- Filters -->
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-4 mb-8">
+                <div class="md:col-span-2 relative">
+                    <input type="text" id="searchInput" oninput="renderCards()"
+                        placeholder="Tìm tên sản phẩm hoặc mã SP..."
+                        class="w-full bg-white/5 border border-white/10 rounded-2xl px-12 py-3 outline-none focus:border-purple-500 text-sm transition-colors">
+                    <svg class="w-5 h-5 absolute left-4 top-3.5 text-gray-500" fill="none" stroke="currentColor"
+                        viewBox="0 0 24 24">
+                        <path d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" stroke-width="2" stroke-linecap="round" />
+                    </svg>
+                </div>
+                <select id="typeFilter" onchange="renderCards()"
+                    class="bg-white/5 border border-white/10 rounded-2xl px-4 py-3 outline-none focus:border-purple-500 text-gray-300 text-sm">
+                    <option value="all">Tất cả loại</option>
+                    <option value="drink">🧊 Đồ uống</option>
+                    <option value="food">🍽 Thức ăn</option>
+                </select>
+                <select id="stockFilter" onchange="renderCards()"
+                    class="bg-white/5 border border-white/10 rounded-2xl px-4 py-3 outline-none focus:border-purple-500 text-gray-300 text-sm">
+                    <option value="all">Tất cả tồn kho</option>
+                    <option value="low">⚠️ Sắp hết (&lt; 10)</option>
+                    <option value="instock">✅ Còn hàng</option>
+                </select>
+            </div>
+
+            <!-- Result count -->
+            <div class="flex items-center justify-between mb-5">
+                <p id="resultCount" class="text-xs text-gray-500 font-semibold"></p>
+                <div class="flex gap-2">
+                    <button onclick="setSort('name')" id="sortName"
+                        class="text-[10px] font-bold uppercase px-3 py-1.5 rounded-lg border border-white/10 text-gray-400 hover:text-white hover:border-white/20 transition-all">
+                        A → Z
+                    </button>
+                    <button onclick="setSort('price')" id="sortPrice"
+                        class="text-[10px] font-bold uppercase px-3 py-1.5 rounded-lg border border-white/10 text-gray-400 hover:text-white hover:border-white/20 transition-all">
+                        Giá ↑
+                    </button>
+                    <button onclick="setSort('stock')" id="sortStock"
+                        class="text-[10px] font-bold uppercase px-3 py-1.5 rounded-lg border border-white/10 text-gray-400 hover:text-white hover:border-white/20 transition-all">
+                        Tồn kho
+                    </button>
+                </div>
+            </div>
+
+            <!-- Cards Grid -->
+            <div id="cardGrid" class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-5"></div>
+
+            <!-- Empty state -->
+            <div id="emptyState" class="hidden empty-state flex flex-col items-center justify-center py-24 text-center">
+                <div class="text-5xl mb-4">📦</div>
+                <h3 class="font-bold text-lg mb-1 text-gray-300">Không tìm thấy sản phẩm</h3>
+                <p class="text-gray-500 text-sm">Thử thay đổi bộ lọc hoặc từ khoá tìm kiếm</p>
+            </div>
+
+        </main>
+    </div>
+
+    <!-- FORM MODAL -->
+    <div id="formModal" class="fixed inset-0 z-[100] flex items-center justify-center p-4 hidden">
+        <div class="modal-backdrop absolute inset-0 bg-black/80 backdrop-blur-md" onclick="closeModal('formModal')">
+        </div>
+        <form id="serviceForm" onsubmit="saveService(event)"
+            class="modal-panel glass w-full max-w-lg rounded-[2.5rem] p-8 relative z-10 bg-[#161b33]">
+
+            <div class="flex items-center justify-between mb-6">
+                <h4 id="formTitle" class="text-xl font-bold">Thêm dịch vụ mới</h4>
+                <button type="button" onclick="closeModal('formModal')"
+                    class="w-8 h-8 rounded-full bg-white/10 hover:bg-white/20 flex items-center justify-center transition-colors">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M6 18L18 6M6 6l12 12" />
+                    </svg>
+                </button>
+            </div>
+
+            <input type="hidden" id="serviceId">
+
+            <!-- Image preview -->
+            <div class="mb-5">
+                <label class="text-[10px] text-gray-400 font-bold uppercase">Ảnh sản phẩm (URL)</label>
+                <div class="flex gap-3 mt-1">
+                    <input type="text" id="serviceImg" oninput="previewImg()"
+                        class="flex-1 bg-white/5 border border-white/10 rounded-xl px-4 py-3 outline-none focus:border-purple-500 text-sm"
+                        placeholder="https://...">
+                    <div id="imgPreviewBox"
+                        class="w-14 h-14 rounded-xl bg-white/5 border border-white/10 overflow-hidden flex-shrink-0 flex items-center justify-center text-2xl">
+                        <img id="imgPreview" src="" class="w-full h-full object-cover hidden" alt="">
+                        <span id="imgPlaceholder">🖼</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="space-y-4">
+                <div class="grid grid-cols-2 gap-4">
+                    <div>
+                        <label class="text-[10px] text-gray-400 font-bold uppercase">Mã sản phẩm</label>
+                        <input type="text" id="serviceCode" required
+                            class="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 mt-1 outline-none focus:border-purple-500 text-sm"
+                            placeholder="DRK01">
+                    </div>
+                    <div>
+                        <label class="text-[10px] text-gray-400 font-bold uppercase">Loại</label>
+                        <select id="serviceType"
+                            class="w-full bg-[#1e293b] border border-white/10 rounded-xl px-4 py-3 mt-1 outline-none focus:border-purple-500 text-white text-sm">
+                            <option value="drink">🧊 Đồ uống</option>
+                            <option value="food">🍽 Thức ăn</option>
+                        </select>
+                    </div>
+                </div>
+                <div>
+                    <label class="text-[10px] text-gray-400 font-bold uppercase">Tên dịch vụ</label>
+                    <input type="text" id="serviceName" required
+                        class="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 mt-1 outline-none focus:border-purple-500 text-sm"
+                        placeholder="VD: Bia Tiger">
+                </div>
+                <div class="grid grid-cols-3 gap-4">
+                    <div class="col-span-2">
+                        <label class="text-[10px] text-gray-400 font-bold uppercase">Đơn giá (VNĐ)</label>
+                        <input type="number" id="servicePrice" required min="0"
+                            class="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 mt-1 outline-none focus:border-purple-500 text-sm">
+                    </div>
+                    <div>
+                        <label class="text-[10px] text-gray-400 font-bold uppercase">Đơn vị</label>
+                        <input type="text" id="serviceUnit" required
+                            class="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 mt-1 outline-none focus:border-purple-500 text-sm"
+                            placeholder="Lon">
+                    </div>
+                </div>
+                <div>
+                    <label class="text-[10px] text-gray-400 font-bold uppercase flex justify-between">
+                        Số lượng tồn kho
+                        <span id="stockHint" class="text-rose-400 hidden">⚠ Sắp hết hàng</span>
+                    </label>
+                    <input type="number" id="serviceStock" required min="0" oninput="checkStockHint()"
+                        class="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 mt-1 outline-none focus:border-purple-500 text-sm">
+                </div>
+            </div>
+
+            <div class="flex gap-3 mt-8">
+                <button type="button" onclick="closeModal('formModal')"
+                    class="flex-1 py-3 text-sm font-bold rounded-xl bg-white/5 hover:bg-white/10 transition-colors">Hủy</button>
+                <button type="submit"
+                    class="flex-1 py-3 bg-purple-600 rounded-xl text-sm font-bold hover:bg-purple-500 shadow-lg shadow-purple-600/20 transition-colors">
+                    Lưu thông tin
+                </button>
+            </div>
+        </form>
+    </div>
+
+    <!-- DELETE CONFIRM MODAL -->
+    <div id="deleteModal" class="fixed inset-0 z-[110] flex items-center justify-center p-4 hidden">
+        <div class="modal-backdrop absolute inset-0 bg-black/80 backdrop-blur-md" onclick="closeModal('deleteModal')">
+        </div>
+        <div class="modal-panel glass w-full max-w-sm rounded-[2.5rem] p-8 relative z-10 bg-[#161b33] text-center">
+            <div
+                class="w-16 h-16 mx-auto rounded-2xl bg-rose-500/10 border border-rose-500/30 flex items-center justify-center text-3xl mb-4">
+                🗑</div>
+            <h4 class="text-lg font-bold mb-2">Xóa sản phẩm?</h4>
+            <p id="deleteItemName" class="text-gray-400 text-sm mb-6"></p>
+            <div class="flex gap-3">
+                <button onclick="closeModal('deleteModal')"
+                    class="flex-1 py-3 text-sm font-bold rounded-xl bg-white/5 hover:bg-white/10 transition-colors">Hủy</button>
+                <button id="confirmDeleteBtn"
+                    class="flex-1 py-3 bg-rose-600 hover:bg-rose-500 rounded-xl text-sm font-bold transition-colors shadow-lg shadow-rose-600/20">
+                    Xóa
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- VIEW DETAIL MODAL -->
+    <div id="viewModal" class="fixed inset-0 z-[110] flex items-center justify-center p-4 hidden">
+        <div class="modal-backdrop absolute inset-0 bg-black/80 backdrop-blur-md" onclick="closeModal('viewModal')">
+        </div>
+        <div class="modal-panel glass w-full max-w-sm rounded-[2.5rem] overflow-hidden relative z-10 bg-[#161b33]">
+            <div class="relative h-48 overflow-hidden">
+                <img id="viewImg" src="" class="w-full h-full object-cover" alt="">
+                <div class="absolute inset-0 bg-gradient-to-t from-[#161b33] to-transparent"></div>
+                <button onclick="closeModal('viewModal')"
+                    class="absolute top-4 right-4 w-8 h-8 rounded-full bg-black/50 backdrop-blur flex items-center justify-center hover:bg-black/80 transition-colors">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M6 18L18 6M6 6l12 12" />
+                    </svg>
+                </button>
+            </div>
+            <div class="p-6">
+                <div class="flex items-start justify-between mb-1">
+                    <h4 id="viewName" class="text-xl font-bold"></h4>
+                    <span id="viewTypeBadge" class="px-2 py-1 rounded-md text-[9px] font-black uppercase border"></span>
+                </div>
+                <p id="viewCode" class="text-purple-400 text-xs font-bold uppercase tracking-widest mb-5"></p>
+                <div class="space-y-3 bg-white/5 p-4 rounded-2xl border border-white/10">
+                    <div class="flex justify-between">
+                        <span class="text-gray-400 text-xs">Đơn giá</span>
+                        <span id="viewPrice" class="font-bold text-purple-300 text-sm"></span>
+                    </div>
+                    <div class="flex justify-between">
+                        <span class="text-gray-400 text-xs">Đơn vị</span>
+                        <span id="viewUnit" class="font-bold text-sm"></span>
+                    </div>
+                    <div>
+                        <div class="flex justify-between mb-2">
+                            <span class="text-gray-400 text-xs">Tồn kho</span>
+                            <span id="viewStock" class="font-bold text-sm"></span>
+                        </div>
+                        <div class="h-1.5 bg-white/10 rounded-full overflow-hidden">
+                            <div id="viewStockBar" class="h-full rounded-full stock-bar-fill"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="flex gap-3 mt-5">
+                    <button id="viewEditBtn"
+                        class="flex-1 py-2.5 bg-purple-600 hover:bg-purple-500 rounded-xl text-sm font-bold transition-colors">
+                        ✏ Chỉnh sửa
+                    </button>
+                    <button onclick="closeModal('viewModal')"
+                        class="flex-1 py-2.5 bg-white/10 hover:bg-white/20 rounded-xl text-sm font-bold transition-colors">
+                        Đóng
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- TOAST -->
+    <div id="toast" class="fixed bottom-6 right-6 z-[200] hidden">
+        <div class="glass rounded-2xl px-5 py-3 flex items-center gap-3 shadow-xl border border-white/20">
+            <span id="toastIcon" class="text-lg"></span>
+            <span id="toastMsg" class="text-sm font-bold"></span>
+        </div>
+    </div>
+
+    <script>
+        let services = [
+            { id: 1, code: 'DRK01', type: 'drink', name: 'Bia Heineken (Lon)', price: 35000, unit: 'Lon', stock: 120, img: '../assets/images/heineken.jpg' },
+            { id: 2, code: 'DRK02', type: 'drink', name: 'Bia Tiger Crystal', price: 32000, unit: 'Lon', stock: 8, img: 'https://images.unsplash.com/photo-1597290282695-edc43d0e7129?w=400' },
+            { id: 3, code: 'DRK03', type: 'drink', name: 'Nước suối Aquafina', price: 15000, unit: 'Chai', stock: 200, img: 'https://images.unsplash.com/photo-1548839140-29a749e1cf4d?w=400' },
+            { id: 4, code: 'DRK04', type: 'drink', name: 'Coca Cola', price: 20000, unit: 'Lon', stock: 85, img: 'https://images.unsplash.com/photo-1622483767028-3f66f32aef97?w=400' },
+            { id: 5, code: 'FOD01', type: 'food', name: 'Trái cây dĩa (Lớn)', price: 250000, unit: 'Dĩa', stock: 15, img: 'https://images.unsplash.com/photo-1519996529931-28324d5a630e?w=400' },
+            { id: 6, code: 'FOD02', type: 'food', name: 'Snack khoai tây', price: 45000, unit: 'Gói', stock: 4, img: 'https://images.unsplash.com/photo-1566478989037-eec170784d0b?w=400' },
+            { id: 7, code: 'FOD03', type: 'food', name: 'Mực nướng ngũ vị', price: 185000, unit: 'Phần', stock: 20, img: 'https://images.unsplash.com/photo-1599487488170-d11ec9c172f0?w=400' },
+            { id: 8, code: 'FOD04', type: 'food', name: 'Cơm chiên hải sản', price: 120000, unit: 'Phần', stock: 5, img: 'https://cdn.tgdd.vn/2021/01/CookProduct/comchienhaisan-1200x676.jpg' },
+            { id: 9, code: 'FOD05', type: 'food', name: 'Gà rán KFC (Phần)', price: 95000, unit: 'Phần', stock: 30, img: 'https://content.jdmagicbox.com/v2/comp/mumbai/m1/022pxx22.xx22.200829100417.u5m1/catalogue/kfc-mumbai-fast-food-1gtb5g7j7r.jpg' },
+            { id: 10, code: 'DRK05', type: 'drink', name: 'Rượu vang đỏ', price: 850000, unit: 'Chai', stock: 12, img: 'https://images.unsplash.com/photo-1510812431401-41d2bd2722f3?w=400' },
+            { id: 11, code: 'FOD06', type: 'food', name: 'Đậu phộng rang muối', price: 25000, unit: 'Bịch', stock: 7, img: 'https://cdn2.fptshop.com.vn/unsafe/1920x0/filters:format(webp):quality(75)/2024_5_13_638511979750318955_lac-rang-muoi-duong-1.jpg' },
+            { id: 12, code: 'DRK06', type: 'drink', name: 'Soda chanh', price: 30000, unit: 'Ly', stock: 50, img: 'https://images.unsplash.com/photo-1513558161293-cdaf765ed2fd?w=400' },
+        ];
+
+        let currentSort = null;
+        let sortDir = 1;
+
+        const fmt = n => n.toLocaleString('vi-VN') + 'đ';
+
+        function setSort(key) {
+            if (currentSort === key) sortDir *= -1;
+            else { currentSort = key; sortDir = 1; }
+            // Highlight active sort
+            ['sortName', 'sortPrice', 'sortStock'].forEach(id => {
+                document.getElementById(id).classList.remove('border-purple-500', 'text-purple-300');
+                document.getElementById(id).classList.add('border-white/10', 'text-gray-400');
+            });
+            const map = { name: 'sortName', price: 'sortPrice', stock: 'sortStock' };
+            document.getElementById(map[key]).classList.add('border-purple-500', 'text-purple-300');
+            document.getElementById(map[key]).classList.remove('border-white/10', 'text-gray-400');
+            renderCards();
+        }
+
+        function getFiltered() {
+            const search = document.getElementById('searchInput').value.toLowerCase();
+            const typeF = document.getElementById('typeFilter').value;
+            const stockF = document.getElementById('stockFilter').value;
+
+            let list = services.filter(s => {
+                const matchSearch = s.name.toLowerCase().includes(search) || s.code.toLowerCase().includes(search);
+                const matchType = typeF === 'all' || s.type === typeF;
+                const matchStock = stockF === 'all' || (stockF === 'low' ? s.stock < 10 : s.stock >= 10);
+                return matchSearch && matchType && matchStock;
+            });
+
+            if (currentSort) {
+                list = [...list].sort((a, b) => {
+                    if (currentSort === 'name') return a.name.localeCompare(b.name, 'vi') * sortDir;
+                    return (a[currentSort] - b[currentSort]) * sortDir;
+                });
+            }
+            return list;
+        }
+
+        function renderCards() {
+            const filtered = getFiltered();
+            const grid = document.getElementById('cardGrid');
+            const empty = document.getElementById('emptyState');
+            const count = document.getElementById('resultCount');
+
+            count.textContent = `Hiển thị ${filtered.length} / ${services.length} sản phẩm`;
+
+            if (filtered.length === 0) {
+                grid.innerHTML = '';
+                empty.classList.remove('hidden');
+                return;
+            }
+            empty.classList.add('hidden');
+
+            grid.innerHTML = filtered.map(s => {
+                const isLow = s.stock < 10;
+                const stockPct = Math.min(100, Math.round(s.stock / 2));
+                const stockColor = isLow ? '#f43f5e' : s.stock < 30 ? '#f59e0b' : '#10b981';
+                const typeBg = s.type === 'drink'
+                    ? 'border-cyan-500/50 text-cyan-400 bg-cyan-500/10'
+                    : 'border-orange-500/50 text-orange-400 bg-orange-500/10';
+                const typeLabel = s.type === 'drink' ? '🧊 Đồ uống' : '🍽 Thức ăn';
+
+                return `
+        <div class="service-card glass rounded-3xl overflow-hidden cursor-pointer group" onclick="viewDetail(${s.id})">
+            <!-- Image -->
+            <div class="relative overflow-hidden h-40 bg-white/5">
+                <img src="${s.img}" alt="${s.name}"
+                    class="card-img w-full h-full object-cover"
+                    onerror="this.style.display='none'; this.nextElementSibling.style.display='flex'">
+                <div class="w-full h-full bg-gradient-to-br from-purple-900/50 to-slate-900 items-center justify-center text-5xl hidden" style="display:none">
+                    ${s.type === 'drink' ? '🧊' : '🍽'}
+                </div>
+                <!-- Overlay actions -->
+                <div class="card-actions absolute inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center gap-3">
+                    <button onclick="event.stopPropagation(); openFormModal(${s.id})"
+                        class="w-10 h-10 rounded-2xl bg-blue-500/80 hover:bg-blue-500 flex items-center justify-center transition-colors shadow-lg"
+                        title="Chỉnh sửa">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" stroke-width="2"/>
+                        </svg>
+                    </button>
+                    <button onclick="event.stopPropagation(); confirmDelete(${s.id})"
+                        class="w-10 h-10 rounded-2xl bg-rose-500/80 hover:bg-rose-500 flex items-center justify-center transition-colors shadow-lg"
+                        title="Xóa">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" stroke-width="2"/>
+                        </svg>
+                    </button>
+                </div>
+                <!-- Low stock badge -->
+                ${isLow ? `<div class="absolute top-2 left-2 px-2 py-0.5 bg-rose-500 rounded-full text-[9px] font-black uppercase shadow-lg animate-pulse">Sắp hết</div>` : ''}
+                <!-- Type badge -->
+                <div class="absolute top-2 right-2">
+                    <span class="px-2 py-0.5 rounded-full text-[9px] font-black uppercase border ${typeBg} backdrop-blur-sm">${s.type === 'drink' ? 'Uống' : 'Ăn'}</span>
+                </div>
+            </div>
+
+            <!-- Info -->
+            <div class="p-4">
+                <p class="text-[9px] font-black uppercase text-gray-600 tracking-widest mb-0.5">${s.code}</p>
+                <h3 class="font-bold text-sm text-gray-100 leading-tight mb-3 line-clamp-2">${s.name}</h3>
+
+                <!-- Price -->
+                <div class="flex items-baseline justify-between mb-3">
+                    <span class="text-base font-black text-purple-300">${(s.price / 1000).toFixed(0)}<span class="text-xs font-bold text-purple-400">k</span></span>
+                    <span class="text-[10px] text-gray-500">/ ${s.unit}</span>
+                </div>
+
+                <!-- Stock bar -->
+                <div>
+                    <div class="flex justify-between mb-1">
+                        <span class="text-[9px] text-gray-500 uppercase font-bold">Tồn kho</span>
+                        <span class="text-[10px] font-bold" style="color:${stockColor}">${s.stock}</span>
+                    </div>
+                    <div class="h-1 bg-white/10 rounded-full overflow-hidden">
+                        <div class="h-full rounded-full" style="width:${stockPct}%; background:${stockColor}; transition: width 0.6s ease;"></div>
+                    </div>
+                </div>
+            </div>
+        </div>`;
+            }).join('');
+
+            updateStats();
+        }
+
+        function updateStats() {
+            document.getElementById('statTotal').textContent = services.length;
+            document.getElementById('statLow').textContent = services.filter(s => s.stock < 10).length;
+            document.getElementById('statDrink').textContent = services.filter(s => s.type === 'drink').length;
+            document.getElementById('statFood').textContent = services.filter(s => s.type === 'food').length;
+        }
+
+        function openFormModal(id = null) {
+            document.getElementById('serviceForm').reset();
+            document.getElementById('serviceId').value = id || '';
+            document.getElementById('formTitle').innerText = id ? 'Cập nhật dịch vụ' : 'Thêm dịch vụ mới';
+            document.getElementById('imgPreview').classList.add('hidden');
+            document.getElementById('imgPlaceholder').style.display = '';
+
+            if (id) {
+                const s = services.find(x => x.id === id);
+                document.getElementById('serviceCode').value = s.code;
+                document.getElementById('serviceName').value = s.name;
+                document.getElementById('serviceType').value = s.type;
+                document.getElementById('servicePrice').value = s.price;
+                document.getElementById('serviceUnit').value = s.unit;
+                document.getElementById('serviceStock').value = s.stock;
+                document.getElementById('serviceImg').value = s.img || '';
+                if (s.img) {
+                    document.getElementById('imgPreview').src = s.img;
+                    document.getElementById('imgPreview').classList.remove('hidden');
+                    document.getElementById('imgPlaceholder').style.display = 'none';
+                }
+            }
+            checkStockHint();
+            document.getElementById('formModal').classList.remove('hidden');
+        }
+
+        function previewImg() {
+            const url = document.getElementById('serviceImg').value.trim();
+            const img = document.getElementById('imgPreview');
+            const placeholder = document.getElementById('imgPlaceholder');
+            if (url) {
+                img.src = url;
+                img.classList.remove('hidden');
+                placeholder.style.display = 'none';
+            } else {
+                img.classList.add('hidden');
+                placeholder.style.display = '';
+            }
+        }
+
+        function checkStockHint() {
+            const val = parseInt(document.getElementById('serviceStock').value) || 0;
+            document.getElementById('stockHint').classList.toggle('hidden', val >= 10);
+        }
+
+        function saveService(e) {
+            e.preventDefault();
+            const id = document.getElementById('serviceId').value;
+            const data = {
+                code: document.getElementById('serviceCode').value,
+                name: document.getElementById('serviceName').value,
+                type: document.getElementById('serviceType').value,
+                price: parseInt(document.getElementById('servicePrice').value),
+                unit: document.getElementById('serviceUnit').value,
+                stock: parseInt(document.getElementById('serviceStock').value),
+                img: document.getElementById('serviceImg').value.trim()
+            };
+
+            if (id) {
+                const idx = services.findIndex(s => s.id === parseInt(id));
+                services[idx] = { ...services[idx], ...data };
+                showToast('✅', 'Đã cập nhật dịch vụ!');
+            } else {
+                services.push({ id: Date.now(), ...data });
+                showToast('🎉', 'Đã thêm dịch vụ mới!');
+            }
+            closeModal('formModal');
+            renderCards();
+        }
+
+        function confirmDelete(id) {
+            const s = services.find(x => x.id === id);
+            document.getElementById('deleteItemName').textContent = `"${s.name}" sẽ bị xóa vĩnh viễn khỏi kho.`;
+            document.getElementById('confirmDeleteBtn').onclick = () => {
+                services = services.filter(x => x.id !== id);
+                closeModal('deleteModal');
+                renderCards();
+                showToast('🗑', 'Đã xóa sản phẩm!');
+            };
+            document.getElementById('deleteModal').classList.remove('hidden');
+        }
+
+        function viewDetail(id) {
+            const s = services.find(x => x.id === id);
+            document.getElementById('viewName').textContent = s.name;
+            document.getElementById('viewCode').textContent = s.code;
+            document.getElementById('viewImg').src = s.img || '';
+            document.getElementById('viewPrice').textContent = fmt(s.price) + ' / ' + s.unit;
+            document.getElementById('viewUnit').textContent = s.unit;
+            const isLow = s.stock < 10;
+            document.getElementById('viewStock').textContent = s.stock + (isLow ? ' ⚠' : '');
+            document.getElementById('viewStock').className = 'font-bold text-sm ' + (isLow ? 'text-rose-400' : 'text-emerald-400');
+            const pct = Math.min(100, Math.round(s.stock / 2));
+            const color = isLow ? '#f43f5e' : s.stock < 30 ? '#f59e0b' : '#10b981';
+            document.getElementById('viewStockBar').style.width = pct + '%';
+            document.getElementById('viewStockBar').style.background = color;
+            const typeBadge = document.getElementById('viewTypeBadge');
+            if (s.type === 'drink') {
+                typeBadge.className = 'px-2 py-1 rounded-md text-[9px] font-black uppercase border border-cyan-500/50 text-cyan-400 bg-cyan-500/10';
+                typeBadge.textContent = '🧊 Đồ uống';
+            } else {
+                typeBadge.className = 'px-2 py-1 rounded-md text-[9px] font-black uppercase border border-orange-500/50 text-orange-400 bg-orange-500/10';
+                typeBadge.textContent = '🍽 Thức ăn';
+            }
+            document.getElementById('viewEditBtn').onclick = () => { closeModal('viewModal'); openFormModal(id); };
+            document.getElementById('viewModal').classList.remove('hidden');
+        }
+
+        function closeModal(id) { document.getElementById(id).classList.add('hidden'); }
+
+        function showToast(icon, msg) {
+            const toast = document.getElementById('toast');
+            document.getElementById('toastIcon').textContent = icon;
+            document.getElementById('toastMsg').textContent = msg;
+            toast.classList.remove('hidden');
+            clearTimeout(toast._timeout);
+            toast._timeout = setTimeout(() => toast.classList.add('hidden'), 2800);
+        }
+
+        // Init
+        renderCards();
+    </script>
+</body>
+
+</html>
