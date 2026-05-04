@@ -254,17 +254,22 @@
             @click.away="step = 0"
             class="glass-card w-full max-w-lg rounded-[2.5rem] overflow-hidden border border-white/20 shadow-[0_0_60px_rgba(139,92,246,0.3)]">
 
-            <div class="bg-gradient-to-br from-mb-purple-600 to-indigo-700 p-7 text-center relative">
-                <h2 class="text-2xl font-black text-white uppercase tracking-tighter">Xác nhận lịch đặt</h2>
-                <p class="text-mb-purple-100 text-[10px] mt-1 uppercase tracking-[0.2em] font-bold opacity-70">
-                    Chi tiết hợp đồng đặt phòng
-                </p>
-
-                <div
-                    class="absolute top-4 right-4 bg-white/10 backdrop-blur-md border border-white/20 px-3 py-1 rounded-full text-[10px] font-bold">
-                    P.402 - VIP
-                </div>
-            </div>
+            <div class="bg-gradient-to-br from-mb-purple-600 to-indigo-700 p-6 sm:p-7 relative">
+    <div class="flex flex-col sm:flex-row justify-between items-center gap-3 mb-2">
+        <div class="text-center sm:text-left order-2 sm:order-1">
+            <h2 class="text-xl sm:text-2xl font-black text-white uppercase tracking-tighter leading-tight">
+                Xác nhận lịch đặt
+            </h2>
+            <p class="text-mb-purple-100 text-[10px] mt-1 uppercase tracking-[0.15em] font-bold opacity-70">
+                Chi tiết hợp đồng đặt phòng
+            </p>
+        </div>
+        
+        <div class="order-1 sm:order-2 bg-white/10 backdrop-blur-md border border-white/20 px-3 py-1 rounded-full shrink-0">
+            <span class="text-[10px] font-bold text-white whitespace-nowrap">P.402 - VIP</span>
+        </div>
+    </div>
+</div>
 
             <div class="p-8 space-y-6">
                 <div class="grid grid-cols-2 gap-4">
