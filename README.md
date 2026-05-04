@@ -21,8 +21,8 @@ Bộ giao diện mô phỏng hệ thống quản lý và vận hành phòng hát
 
 Vì đây là dự án tĩnh, bạn có thể chạy theo một trong hai cách:
 
-1) Mở trực tiếp file index.html bằng trình duyệt.
-2) Dùng extension Live Server trong VS Code để chạy local server.
+1. Mở trực tiếp file index.html bằng trình duyệt.
+2. Dùng extension Live Server trong VS Code để chạy local server.
 
 Khuyến nghị: dùng Live Server để tránh lỗi đường dẫn tương đối khi điều hướng giữa các trang.
 
@@ -30,24 +30,24 @@ Khuyến nghị: dùng Live Server để tránh lỗi đường dẫn tương đ
 
 - index.html: Trang chủ
 - pages/
-	- bangdieukhien.html: Dashboard quản trị
-	- quanlytaikhoan.html: Quản lý tài khoản
-	- quanlyphong.html: Quản lý phòng
-	- quanlyloaiphong.html: Quản lý loại phòng
-	- quanlydichvu.html: Quản lý dịch vụ
-	- quanlybanggia.html: Quản lý bảng giá
-	- thuephong.html: Thuê phòng
-	- traphong.html: Trả phòng
-	- dichvu.html: Dịch vụ
-	- baohong.html: Báo hỏng
-	- phonghientai.html: Phòng hiện tại
-	- lichsu.html: Lịch sử
-	- trangcanhan.html: Trang cá nhân
-	- dangnhap.html: Đăng nhập
-	- dangky.html: Đăng ký
-	- gioithieuhethong.html: Trang giới thiệu hệ thống (link tới toàn bộ màn hình)
+  - bangdieukhien.html: Dashboard quản trị
+  - quanlytaikhoan.html: Quản lý tài khoản
+  - quanlyphong.html: Quản lý phòng
+  - quanlyloaiphong.html: Quản lý loại phòng
+  - quanlydichvu.html: Quản lý dịch vụ
+  - quanlybanggia.html: Quản lý bảng giá
+  - thuephong.html: Thuê phòng
+  - traphong.html: Trả phòng
+  - dichvu.html: Dịch vụ
+  - baohong.html: Báo hỏng
+  - phonghientai.html: Phòng hiện tại
+  - lichsu.html: Lịch sử
+  - trangcanhan.html: Trang cá nhân
+  - dangnhap.html: Đăng nhập
+  - dangky.html: Đăng ký
+  - gioithieuhethong.html: Trang giới thiệu hệ thống (link tới toàn bộ màn hình)
 - assets/
-	- images/: tài nguyên hình ảnh
+  - images/: tài nguyên hình ảnh
 
 ## Điều hướng hiện tại
 
