@@ -1,0 +1,17 @@
+export { default as BangdieukhienPage } from './BangdieukhienPage';
+export { default as BaohongPage } from './BaohongPage';
+export { default as DangkyPage } from './DangkyPage';
+export { default as DangNhapPage } from './DangNhapPage';
+export { default as DichvuPage } from './DichvuPage';
+export { default as GioiThieuHeThongPage } from './GioiThieuHeThongPage';
+export { default as HomePage } from './HomePage';
+export { default as LichsuPage } from './LichsuPage';
+export { default as PhonghientaiPage } from './PhonghientaiPage';
+export { default as QuanlybanggiaPage } from './QuanlybanggiaPage';
+export { default as QuanlydichvuPage } from './QuanlydichvuPage';
+export { default as QuanlyloaiphongPage } from './QuanlyloaiphongPage';
+export { default as QuanlyphongPage } from './QuanlyphongPage';
+export { default as QuanlytaikhoanPage } from './QuanlytaikhoanPage';
+export { default as ThuephongPage } from './ThuephongPage';
+export { default as TrangcanhanPage } from './TrangcanhanPage';
+export { default as TraphongPage } from './TraphongPage';
