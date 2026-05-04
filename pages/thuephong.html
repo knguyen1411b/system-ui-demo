@@ -6,15 +6,17 @@
     <title>MusicBox - Hệ thống quản lý phòng hát</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        /* 1. KHAI BÁO MÀU SẮC */
+        /* 1. KHAI BÁO MÀU SẮC ĐỒNG BỘ */
         :root {
-            --purple-light: #c4b5fd;
-            --main-purple: #8b5cf6;
-            --purple-dark: #6d28d9;
-            --deep-dark: #1e1b4b;
-            --glass-bg: rgba(255, 255, 255, 0.05);
-            --text-white: #ffffff;
-            --accent-orange: #ff9800;
+            --primary: #8b5cf6;
+            --primary-dark: #6d28d9;
+            --primary-light: #c4b5fd;
+            --bg-deep: #0f172a;
+            --surface: rgba(255, 255, 255, 0.04);
+            --border: rgba(255, 255, 255, 0.1);
+            --text-main: #f1f5f9;
+            --text-dim: #94a3b8;
+            --accent: #fb923c;
             --success: #2ecc71;
             --danger: #ef4444;
         }
@@ -23,108 +25,122 @@
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-family: 'Inter', 'Segoe UI', Roboto, sans-serif;
         }
 
         body {
-            background-color: var(--deep-dark);
-            color: var(--text-white);
+            background-color: var(--bg-deep);
+            background-image:
+                radial-gradient(circle at 20% 30%, rgba(139, 92, 246, 0.1) 0%, transparent 40%),
+                radial-gradient(circle at 80% 70%, rgba(30, 27, 75, 0.2) 0%, transparent 40%);
+            color: var(--text-main);
             display: flex;
             height: 100vh;
             overflow: hidden;
         }
 
-        /* 2. SIDEBAR (Cập nhật theo style mới của bạn) */
+        /* 2. SIDEBAR - ĐÃ CHỈNH GIỐNG Y ĐÚC BẢN TRƯỚC */
         .sidebar {
-            width: 280px;
-            background-color: rgba(0, 0, 0, 0.3);
-            border-right: 1px solid var(--purple-dark);
+            width: 260px;
+            background: rgba(15, 23, 42, 0.95);
+            border-right: 1px solid var(--border);
             display: flex;
             flex-direction: column;
+            backdrop-filter: blur(20px);
         }
 
         .brand {
-            padding: 25px;
+            padding: 40px 20px;
             font-size: 22px;
-            font-weight: bold;
-            color: var(--text-white);
-            letter-spacing: 2px;
-            border-bottom: 1px solid var(--glass-bg);
+            font-weight: 800;
+            color: var(--primary);
             text-align: center;
+            letter-spacing: 4px;
+            border-bottom: 1px solid var(--border);
         }
 
         .user-profile {
-            padding: 20px;
+            margin: 20px;
+            padding: 15px;
+            background: var(--surface);
+            border-radius: 16px;
             display: flex;
             align-items: center;
-            gap: 15px;
-            border-bottom: 1px solid var(--glass-bg);
+            gap: 12px;
+            border: 1px solid var(--border);
         }
 
         .avatar {
-            width: 50px;
-            height: 50px;
-            border-radius: 50%;
-            border: 2px solid var(--main-purple);
-            background: #444;
+            width: 42px;
+            height: 42px;
+            border-radius: 12px;
+            background: linear-gradient(45deg, var(--primary), var(--primary-dark));
             display: flex;
             align-items: center;
             justify-content: center;
+            box-shadow: 0 4px 12px rgba(139, 92, 246, 0.3);
         }
 
-        .user-info .name { font-weight: bold; display: block; }
-        .user-info .role { color: var(--accent-orange); font-size: 13px; }
+        .user-info .name { font-size: 14px; font-weight: 600; display: block; color: var(--text-main); }
+        .user-info .role { font-size: 11px; color: var(--accent); text-transform: uppercase; letter-spacing: 0.5px; }
 
         .menu-container {
+            padding: 10px 15px;
             flex: 1;
             overflow-y: auto;
-            padding-top: 10px;
         }
 
-        .menu-item { border-bottom: 1px solid rgba(255,255,255,0.05); }
+        .menu-item { margin-bottom: 8px; }
 
         .menu-title {
-            padding: 15px 20px;
+            padding: 12px 15px;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            color: var(--accent-orange);
-            font-weight: 500;
-            cursor: pointer;
+            color: var(--text-dim);
+            border-radius: 10px;
             transition: 0.3s;
+            cursor: pointer;
+            font-size: 15px;
+        }
+
+        .menu-title i:first-child { width: 25px; }
+
+        .menu-title:hover, .menu-item.active .menu-title {
+            background: rgba(139, 92, 246, 0.1);
+            color: var(--primary-light);
         }
 
         .submenu {
             display: none;
-            background: rgba(0, 0, 0, 0.2);
+            padding: 5px 0 5px 40px;
         }
 
-        .submenu a { 
-    display: block; 
-    padding: 12px 45px; 
-    color: var(--purple-light); 
-    text-decoration: none; 
-    font-size: 14px;
-    transition: all 0.3s ease; /* Tạo hiệu ứng mượt mà */
-}
-
-.submenu a:hover {
-    /* Màu tím nhạt hơn so với màu hiện tại (var(--purple-light)) */
-    color: #e2e8f0; 
-    /* Chữ to ra một chút */
-    transform: scale(1.05); 
-    /* Đảm bảo chữ không bị mờ khi phóng to */
-    display: inline-block;
-    width: 100%;
-}
-
         .menu-item.active .submenu { display: block; }
-        .menu-item.active .fa-chevron-down { transform: rotate(180deg); }
+
+        .submenu a {
+            display: block;
+            padding: 8px 0;
+            font-size: 13px;
+            color: var(--text-dim);
+            text-decoration: none;
+            transition: 0.3s;
+        }
+
+        .submenu a:hover {
+            color: white;
+            transform: translateX(5px);
+        }
+
+        .submenu a.active-link {
+            color: var(--primary);
+            font-weight: 600;
+        }
 
         /* 3. NỘI DUNG CHÍNH */
         .main-content {
             flex: 1;
-            padding: 40px;
+            padding: 40px 50px;
             overflow-y: auto;
         }
 
@@ -132,45 +148,48 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 30px;
+            margin-bottom: 40px;
         }
 
         h1 {
             font-size: 26px;
-            border-left: 5px solid var(--main-purple);
+            font-weight: 700;
+            border-left: 4px solid var(--primary);
             padding-left: 15px;
-            text-transform: uppercase;
         }
 
         .btn-login {
-            background: var(--main-purple);
+            background: var(--primary);
             color: white;
             border: none;
             padding: 10px 25px;
-            border-radius: 6px;
+            border-radius: 10px;
             font-weight: bold;
             cursor: pointer;
+            transition: 0.3s;
         }
+
+        .btn-login:hover { background: var(--primary-dark); transform: translateY(-2px); }
 
         /* 4. GRID PHÒNG */
         .room-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-            gap: 25px;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 30px;
         }
 
         .room-card {
-            background: var(--glass-bg);
-            border-radius: 12px;
-            border: 1px solid rgba(255,255,255,0.1);
+            background: var(--surface);
+            border-radius: 20px;
+            border: 1px solid var(--border);
             overflow: hidden;
             transition: 0.3s;
         }
 
         .room-card:hover {
-            border-color: var(--main-purple);
-            transform: translateY(-5px);
-            box-shadow: 0 10px 20px rgba(0,0,0,0.3);
+            border-color: var(--primary);
+            transform: translateY(-8px);
+            box-shadow: 0 15px 35px rgba(0,0,0,0.3);
         }
 
         .room-thumb {
@@ -183,52 +202,64 @@
 
         .status-tag {
             position: absolute;
-            top: 10px;
-            right: 10px;
+            top: 15px;
+            right: 15px;
             background: var(--success);
-            padding: 4px 10px;
-            border-radius: 4px;
+            padding: 6px 12px;
+            border-radius: 8px;
             font-size: 11px;
-            font-weight: bold;
+            font-weight: 800;
+            backdrop-filter: blur(4px);
         }
 
-        .room-details { padding: 20px; }
-        .room-details h3 { margin-bottom: 15px; display: flex; justify-content: space-between; }
+        .room-details { padding: 25px; }
+        .room-details h3 {
+            margin-bottom: 20px;
+            display: flex;
+            justify-content: space-between;
+            font-size: 18px;
+        }
 
         .price-row {
             display: flex;
             justify-content: space-between;
-            margin-bottom: 20px;
+            margin-bottom: 25px;
             font-size: 12px;
-            color: var(--purple-light);
-            text-align: center;
+            color: var(--text-dim);
+            background: rgba(255,255,255,0.02);
+            padding: 12px;
+            border-radius: 12px;
         }
 
-        /* 5. ACTION BOX & FORM */
+        .price-row b { color: var(--primary-light); font-size: 14px; display: block; margin-top: 4px; }
+
+        /* 5. ACTION BOX */
         .btn-rent {
             width: 100%;
             background: transparent;
-            border: 1px solid var(--main-purple);
-            color: var(--main-purple);
-            padding: 12px;
-            border-radius: 6px;
-            font-weight: bold;
+            border: 1px solid var(--primary);
+            color: var(--primary-light);
+            padding: 14px;
+            border-radius: 12px;
+            font-weight: 700;
             cursor: pointer;
             transition: 0.3s;
+            text-transform: uppercase;
+            letter-spacing: 1px;
         }
 
-        .btn-rent:hover { background: var(--main-purple); color: white; }
+        .btn-rent:hover { background: var(--primary); color: white; }
 
         .rent-form-container {
             margin-top: 15px;
             padding: 15px;
-            background: rgba(0,0,0,0.2);
-            border-radius: 8px;
+            background: rgba(0,0,0,0.3);
+            border-radius: 12px;
             display: none;
             flex-direction: column;
-            gap: 10px;
-            border: 1px solid var(--purple-dark);
-            animation: slideDown 0.3s ease-out;
+            gap: 12px;
+            border: 1px solid var(--border);
+            animation: slideDown 0.4s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
         @keyframes slideDown {
@@ -237,32 +268,36 @@
         }
 
         .rent-form-container input {
-            background: #000;
-            border: 1px solid #444;
-            padding: 10px;
-            border-radius: 4px;
+            background: #0f172a;
+            border: 1px solid var(--border);
+            padding: 12px;
+            border-radius: 8px;
             color: white;
             outline: none;
         }
 
         .btn-save {
-            background: var(--main-purple);
+            background: var(--primary);
             color: white;
             border: none;
-            padding: 10px;
-            border-radius: 4px;
+            padding: 12px;
+            border-radius: 8px;
             font-weight: bold;
             cursor: pointer;
         }
+
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 10px; }
     </style>
 </head>
 <body>
 
+    <!-- SIDEBAR ĐÃ ĐỒNG BỘ -->
     <div class="sidebar">
         <div class="brand">MUSICBOX</div>
-        
+
         <div class="user-profile">
-            <div class="avatar"><i class="fas fa-user"></i></div>
+            <div class="avatar"><i class="fas fa-user-tie"></i></div>
             <div class="user-info">
                 <span class="name">Nguyễn Quốc Đạt</span>
                 <span class="role">Nhân viên</span>
@@ -272,7 +307,8 @@
         <div class="menu-container">
             <div class="menu-item active">
                 <div class="menu-title" onclick="toggleAccordion(this)">
-                    Quản lý phòng <i class="fas fa-chevron-down"></i>
+                    <span><i class="fas fa-columns"></i> Quản lý phòng</span>
+                    <i class="fas fa-chevron-down" style="font-size: 10px;"></i>
                 </div>
                 <div class="submenu">
                     <a href="./thuephong.html"  style="color:white; font-weight:bold; background: var(--purple-dark);">Thuê phòng</a>
@@ -282,7 +318,8 @@
 
             <div class="menu-item">
                 <div class="menu-title" onclick="toggleAccordion(this)">
-                    Tiếp nhận yêu cầu <i class="fas fa-chevron-down"></i>
+                    <span><i class="fas fa-concierge-bell"></i> Tiếp nhận yêu cầu</span>
+                    <i class="fas fa-chevron-down" style="font-size: 10px;"></i>
                 </div>
                 <div class="submenu">
                     <a href="./dichvu.html">Dịch vụ</a>
@@ -292,54 +329,56 @@
         </div>
     </div>
 
+    <!-- NỘI DUNG CHÍNH -->
     <div class="main-content">
         <div class="header-top">
             <h1>DANH SÁCH PHÒNG HÁT</h1>
-            <button class="btn-login">Đăng nhập</button>
         </div>
 
         <div class="room-grid">
+            <!-- Phòng 402 -->
             <div class="room-card">
                 <div class="room-thumb">
                     <img src="https://images.unsplash.com/photo-1516280440614-37939bbacd81?q=80&w=500" alt="Karaoke Room">
                     <span class="status-tag">TRỐNG</span>
                 </div>
                 <div class="room-details">
-                    <h3>Phòng 402 <span style="color:#f1c40f; font-size: 12px;">VIP</span></h3>
+                    <h3>Phòng 402 <span style="color:var(--accent); font-size: 12px; font-weight: 800;">VIP</span></h3>
                     <div class="price-row">
-                        <div>Ngày thường<br><b>150K/h</b></div>
-                        <div>Cuối tuần<br><b>200K/h</b></div>
-                        <div>Ngày lễ<br><b>300K/h</b></div>
+                        <div>Ngày thường<b>150K/h</b></div>
+                        <div>Cuối tuần<b>200K/h</b></div>
+                        <div>Ngày lễ<b>300K/h</b></div>
                     </div>
                     <div class="action-box">
                         <button class="btn-rent" onclick="openRentForm(this)">THUÊ PHÒNG NGAY</button>
                         <div class="rent-form-container">
-                            <label style="font-size: 13px;">Nhập SĐT khách hàng:</label>
-                            <input type="text" placeholder="Để trống nếu là khách vãng lai">
-                            <button class="btn-save" onclick="handleSave(this)">LƯU THÔNG TIN</button>
+                            <label style="font-size: 12px; color: var(--text-dim);">Số điện thoại khách hàng:</label>
+                            <input type="text" placeholder="Khách vãng lai...">
+                            <button class="btn-save" onclick="handleSave(this)">XÁC NHẬN THUÊ</button>
                         </div>
                     </div>
                 </div>
             </div>
 
+            <!-- Phòng 305 -->
             <div class="room-card">
                 <div class="room-thumb">
                     <img src="https://images.unsplash.com/photo-1598387993441-a364f854c3e1?q=80&w=500" alt="Karaoke Room">
                     <span class="status-tag">TRỐNG</span>
                 </div>
                 <div class="room-details">
-                    <h3>Phòng 305 <span style="color:#f1c40f; font-size: 12px;">VIP</span></h3>
+                    <h3>Phòng 305 <span style="color:var(--accent); font-size: 12px; font-weight: 800;">VIP</span></h3>
                     <div class="price-row">
-                        <div>Ngày thường<br><b>180K/h</b></div>
-                        <div>Cuối tuần<br><b>250K/h</b></div>
-                        <div>Ngày lễ<br><b>350K/h</b></div>
+                        <div>Ngày thường<b>180K/h</b></div>
+                        <div>Cuối tuần<b>250K/h</b></div>
+                        <div>Ngày lễ<b>350K/h</b></div>
                     </div>
                     <div class="action-box">
                         <button class="btn-rent" onclick="openRentForm(this)">THUÊ PHÒNG NGAY</button>
                         <div class="rent-form-container">
-                            <label style="font-size: 13px;">Nhập SĐT khách hàng:</label>
+                            <label style="font-size: 12px; color: var(--text-dim);">Số điện thoại khách hàng:</label>
                             <input type="text" placeholder="...">
-                            <button class="btn-save" onclick="handleSave(this)">LƯU THÔNG TIN</button>
+                            <button class="btn-save" onclick="handleSave(this)">XÁC NHẬN THUÊ</button>
                         </div>
                     </div>
                 </div>
@@ -348,20 +387,17 @@
     </div>
 
     <script>
-        // Xử lý đóng/mở menu sidebar
         function toggleAccordion(element) {
             const menuItem = element.parentElement;
             menuItem.classList.toggle('active');
         }
 
-        // Xử lý hiện Form khi bấm Thuê
         function openRentForm(btn) {
             const formContainer = btn.nextElementSibling;
             formContainer.style.display = "flex";
             btn.style.display = "none";
         }
 
-        // Xử lý Lưu thông tin
         function handleSave(saveBtn) {
             const container = saveBtn.parentElement;
             const inputVal = container.querySelector('input').value;
@@ -371,19 +407,18 @@
             const customer = inputVal.trim() === "" ? "Khách vãng lai" : inputVal;
             alert("Đã lưu thông tin thuê phòng!\nKhách hàng: " + customer);
 
-            // Cập nhật giao diện
             container.style.display = "none";
             rentBtn.style.display = "block";
             rentBtn.innerText = "ĐANG SỬ DỤNG";
             rentBtn.disabled = true;
-            rentBtn.style.background = "rgba(255,255,255,0.1)";
-            rentBtn.style.borderColor = "#444";
-            rentBtn.style.color = "#888";
-            
+            rentBtn.style.background = "rgba(255,255,255,0.05)";
+            rentBtn.style.borderColor = "var(--border)";
+            rentBtn.style.color = "var(--text-dim)";
+
             const card = actionBox.closest('.room-card');
             const tag = card.querySelector('.status-tag');
             tag.innerText = "ĐANG BẬN";
-            tag.style.background = "#ef4444";
+            tag.style.background = "var(--danger)";
         }
     </script>
 </body>
