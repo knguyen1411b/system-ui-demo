@@ -77,10 +77,13 @@
                         class="text-mb-purple-400">BOX</span></span>
             </div>
             <div class="flex items-center gap-4">
-                <button @click="openSupportModal = true"
-                    class="bg-rose-500/20 text-rose-400 border border-rose-500/50 px-4 py-2 rounded-lg text-xs font-bold hover:bg-rose-500 hover:text-white transition-all">
-                    GỌI HỖ TRỢ
-                </button>
+                <div>
+
+                    <button @click="openSupportModal = true"
+                        class="bg-rose-500/20 text-rose-400 border border-rose-500/50 px-4 py-2 rounded-lg text-xs font-bold hover:bg-rose-500 hover:text-white transition-all">
+                        GỌI HỖ TRỢ
+                    </button>
+                </div>
                 <a href="./trangcanhan.html" class="flex items-center gap-4">
                     <div class="flex items-center gap-3 pl-4 border-l border-white/10">
                         <div class="text-right hidden sm:block">
@@ -348,58 +351,75 @@
     </footer>
 
 
+    <div x-show="openSupportModal" x-cloak
+        class="fixed inset-0 z-[9999] flex items-center justify-center px-4 overflow-hidden">
 
-
-    <div x-show="openSupportModal" x-cloak class="fixed inset-0 z-[250] flex items-center justify-center px-4">
         <div @click="openSupportModal = false" x-show="openSupportModal" x-transition.opacity
-            class="absolute inset-0 bg-black/90 backdrop-blur-sm"></div>
+            class="absolute inset-0 bg-black/80 backdrop-blur-md"></div>
 
-        <div x-show="openSupportModal" x-transition.scale.95
-            class="glass-card max-w-md w-full rounded-3xl overflow-hidden relative z-10 border-t-4 border-rose-500">
+        <div x-show="openSupportModal" x-transition:enter="transition ease-out duration-300"
+            x-transition:enter-start="opacity-0 scale-90" x-transition:enter-end="opacity-100 scale-100"
+            class="glass-card max-w-md w-full rounded-3xl overflow-hidden relative z-10 border border-white/10 bg-[#161b2e] shadow-2xl">
+
+            <div class="flex border-b border-white/5 bg-white/5">
+                <button @click="supportActiveTab = 'new'"
+                    :class="supportActiveTab === 'new' ? 'border-b-2 border-rose-500 text-white font-bold' : 'text-gray-500'"
+                    class="flex-1 py-4 text-[10px] uppercase tracking-widest transition-all">
+                    Gửi yêu cầu
+                </button>
+                <button @click="supportActiveTab = 'history'"
+                    :class="supportActiveTab === 'history' ? 'border-b-2 border-rose-500 text-white font-bold' : 'text-gray-500'"
+                    class="flex-1 py-4 text-[10px] uppercase tracking-widest transition-all">
+                    Lịch sử
+                </button>
+            </div>
+
             <div class="p-8">
-                <div class="flex items-center gap-4 mb-6">
-                    <div class="w-12 h-12 bg-rose-500/20 rounded-2xl flex items-center justify-center text-rose-500">
-                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                d="M18.364 5.636l-3.536 3.536m0 5.656l3.536 3.536M9.172 9.172L5.636 5.636m3.536 9.192l-3.536 3.536M21 12a9 9 0 11-18 0 9 9 0 0118 0zm-5 0a4 4 0 11-8 0 4 4 0 018 0z">
-                            </path>
-                        </svg>
-                    </div>
-                    <div>
-                        <h3 class="text-xl font-black uppercase tracking-tight">Yêu cầu hỗ trợ</h3>
-                        <p class="text-gray-400 text-xs">Nhân viên sẽ có mặt trong ít phút</p>
-                    </div>
-                </div>
-
-                <div class="space-y-4">
-                    <div>
-                        <label class="text-[10px] font-bold text-gray-500 uppercase tracking-widest ml-1">Vị trí
-                            phòng</label>
+                <div x-show="supportActiveTab === 'new'">
+                    <div class="flex items-center gap-4 mb-6">
                         <div
-                            class="mt-1 bg-white/5 border border-white/10 px-4 py-3 rounded-xl font-bold text-rose-400">
-                            Phòng 402 (VIP)
+                            class="w-12 h-12 bg-rose-500/20 rounded-2xl flex items-center justify-center text-rose-500">
+                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M18.364 5.636l-3.536 3.536m0 5.656l3.536 3.536M9.172 9.172L5.636 5.636m3.536 9.192l-3.536 3.536M21 12a9 9 0 11-18 0 9 9 0 0118 0zm-5 0a4 4 0 11-8 0 4 4 0 018 0z">
+                                </path>
+                            </svg>
+                        </div>
+                        <div>
+                            <h3 class="text-lg font-bold text-white">Yêu cầu hỗ trợ</h3>
+                            <p class="text-gray-400 text-xs">Phòng 402 • Music Box</p>
                         </div>
                     </div>
 
-                    <div>
-                        <label class="text-[10px] font-bold text-gray-500 uppercase tracking-widest ml-1">Nội dung / Ghi
-                            chú</label>
-                        <textarea x-model="supportNote" rows="4"
-                            placeholder="VD: Điều hòa quá lạnh, lỗi mic, cần thêm hóa đơn..."
-                            class="mt-1 w-full bg-white/5 border border-white/10 px-4 py-3 rounded-xl text-sm focus:border-rose-500 outline-none transition-all placeholder:text-gray-600"></textarea>
-                    </div>
+                    <textarea x-model="supportNote" rows="4" placeholder="Mô tả vấn đề bạn gặp phải..."
+                        class="w-full bg-black/20 border border-white/10 px-4 py-3 rounded-xl text-sm text-white focus:border-rose-500 outline-none mb-4"></textarea>
 
-                    <div class="flex flex-col gap-3 pt-2">
-                        <button @click="sendSupportRequest()"
-                            class="w-full py-4 bg-rose-500 hover:bg-rose-600 rounded-xl font-black text-xs uppercase tracking-widest shadow-lg shadow-rose-500/20 transition-all">
-                            Gửi yêu cầu ngay
-                        </button>
-                        <button @click="openSupportModal = false"
-                            class="w-full py-2 text-gray-500 hover:text-white text-[10px] font-bold uppercase tracking-widest transition-all">
-                            Để sau
-                        </button>
+                    <button @click="sendSupportRequest()"
+                        class="w-full py-4 bg-rose-500 hover:bg-rose-600 rounded-xl font-black text-xs uppercase tracking-widest text-white transition-all shadow-lg shadow-rose-500/20">
+                        GỬI YÊU CẦU NGAY
+                    </button>
+                </div>
+
+                <div x-show="supportActiveTab === 'history'">
+                    <div class="space-y-3 max-h-[300px] overflow-y-auto custom-scrollbar pr-2">
+                        <template x-for="item in supportHistory" :key="item.id">
+                            <div class="bg-white/5 p-4 rounded-2xl border border-white/5">
+                                <div class="flex justify-between mb-1">
+                                    <span class="text-[10px] text-gray-500" x-text="item.time"></span>
+                                    <span :class="item.statusColor"
+                                        class="text-[9px] font-bold px-2 py-0.5 rounded-full uppercase"
+                                        x-text="item.status"></span>
+                                </div>
+                                <p class="text-sm text-gray-200" x-text="item.content"></p>
+                            </div>
+                        </template>
                     </div>
                 </div>
+
+                <button @click="openSupportModal = false"
+                    class="w-full mt-6 text-gray-500 hover:text-white text-[10px] font-bold uppercase tracking-widest">
+                    Đóng cửa sổ
+                </button>
             </div>
         </div>
     </div>
@@ -427,6 +447,14 @@
                     { id: 10, type: 'drink', name: 'Rượu vang đỏ', price: 850000, img: 'https://images.unsplash.com/photo-1510812431401-41d2bd2722f3?w=400' },
                     { id: 11, type: 'food', name: 'Đậu phộng rang muối', price: 25000, img: 'https://cdn2.fptshop.com.vn/unsafe/1920x0/filters:format(webp):quality(75)/2024_5_13_638511979750318955_lac-rang-muoi-duong-1.jpg' },
                     { id: 12, type: 'drink', name: 'Soda chanh', price: 30000, img: 'https://images.unsplash.com/photo-1513558161293-cdaf765ed2fd?w=400' }
+                ],
+
+                openSupportModal: false, // Quản lý đóng mở modal hỗ trợ
+                supportActiveTab: 'new', // Quản lý tab bên trong modal (Gửi yêu cầu/Lịch sử)
+                supportNote: '',
+                supportHistory: [
+                    { id: 1, time: '14:20', content: 'Lỗi micro phòng 402', status: 'Đã xử lý', statusColor: 'bg-emerald-500/20 text-emerald-400' },
+                    { id: 2, time: '14:45', content: 'Cần thêm khăn giấy', status: 'Đang đến', statusColor: 'bg-amber-500/20 text-amber-400' }
                 ],
 
                 orderedServices: [
@@ -522,17 +550,21 @@
                 supportNote: '', // Lưu ghi chú hỗ trợ
 
                 sendSupportRequest() {
-                    // Logic gửi yêu cầu hỗ trợ (gọi API hoặc thông báo)
-                    console.log("Yêu cầu hỗ trợ từ Phòng 402:", this.supportNote);
+                    if (this.supportNote.trim() === '') return;
 
-                    // Reset và đóng modal
+                    this.supportHistory.unshift({
+                        id: Date.now(),
+                        time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
+                        content: this.supportNote,
+                        status: 'Đang chờ',
+                        statusColor: 'bg-amber-500/20 text-amber-400'
+                    });
+
                     this.supportNote = '';
                     this.openSupportModal = false;
-
-                    // Hiển thị thông báo thành công
                     this.showSuccess = true;
                     setTimeout(() => this.showSuccess = false, 3000);
-                },
+                }
             }
         }
     </script>
