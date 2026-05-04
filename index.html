@@ -249,35 +249,96 @@
     <div x-show="step > 0" x-cloak
         class="fixed inset-0 z-[110] bg-black/80 backdrop-blur-sm flex items-center justify-center p-4">
 
-        <div x-show="step === 1" class="glass-card w-full max-w-md rounded-3xl p-8 border-mb-purple-500/30 shadow-2xl"
-            @click.away="step = 0">
-            <h2 class="text-2xl font-black mb-4 text-center">XÁC NHẬN ĐẶT PHÒNG</h2>
+        <div x-show="step === 1" x-transition:enter="transition ease-out duration-300"
+            x-transition:enter-start="opacity-0 scale-90" x-transition:enter-end="opacity-100 scale-100"
+            @click.away="step = 0"
+            class="glass-card w-full max-w-lg rounded-[2.5rem] overflow-hidden border border-white/20 shadow-[0_0_60px_rgba(139,92,246,0.3)]">
 
-            <template x-if="selectedRoom">
-                <div class="space-y-4 mb-8">
-                    <div class="flex justify-between items-center p-3 bg-white/5 rounded-xl">
-                        <span class="text-gray-400">Phòng:</span>
-                        <span class="font-bold text-mb-purple-400"
-                            x-text="'Phòng ' + selectedRoom.id + ' (' + selectedRoom.loai + ')'"></span>
+            <div class="bg-gradient-to-br from-mb-purple-600 to-indigo-700 p-7 text-center relative">
+                <h2 class="text-2xl font-black text-white uppercase tracking-tighter">Xác nhận lịch đặt</h2>
+                <p class="text-mb-purple-100 text-[10px] mt-1 uppercase tracking-[0.2em] font-bold opacity-70">
+                    Chi tiết hợp đồng đặt phòng
+                </p>
+
+                <div
+                    class="absolute top-4 right-4 bg-white/10 backdrop-blur-md border border-white/20 px-3 py-1 rounded-full text-[10px] font-bold">
+                    P.402 - VIP
+                </div>
+            </div>
+
+            <div class="p-8 space-y-6">
+                <div class="grid grid-cols-2 gap-4">
+                    <div class="space-y-1.5">
+                        <label class="text-[10px] font-bold text-gray-500 uppercase tracking-widest ml-1">Tên khách
+                            hàng</label>
+                        <input type="text" value="Nguyễn Hoàng Nam" disabled
+                            class="w-full bg-white/5 border border-white/10 rounded-2xl px-4 py-3 text-sm text-white focus:outline-none">
                     </div>
-                    <div class="flex justify-between items-center p-3 bg-white/5 rounded-xl">
-                        <span class="text-gray-400">Giá cọc:</span>
-                        <span class="font-bold text-xl text-emerald-400"
-                            x-text="selectedRoom.loai === 'VIP' ? '200.000đ' : '100.000đ'"></span>
-                    </div>
-                    <div class="p-3 bg-rose-500/10 border border-rose-500/20 rounded-xl text-center">
-                        <p class="text-xs text-rose-400 font-semibold italic uppercase">⚠️ Thanh toán ngay trong 5 phút
-                            để giữ phòng</p>
+                    <div class="space-y-1.5">
+                        <label class="text-[10px] font-bold text-gray-500 uppercase tracking-widest ml-1">Số điện
+                            thoại</label>
+                        <input type="text" value="0987 654 321" disabled
+                            class="w-full bg-white/5 border border-white/10 rounded-2xl px-4 py-3 text-sm text-white focus:outline-none">
                     </div>
                 </div>
-            </template>
 
-            <div class="grid grid-cols-2 gap-3">
-                <button @click="step = 0"
-                    class="py-3 rounded-xl bg-white/5 hover:bg-white/10 font-bold transition-all">Để sau</button>
-                <button @click="step = 2"
-                    class="py-3 rounded-xl bg-mb-purple-600 hover:bg-mb-purple-500 font-bold shadow-lg shadow-mb-purple-600/30 transition-all">Thanh
-                    toán ngay</button>
+                <div class="space-y-4">
+                    <div class="space-y-1.5">
+                        <label class="text-[10px] font-bold text-mb-purple-400 uppercase tracking-widest ml-1">Ngày sử
+                            dụng</label>
+                        <input type="date" value="2026-05-04" disabled
+                            class="w-full bg-white/5 border border-white/10 rounded-2xl px-4 py-3 text-sm text-white [color-scheme:dark] focus:outline-none">
+                    </div>
+
+                    <div class="grid grid-cols-2 gap-4 relative">
+                        <div class="space-y-1.5">
+                            <label class="text-[10px] font-bold text-gray-500 uppercase tracking-widest ml-1">Giờ bắt
+                                đầu</label>
+                            <input type="time" value="19:30" disabled
+                                class="w-full bg-white/5 border border-white/10 rounded-2xl px-4 py-3 text-sm text-white [color-scheme:dark] focus:outline-none font-bold">
+                        </div>
+
+                        <div class="space-y-1.5">
+                            <label class="text-[10px] font-bold text-gray-500 uppercase tracking-widest ml-1">Giờ kết
+                                thúc</label>
+                            <input type="time" value="22:30" disabled
+                                class="w-full bg-mb-purple-500/10 border border-mb-purple-500/40 rounded-2xl px-4 py-3 text-sm text-mb-purple-400 [color-scheme:dark] focus:outline-none font-black">
+                        </div>
+                    </div>
+
+                    <div class="flex justify-center">
+                        <div
+                            class="bg-emerald-500/10 border border-emerald-500/20 px-4 py-1.5 rounded-full flex items-center gap-2">
+                            <span class="w-1.5 h-1.5 bg-emerald-500 rounded-full animate-pulse"></span>
+                            <span class="text-[11px] font-bold text-emerald-400 uppercase tracking-tight">Tổng thời
+                                lượng dự kiến: 03 Giờ</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div
+                    class="bg-gradient-to-r from-white/5 to-transparent border border-white/10 rounded-[1.5rem] p-5 flex justify-between items-center">
+                    <div>
+                        <span class="text-[10px] text-gray-400 uppercase font-bold tracking-widest">Tiền cọc giữ
+                            chỗ</span>
+                        <p class="text-[10px] text-rose-400 italic mt-0.5">* Khấu trừ trực tiếp vào hóa đơn</p>
+                    </div>
+                    <div class="text-right">
+                        <span class="text-3xl font-black text-white">200.000đ</span>
+                    </div>
+                </div>
+
+                <div class="flex flex-col gap-3 pt-2">
+                    <button @click="step = 2"
+                        class="w-full py-4 rounded-2xl bg-mb-purple-600 font-bold text-white text-[11px] uppercase tracking-[0.2em] shadow-lg shadow-mb-purple-900/40 hover:bg-mb-purple-500 transition-all">
+                        Thanh toán ngay
+                    </button>
+
+                    <button @click="step = 0"
+                        class="w-full py-3 rounded-2xl bg-transparent border border-white/10 font-bold text-gray-500 text-[10px] uppercase tracking-[0.2em] hover:bg-white/5 transition-all">
+                        Hủy bỏ (Quay lại)
+                    </button>
+                </div>
             </div>
         </div>
 
