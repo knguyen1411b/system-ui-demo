@@ -6,166 +6,159 @@
     <title>MusicBox - Trả phòng & Thanh toán</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        /* 1. KHAI BÁO MÀU SẮC */
+        /* 1. KHAI BÁO MÀU SẮC ĐỒNG BỘ */
         :root {
-            --purple-light: #c4b5fd;
-            --main-purple: #8b5cf6;
-            --purple-dark: #6d28d9;
-            --deep-dark: #1e1b4b;
-            --glass-bg: rgba(255, 255, 255, 0.05);
-            --text-white: #ffffff;
-            --accent-orange: #ff9800;
+            --primary: #8b5cf6;
+            --primary-dark: #6d28d9;
+            --primary-light: #c4b5fd;
+            --bg-deep: #0f172a;
+            --surface: rgba(255, 255, 255, 0.04);
+            --border: rgba(255, 255, 255, 0.1);
+            --text-main: #f1f5f9;
+            --text-dim: #94a3b8;
+            --accent: #fb923c;
             --danger: #ef4444;
+            --success: #2ecc71;
         }
 
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-family: 'Inter', 'Segoe UI', Roboto, sans-serif;
         }
 
         body {
-            background-color: var(--deep-dark);
-            color: var(--text-white);
+            background-color: var(--bg-deep);
+            background-image:
+                radial-gradient(circle at 20% 30%, rgba(139, 92, 246, 0.1) 0%, transparent 40%),
+                radial-gradient(circle at 80% 70%, rgba(30, 27, 75, 0.2) 0%, transparent 40%);
+            color: var(--text-main);
             display: flex;
             height: 100vh;
             overflow: hidden;
         }
 
-        /* 2. SIDEBAR (Đồng bộ với trang Danh sách phòng) */
+        /* 2. SIDEBAR - ĐỒNG BỘ Y ĐÚC */
         .sidebar {
-            width: 280px;
-            background-color: rgba(0, 0, 0, 0.3);
-            border-right: 1px solid var(--purple-dark);
+            width: 260px;
+            background: rgba(15, 23, 42, 0.95);
+            border-right: 1px solid var(--border);
             display: flex;
             flex-direction: column;
+            backdrop-filter: blur(20px);
+            z-index: 100;
         }
 
         .brand {
-            padding: 25px;
+            padding: 40px 20px;
             font-size: 22px;
-            font-weight: bold;
-            color: var(--text-white);
-            letter-spacing: 2px;
-            border-bottom: 1px solid var(--glass-bg);
+            font-weight: 800;
+            color: var(--primary);
             text-align: center;
+            letter-spacing: 4px;
+            border-bottom: 1px solid var(--border);
         }
 
         .user-profile {
-            padding: 20px;
+            margin: 20px;
+            padding: 15px;
+            background: var(--surface);
+            border-radius: 16px;
             display: flex;
             align-items: center;
-            gap: 15px;
-            border-bottom: 1px solid var(--glass-bg);
+            gap: 12px;
+            border: 1px solid var(--border);
         }
 
         .avatar {
-            width: 50px;
-            height: 50px;
-            border-radius: 50%;
-            border: 2px solid var(--main-purple);
-            background: #444;
+            width: 42px;
+            height: 42px;
+            border-radius: 12px;
+            background: linear-gradient(45deg, var(--primary), var(--primary-dark));
             display: flex;
             align-items: center;
             justify-content: center;
+            box-shadow: 0 4px 12px rgba(139, 92, 246, 0.3);
         }
 
-        .user-info .name {
-            font-weight: bold;
-            display: block;
-        }
-
-        .user-info .role {
-            color: var(--accent-orange);
-            font-size: 13px;
-        }
+        .user-info .name { font-size: 14px; font-weight: 600; display: block; color: var(--text-main); }
+        .user-info .role { font-size: 11px; color: var(--accent); text-transform: uppercase; letter-spacing: 0.5px; }
 
         .menu-container {
+            padding: 10px 15px;
             flex: 1;
             overflow-y: auto;
-            padding-top: 10px;
         }
 
-        .menu-item {
-            border-bottom: 1px solid rgba(255,255,255,0.05);
-        }
+        .menu-item { margin-bottom: 8px; }
 
         .menu-title {
-            padding: 15px 20px;
+            padding: 12px 15px;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            color: var(--accent-orange);
-            font-weight: 500;
-            cursor: pointer;
+            color: var(--text-dim);
+            border-radius: 10px;
             transition: 0.3s;
+            cursor: pointer;
+            font-size: 15px;
         }
 
-        .menu-title:hover {
-            background: var(--glass-bg);
+        .menu-title i:first-child { width: 25px; }
+
+        .menu-title:hover, .menu-item.active .menu-title {
+            background: rgba(139, 92, 246, 0.1);
+            color: var(--primary-light);
         }
 
         .submenu {
             display: none;
-            background: rgba(0, 0, 0, 0.2);
+            padding: 5px 0 5px 40px;
         }
 
-        .submenu a { 
-    display: block; 
-    padding: 12px 45px; 
-    color: var(--purple-light); 
-    text-decoration: none; 
-    font-size: 14px;
-    transition: all 0.3s ease; /* Tạo hiệu ứng mượt mà */
-}
+        .menu-item.active .submenu { display: block; }
 
-.submenu a:hover {
-    /* Màu tím nhạt hơn so với màu hiện tại (var(--purple-light)) */
-    color: #e2e8f0; 
-    /* Chữ to ra một chút */
-    transform: scale(1.05); 
-    /* Đảm bảo chữ không bị mờ khi phóng to */
-    display: inline-block;
-    width: 100%;
-}
-
-/* Giữ nguyên các phần khác, không thêm hover vào .menu-title */
-.menu-title:hover {
-    transform: none;
-    color: var(--accent-orange);
-}
-
-        .menu-item.active .submenu {
+        .submenu a {
             display: block;
+            padding: 8px 0;
+            font-size: 13px;
+            color: var(--text-dim);
+            text-decoration: none;
+            transition: 0.3s;
         }
-        .menu-item.active .fa-chevron-down {
-            transform: rotate(180deg);
+
+        .submenu a:hover {
+            color: white;
+            transform: translateX(5px);
+        }
+
+        .submenu a.active-link {
+            color: var(--primary);
+            font-weight: 600;
         }
 
         /* 3. NỘI DUNG CHÍNH */
         .main-content {
             flex: 1;
-            padding: 40px;
+            padding: 40px 50px;
             overflow-y: auto;
         }
 
-        .header-top {
-            margin-bottom: 25px;
-        }
-
+        .header-top { margin-bottom: 30px; }
         h1 {
             font-size: 26px;
-            border-left: 5px solid var(--main-purple);
+            font-weight: 700;
+            border-left: 4px solid var(--primary);
             padding-left: 15px;
             text-transform: uppercase;
         }
 
         /* NAVBAR FILTER */
         .navbar-filter {
-            background: rgba(255, 255, 255, 0.03);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 12px;
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 16px;
             padding: 15px 20px;
             margin-bottom: 35px;
             display: flex;
@@ -173,62 +166,115 @@
             align-items: center;
         }
         .search-box { position: relative; flex: 2; }
-        .search-box i { position: absolute; left: 15px; top: 50%; transform: translateY(-50%); color: var(--purple-light); }
-        .search-box input { width: 100%; background: rgba(0,0,0,0.2); border: 1px solid #444; padding: 10px 40px; border-radius: 8px; color: white; outline: none; }
-        .filter-select { flex: 1; background: rgba(0,0,0,0.2); border: 1px solid #444; padding: 10px; border-radius: 8px; color: white; cursor: pointer; }
+        .search-box i { position: absolute; left: 15px; top: 50%; transform: translateY(-50%); color: var(--primary-light); }
+        .search-box input {
+            width: 100%;
+            background: rgba(0,0,0,0.2);
+            border: 1px solid var(--border);
+            padding: 12px 45px;
+            border-radius: 10px;
+            color: white;
+            outline: none;
+        }
+        .filter-select {
+    flex: 1;
+    background: rgba(15, 23, 42, 0.8); /* Màu nền tối sâu */
+    border: 1px solid var(--border);
+    padding: 12px;
+    border-radius: 10px;
+    color: var(--primary-light); /* Chữ màu tím nhạt cho sang */
+    cursor: pointer;
+    outline: none;
+    transition: all 0.3s ease;
+    font-weight: 500;
+    appearance: none; /* Xóa bỏ style mặc định của trình duyệt */
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%23c4b5fd'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='C19 9l-7 7-7-7'%3E%3C/path%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 12px center;
+    background-size: 16px;
+}
 
-        /* ROOM BOXES */
+.filter-select:hover {
+    border-color: var(--primary);
+    background-color: rgba(30, 41, 59, 1);
+    box-shadow: 0 0 10px rgba(139, 92, 246, 0.2);
+}
+
+.filter-select option {
+    background: #1e293b; /* Màu nền của menu xổ xuống */
+    color: white;
+    padding: 10px;
+}
+
+        /* ROOM GRID */
         .room-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(340px, 1fr)); gap: 25px; }
-        .room-card { 
-            background: linear-gradient(145deg, rgba(255,255,255,0.1), rgba(255,255,255,0.02));
-            border: 1px solid rgba(255,255,255,0.1);
-            border-radius: 16px; padding: 25px; transition: all 0.3s ease;
+        .room-card {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 20px;
+            padding: 25px;
+            transition: 0.3s;
         }
-        .room-card:hover { transform: translateY(-8px); border-color: var(--main-purple); box-shadow: 0 15px 30px rgba(139, 92, 246, 0.2); }
+        .room-card:hover {
+            transform: translateY(-8px);
+            border-color: var(--primary);
+            box-shadow: 0 15px 30px rgba(139, 92, 246, 0.2);
+        }
         .room-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 20px; }
-        .room-id { background: var(--main-purple); padding: 5px 12px; border-radius: 6px; font-weight: bold; font-size: 14px; }
-        .room-status { color: var(--danger); font-size: 12px; font-weight: bold; text-transform: uppercase; }
+        .room-id { background: var(--primary); padding: 6px 12px; border-radius: 8px; font-weight: 800; font-size: 13px; }
+        .room-status { color: var(--danger); font-size: 11px; font-weight: 800; text-transform: uppercase; letter-spacing: 1px; }
 
-        .info-row { display: flex; align-items: center; gap: 10px; margin-bottom: 8px; color: #ddd; font-size: 14px; }
-        .info-row b { color: white; }
-        .service-list { background: rgba(0,0,0,0.2); padding: 12px; border-radius: 8px; margin-bottom: 20px; border-left: 3px solid var(--accent-orange); }
-        .service-list p { font-size: 13px; color: #bbb; }
-
-        .btn-check-out { 
-            width: 100%; background: var(--danger); color: white; border: none; padding: 14px; 
-            border-radius: 8px; cursor: pointer; font-weight: bold; font-size: 15px;
-            display: flex; align-items: center; justify-content: center; gap: 10px;
+        .info-row { display: flex; align-items: center; gap: 10px; margin-bottom: 12px; color: var(--text-dim); font-size: 14px; }
+        .info-row b { color: var(--text-main); }
+        .service-list {
+            background: rgba(255,255,255,0.02);
+            padding: 15px;
+            border-radius: 12px;
+            margin-bottom: 25px;
+            border-left: 3px solid var(--accent);
         }
+        .service-list p { font-size: 13px; color: var(--text-dim); line-height: 1.5; }
+
+        .btn-check-out {
+            width: 100%; background: var(--danger); color: white; border: none; padding: 14px;
+            border-radius: 12px; cursor: pointer; font-weight: 800; font-size: 14px;
+            display: flex; align-items: center; justify-content: center; gap: 10px;
+            transition: 0.3s;
+        }
+        .btn-check-out:hover { background: #dc2626; transform: scale(1.02); }
 
         /* MODAL INVOICE */
-        .invoice-overlay { position: fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.85); display:none; justify-content:center; align-items:center; z-index:9999; }
-        .invoice-card { background:#fff; color:#333; width:550px; padding:40px; border-radius:8px; box-shadow: 0 10px 40px rgba(0,0,0,0.5); }
+        .invoice-overlay { position: fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.9); display:none; justify-content:center; align-items:center; z-index:9999; backdrop-filter: blur(5px); }
+        .invoice-card { background:#fff; color:#333; width:550px; padding:40px; border-radius:16px; box-shadow: 0 25px 50px rgba(0,0,0,0.5); }
         .inv-header { text-align: center; margin-bottom: 25px; border-bottom: 2px solid #333; padding-bottom: 15px; }
-        .inv-header h2 { font-size: 22px; font-weight: 800; margin-bottom: 5px; }
-        .inv-header p { font-size: 14px; color: #666; }
-        .inv-info { margin-bottom: 20px; font-size: 15px; line-height: 1.6; }
+        .inv-header h2 { font-size: 20px; font-weight: 800; margin-bottom: 5px; color: #000; }
+        .inv-header p { font-size: 13px; color: #666; }
+        .inv-info { margin-bottom: 20px; font-size: 14px; line-height: 1.8; }
         .inv-info b { color: #000; }
         .inv-table { width: 100%; border-collapse: collapse; margin-bottom: 20px; }
-        .inv-table th { border-bottom: 2px solid #eee; padding: 10px 5px; text-align: left; font-size: 14px; color: #888; }
+        .inv-table th { border-bottom: 2px solid #eee; padding: 10px 5px; text-align: left; font-size: 12px; color: #888; text-transform: uppercase; }
         .inv-table td { padding: 12px 5px; border-bottom: 1px solid #f5f5f5; font-size: 14px; }
         .text-right { text-align: right; }
         .inv-summary { border-top: 2px solid #333; padding-top: 15px; }
-        .sum-row { display: flex; justify-content: space-between; margin-bottom: 8px; font-size: 15px; }
-        .points-row { display: flex; align-items: center; gap: 10px; }
-        .points-row input { width: 80px; padding: 5px; border: 1px solid #ccc; border-radius: 4px; text-align: center; font-weight: bold; }
-        .total-pay { display: flex; justify-content: space-between; margin-top: 15px; padding-top: 15px; border-top: 1px dashed #ccc; font-size: 20px; font-weight: 800; color: #000; }
+        .sum-row { display: flex; justify-content: space-between; margin-bottom: 8px; font-size: 14px; }
+        .points-row input { width: 70px; padding: 5px; border: 1px solid #ccc; border-radius: 4px; text-align: center; }
+        .total-pay { display: flex; justify-content: space-between; margin-top: 15px; padding-top: 15px; border-top: 1px dashed #ccc; font-size: 22px; font-weight: 900; color: #d32f2f; }
         .inv-actions { display: flex; gap: 10px; margin-top: 30px; }
-        .btn-print { flex: 2; background: #000; color: #fff; border: none; padding: 15px; border-radius: 4px; font-weight: bold; cursor: pointer; }
-        .btn-close-inv { flex: 1; background: #eee; color: #333; border: none; padding: 15px; border-radius: 4px; font-weight: bold; cursor: pointer; }
+        .btn-print { flex: 2; background: #000; color: #fff; border: none; padding: 15px; border-radius: 8px; font-weight: bold; cursor: pointer; }
+        .btn-close-inv { flex: 1; background: #f3f4f6; color: #333; border: none; padding: 15px; border-radius: 8px; font-weight: bold; cursor: pointer; }
+
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 10px; }
     </style>
 </head>
 <body>
 
+    <!-- SIDEBAR ĐÃ ĐỒNG BỘ -->
     <div class="sidebar">
         <div class="brand">MUSICBOX</div>
-        
+
         <div class="user-profile">
-            <div class="avatar"><i class="fas fa-user"></i></div>
+            <div class="avatar"><i class="fas fa-user-tie"></i></div>
             <div class="user-info">
                 <span class="name">Nguyễn Quốc Đạt</span>
                 <span class="role">Nhân viên</span>
@@ -238,7 +284,8 @@
         <div class="menu-container">
             <div class="menu-item active">
                 <div class="menu-title" onclick="toggleAccordion(this)">
-                    Quản lý phòng <i class="fas fa-chevron-down"></i>
+                    <span><i class="fas fa-columns"></i> Quản lý phòng</span>
+                    <i class="fas fa-chevron-down" style="font-size: 10px;"></i>
                 </div>
                 <div class="submenu">
                     <a href="./thuephong.html">Thuê phòng</a>
@@ -248,7 +295,8 @@
 
             <div class="menu-item">
                 <div class="menu-title" onclick="toggleAccordion(this)">
-                    Tiếp nhận yêu cầu <i class="fas fa-chevron-down"></i>
+                    <span><i class="fas fa-concierge-bell"></i> Tiếp nhận yêu cầu</span>
+                    <i class="fas fa-chevron-down" style="font-size: 10px;"></i>
                 </div>
                 <div class="submenu">
                     <a href="./dichvu.html">Dịch vụ</a>
@@ -258,6 +306,7 @@
         </div>
     </div>
 
+    <!-- NỘI DUNG CHÍNH -->
     <div class="main-content">
         <div class="header-top">
             <h1>DANH SÁCH PHÒNG ĐANG HÁT</h1>
@@ -268,8 +317,21 @@
                 <i class="fas fa-search"></i>
                 <input type="text" placeholder="Tìm theo tên khách hoặc số phòng...">
             </div>
-            <select class="filter-select"><option>Tất cả tầng</option></select>
-            <select class="filter-select"><option>VIP</option></select>
+            <!-- Bộ lọc Tầng -->
+<select class="filter-select">
+    <option value="">Tất cả tầng</option>
+    <option value="1">Tầng 1</option>
+    <option value="2">Tầng 2</option>
+    <option value="3">Tầng 3</option>
+    <option value="4">Tầng 4</option>
+</select>
+
+<!-- Bộ lọc Loại phòng -->
+<select class="filter-select">
+    <option value="">Tất cả loại phòng</option>
+    <option value="thuong">Phòng thường</option>
+    <option value="vip">Phòng VIP</option>
+</select>
         </div>
 
         <div class="room-grid">
@@ -281,10 +343,10 @@
                 <div class="customer-info">
                     <div class="info-row"><i class="fas fa-user"></i> Khách hàng: <b>Nguyễn Quốc Đạt</b></div>
                     <div class="info-row"><i class="fas fa-phone"></i> SĐT: <b>0905 123 456</b></div>
-                    <div class="info-row"><i class="fas fa-hourglass-half"></i> Đã dùng: <b style="color:var(--main-purple)">02 giờ 30 phút</b></div>
+                    <div class="info-row"><i class="fas fa-hourglass-half"></i> Đã dùng: <b style="color:var(--primary-light)">02 giờ 30 phút</b></div>
                 </div>
                 <div class="service-list">
-                    <p><b>Dịch vụ:</b> Bia Tiger, Trái cây, Snack...</p>
+                    <p><b>Dịch vụ đang dùng:</b><br>Bia Tiger (6 lon), Trái cây đĩa lớn, Snack Oishi (3 gói).</p>
                 </div>
                 <button class="btn-check-out" onclick="openInvoice('402', 'Nguyễn Quốc Đạt', '0905 123 456')">
                     <i class="fas fa-file-invoice-dollar"></i> THANH TOÁN NGAY
@@ -293,18 +355,19 @@
         </div>
     </div>
 
+    <!-- MODAL HOÁ ĐƠN -->
     <div class="invoice-overlay" id="invoiceOverlay">
         <div class="invoice-card">
             <div class="inv-header">
-                <h2>HÓA ĐƠN GIÁ TRỊ GIA TĂNG</h2>
-                <p>MUSICBOX KARAOKE</p>
+                <h2>HÓA ĐƠN THANH TOÁN</h2>
+                <p>MUSICBOX KARAOKE - CHẤT LƯỢNG ĐỈNH CAO</p>
                 <p>Đ/C: Quận Liên Chiểu, TP. Đà Nẵng</p>
             </div>
 
             <div class="inv-info">
                 <p><b>Khách hàng:</b> <span id="invName"></span></p>
                 <p><b>Số điện thoại:</b> <span id="invPhone"></span></p>
-                <p><b>Phòng:</b> <span id="invRoom"></span> | <b>Ngày:</b> 14/04/2026</p>
+                <p><b>Phòng:</b> <span id="invRoom"></span> | <b>Ngày:</b> 03/05/2026</p>
             </div>
 
             <table class="inv-table">
@@ -318,7 +381,7 @@
                 </thead>
                 <tbody id="invItems">
                     <tr><td>Giờ hát (Phòng VIP)</td><td>2.5</td><td class="text-right">150,000</td><td class="text-right">375,000đ</td></tr>
-                    <tr><td>Bia Heineken</td><td>5</td><td class="text-right">25,000</td><td class="text-right">125,000đ</td></tr>
+                    <tr><td>Bia Tiger</td><td>6</td><td class="text-right">25,000</td><td class="text-right">150,000đ</td></tr>
                     <tr><td>Trái cây đĩa (Lớn)</td><td>1</td><td class="text-right">150,000</td><td class="text-right">150,000đ</td></tr>
                     <tr><td>Snack Oishi</td><td>3</td><td class="text-right">15,000</td><td class="text-right">45,000đ</td></tr>
                 </tbody>
@@ -326,16 +389,16 @@
 
             <div class="inv-summary">
                 <div class="sum-row">
-                    <span>Tổng cộng (Phòng + DV):</span>
-                    <b id="subtotalDisplay">695,000đ</b>
+                    <span>Tạm tính (Phòng + DV):</span>
+                    <b id="subtotalDisplay">720,000đ</b>
                 </div>
-                <div class="sum-row points-row">
-                    <span>Sử dụng điểm tích lũy (100 điểm = 1000VNĐ):</span>
-                    <div>- <input type="number" id="pointsInput" value="0" min="0" step="10" oninput="calculateTotal()"> điểm</div>
+                <div class="sum-row">
+                    <span>Điểm tích lũy (100đ = 1000đ):</span>
+                    <div>- <input type="number" id="pointsInput" value="0" min="0" oninput="calculateTotal()"> điểm</div>
                 </div>
                 <div class="total-pay">
                     <span>TỔNG THANH TOÁN:</span>
-                    <span id="finalTotalDisplay" style="color: #d32f2f;">695,000đ</span>
+                    <span id="finalTotalDisplay">720,000đ</span>
                 </div>
             </div>
 
@@ -347,14 +410,14 @@
     </div>
 
     <script>
-        // JS cho Sidebar Accordion
+        // Xử lý Sidebar Accordion
         function toggleAccordion(element) {
             const menuItem = element.parentElement;
             menuItem.classList.toggle('active');
         }
 
-        // JS cho Invoice
-        const subtotal = 695000;
+        // Xử lý Invoice
+        const subtotal = 720000;
 
         function openInvoice(room, name, phone) {
             document.getElementById('invRoom').innerText = room;
@@ -373,7 +436,7 @@
             const pointsInput = document.getElementById('pointsInput');
             const finalDisplay = document.getElementById('finalTotalDisplay');
             let pointsEntered = parseInt(pointsInput.value) || 0;
-            let discount = pointsEntered * 10; 
+            let discount = pointsEntered * 10;
 
             if (discount > subtotal) {
                 discount = subtotal;
