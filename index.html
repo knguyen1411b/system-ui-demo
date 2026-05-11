@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Music Box - Demo Booking Flow</title>
+    <title>MusicBox - Hệ Thống Karaoke Công Nghệ Mới</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
     <script>
@@ -26,61 +26,51 @@
             font-family: 'Plus Jakarta Sans', sans-serif;
         }
 
-        .glass-card {
-            background: rgba(255, 255, 255, 0.03);
-            backdrop-filter: blur(12px);
-            border: 1px solid rgba(0, 0, 0, 0.1);
+        .bg-main-gradient {
+            background: linear-gradient(to bottom right, #1e1b4b, #0f172a);
         }
 
-        [x-cloak] {
-            display: none !important;
+        .glass-header {
+            background: rgba(15, 23, 42, 0.8);
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .text-neon-purple {
+            color: #a78bfa;
+            text-shadow: 0 0 10px rgba(167, 139, 250, 0.5);
+        }
+
+        .glass-card-light {
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(5px);
+        }
+
+        /* Tùy chỉnh thanh cuộn */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: #0f172a;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #334155;
+            border-radius: 10px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: #7c3aed;
         }
     </style>
 </head>
 
-<body class="bg-gradient-to-br from-[#1e1b4b] to-[#0f172a] min-h-screen text-white flex flex-col" x-data="{
-        step: 0,
-        selectedRoom: null,
-        paymentStatus: '',
-        openModal(room) {
-            this.selectedRoom = room;
-            this.step = 1;
-        },
-        openMenu: false
-      }">
-    <!-- Offcanvas menu -->
-    <div x-show="openMenu" x-cloak class="fixed inset-0 z-[999]">
-        <div class="absolute inset-0 bg-black/60 backdrop-blur-sm" @click="openMenu = false"
-            x-transition:enter="transition ease-out duration-300" x-transition:enter-start="opacity-0"
-            x-transition:enter-end="opacity-100" x-transition:leave="transition ease-in duration-200"
-            x-transition:leave-start="opacity-100" x-transition:leave-end="opacity-0"></div>
+<body class="bg-main-gradient min-h-screen text-slate-200 overflow-x-hidden">
 
-        <nav class="absolute right-0 top-0 h-full w-64 bg-[#18123a] shadow-2xl flex flex-col p-6 gap-4" @click.stop
-            x-transition:enter="transition ease-out duration-300" x-transition:enter-start="translate-x-full"
-            x-transition:enter-end="translate-x-0" x-transition:leave="transition ease-in duration-200"
-            x-transition:leave-start="translate-x-0" x-transition:leave-end="translate-x-full">
-
-            <div class="flex items-center justify-between mb-6">
-                <span class="text-xl font-extrabold tracking-tighter">MUSIC<span
-                        class="text-mb-purple-400">BOX</span></span>
-                <button @click="openMenu = false" class="p-2 rounded-lg hover:bg-white/10 transition-all">
-                    <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                            d="M6 18L18 6M6 6l12 12" />
-                    </svg>
-                </button>
-            </div>
-            <a href="./pages/gioithieuhethong.html"
-                class="block bg-white/10 hover:bg-white/20 px-4 py-3 rounded-lg text-base font-bold transition-all">Giới
-                thiệu hệ thống</a>
-            <a href="./pages/dangnhap.html"
-                class="block bg-mb-purple-600 hover:bg-mb-purple-500 px-4 py-3 rounded-lg text-base font-bold transition-all">Đăng
-                nhập</a>
-        </nav>
-    </div>
-
-    <header class="bg-[#0f172a]/80 backdrop-blur-md sticky top-0 z-[100] border-b border-white/10">
-        <div class="max-w-[1440px] mx-auto px-6 py-4 flex items-center justify-between">
+    <header class="fixed w-full z-50 glass-header">
+        <nav class="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
             <div class="flex items-center gap-3">
                 <div class="p-2 bg-mb-purple-600 rounded-xl shadow-[0_0_15px_rgba(139,92,246,0.5)]">
                     <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -89,558 +79,307 @@
                         </path>
                     </svg>
                 </div>
-                <span class="text-xl font-extrabold tracking-tighter">MUSIC<span
+                <span class="text-xl font-extrabold tracking-tighter text-white">MUSIC<span
                         class="text-mb-purple-400">BOX</span></span>
             </div>
-            <!-- Desktop menu -->
-            <div class="hidden md:flex items-center gap-2">
-                <a href="./pages/gioithieuhethong.html"
-                    class="bg-white/10 hover:bg-white/20 px-4 py-2 rounded-lg text-sm font-bold transition-all">Giới
-                    thiệu hệ thống</a>
-                <a href="./pages/dangnhap.html"
-                    class="bg-mb-purple-600 hover:bg-mb-purple-500 px-6 py-2 rounded-lg text-sm font-bold transition-all">Đăng
-                    nhập</a>
+
+            <div class="hidden md:flex gap-6 text-sm font-medium">
+                <a href="#bang-gia" class="text-gray-300 hover:text-white transition">Bảng giá</a>
+                <a href="#quy-dinh" class="text-gray-300 hover:text-white transition">Nội quy</a>
+                <a href="#vi-tri" class="text-gray-300 hover:text-white transition">Vị trí</a>
+                <a href="#dich-vu" class="text-gray-300 hover:text-white transition">Dịch vụ ăn uống</a>
             </div>
-            <!-- Mobile hamburger -->
-            <button class="md:hidden flex items-center p-2 rounded-lg hover:bg-white/10 transition-all"
-                @click="openMenu = true">
-                <svg class="w-7 h-7 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
-                </svg>
-            </button>
-        </div>
 
-        <style>
-            @keyframes slide-in-right {
-                0% {
-                    transform: translateX(100%);
-                    opacity: 0;
-                }
-
-                100% {
-                    transform: translateX(0);
-                    opacity: 1;
-                }
-            }
-
-            .animate-slide-in-right {
-                animation: slide-in-right 0.2s cubic-bezier(0.4, 0, 0.2, 1);
-            }
-        </style>
+            <a href="./pages/datphong.html"
+                class="bg-mb-purple-600 hover:bg-mb-purple-500 px-6 py-2.5 rounded-xl font-bold text-sm transition-all shadow-lg shadow-mb-purple-600/30">
+                Đặt phòng ngay
+            </a>
+        </nav>
     </header>
 
-    <main class="max-w-[1440px] mx-auto px-6 py-10 w-full flex-grow">
-        <div
-            class="mb-8 flex flex-col md:flex-row md:items-end justify-between gap-4 border-l-4 border-mb-purple-500 pl-6">
-            <div>
-                <h1 class="text-3xl md:text-4xl font-black tracking-tight text-white uppercase">Danh sách <span
-                        class="text-mb-purple-400">Phòng Hát</span></h1>
-                <p class="text-gray-400 text-sm mt-1 max-w-md line-clamp-1">Hệ thống âm thanh chuẩn quốc tế, không gian
-                    hiện đại.</p>
-            </div>
-            <div class="text-right hidden md:block">
-                <span class="text-[10px] text-gray-500 uppercase tracking-widest font-bold">Trạng thái hiện tại</span>
-                <p class="text-sm text-emerald-400 font-semibold">● 12 Phòng Trống</p>
-            </div>
-        </div>
+    <section class="relative min-h-screen flex items-center justify-center pt-24">
+        <div class="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(139,92,246,0.1),transparent_70%)]"></div>
 
-        <div
-            class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-10 p-4 glass-card rounded-2xl relative z-40">
-            <div class="relative">
-                <input type="text" placeholder="Tìm tên phòng..."
-                    class="w-full bg-white/5 border border-white/10 px-10 py-3 rounded-xl text-sm focus:border-mb-purple-500 outline-none text-white transition-all">
-                <svg class="w-4 h-4 absolute left-3 top-3.5 text-gray-400" fill="none" stroke="currentColor"
-                    viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                        d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
-                </svg>
-            </div>
+        <div class="relative z-10 max-w-5xl mx-auto px-6 text-center">
+            <span
+                class="inline-block px-4 py-1.5 mb-6 rounded-full bg-mb-purple-600/10 border border-mb-purple-500/20 text-mb-purple-400 text-xs font-bold uppercase tracking-widest">
+                KIẾN TẠO TRẢI NGHIỆM GIẢI TRÍ MỚI
+            </span>
+            <h1 class="text-5xl md:text-8xl font-black mb-8 leading-[1.1] tracking-tight text-white uppercase">
+                ÁNH SÁNG CỰC CHILL <br>
+                <span class="text-transparent bg-clip-text bg-gradient-to-r from-mb-purple-400 to-indigo-400">ÂM THANH
+                    CỰC CHÁY</span>
+            </h1>
+            <p class="text-lg md:text-xl text-gray-400 mb-12 max-w-2xl mx-auto leading-relaxed">
+                Hệ thống Karaoke giải trí hiện đại nhất tại Huế. Không gian sang trọng, cách âm chuẩn studio và hệ thống
+                đặt phòng trực tuyến 24/7.
+            </p>
 
-            <div class="relative" x-data="{ open: false, selected: 'Tất cả loại phòng' }">
-                <button @click="open = !open"
-                    class="w-full flex items-center justify-between bg-white/5 border border-white/10 px-4 py-3 rounded-xl text-sm text-white focus:border-mb-purple-500 transition-all">
-                    <span x-text="selected"></span>
-                    <svg class="w-4 h-4 text-gray-400 transition-transform" :class="open ? 'rotate-180' : ''"
-                        fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path d="M19 9l-7 7-7-7" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
-                    </svg>
-                </button>
-                <div x-show="open" @click.away="open = false" x-cloak
-                    x-transition:enter="transition ease-out duration-200" x-transition:enter-start="opacity-0 scale-95"
-                    x-transition:enter-end="opacity-100 scale-100"
-                    class="absolute z-[60] w-full mt-2 bg-[#1e1b4b] border border-white/10 rounded-xl shadow-[0_10px_30px_rgba(0,0,0,0.5)] overflow-hidden">
-                    <div @click="selected = 'Tất cả loại phòng'; open = false"
-                        class="px-4 py-3 hover:bg-mb-purple-600 cursor-pointer text-sm">Tất cả loại phòng</div>
-                    <div @click="selected = 'Phòng VIP'; open = false"
-                        class="px-4 py-3 hover:bg-mb-purple-600 cursor-pointer text-sm border-t border-white/5">Phòng
-                        VIP</div>
-                    <div @click="selected = 'Phòng Thường'; open = false"
-                        class="px-4 py-3 hover:bg-mb-purple-600 cursor-pointer text-sm border-t border-white/5">Phòng
-                        Thường</div>
-                </div>
-            </div>
-
-            <div class="relative" x-data="{ open: false, selected: 'Tất cả trạng thái' }">
-                <button @click="open = !open"
-                    class="w-full flex items-center justify-between bg-white/5 border border-white/10 px-10 py-3 rounded-xl text-sm text-white focus:border-mb-purple-500 transition-all">
-                    <span x-text="selected"></span>
-                    <svg class="w-4 h-4 absolute left-3 text-emerald-400" fill="none" stroke="currentColor"
-                        viewBox="0 0 24 24">
-                        <path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" stroke-width="2" stroke-linecap="round"
-                            stroke-linejoin="round" />
-                    </svg>
-                    <svg class="w-4 h-4 text-gray-400 transition-transform" :class="open ? 'rotate-180' : ''"
-                        fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path d="M19 9l-7 7-7-7" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
-                    </svg>
-                </button>
-                <div x-show="open" @click.away="open = false" x-cloak
-                    x-transition:enter="transition ease-out duration-200"
-                    class="absolute z-[60] w-full mt-2 bg-[#1e1b4b] border border-white/10 rounded-xl shadow-[0_10px_30px_rgba(0,0,0,0.5)] overflow-hidden">
-                    <div @click="selected = 'Tất cả trạng thái'; open = false"
-                        class="px-4 py-3 hover:bg-mb-purple-600 cursor-pointer text-sm">Tất cả trạng thái</div>
-                    <div @click="selected = 'Còn trống'; open = false"
-                        class="px-4 py-3 hover:bg-mb-purple-600 cursor-pointer text-sm border-t border-white/5">Còn
-                        trống</div>
-                    <div @click="selected = 'Đang bận'; open = false"
-                        class="px-4 py-3 hover:bg-mb-purple-600 cursor-pointer text-sm border-t border-white/5">Đang bận
-                    </div>
-                </div>
-            </div>
-
-            <div class="relative" x-data="{ open: false, selected: 'Sắp xếp theo giá' }">
-                <button @click="open = !open"
-                    class="w-full flex items-center justify-between bg-white/5 border border-white/10 px-10 py-3 rounded-xl text-sm text-white focus:border-mb-purple-500 transition-all">
-                    <span x-text="selected"></span>
-                    <svg class="w-4 h-4 absolute left-3 text-rose-400" fill="none" stroke="currentColor"
-                        viewBox="0 0 24 24">
-                        <path d="M19 9l-7 7-7-7" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
-                    </svg>
-                    <svg class="w-4 h-4 text-gray-400 transition-transform" :class="open ? 'rotate-180' : ''"
-                        fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path d="M19 9l-7 7-7-7" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
-                    </svg>
-                </button>
-                <div x-show="open" @click.away="open = false" x-cloak
-                    x-transition:enter="transition ease-out duration-200"
-                    class="absolute z-[60] w-full mt-2 bg-[#1e1b4b] border border-white/10 rounded-xl shadow-[0_10px_30px_rgba(0,0,0,0.5)] overflow-hidden">
-                    <div @click="selected = 'Giá thấp đến cao'; open = false"
-                        class="px-4 py-3 hover:bg-mb-purple-600 cursor-pointer text-sm">Giá thấp đến cao</div>
-                    <div @click="selected = 'Giá cao đến thấp'; open = false"
-                        class="px-4 py-3 hover:bg-mb-purple-600 cursor-pointer text-sm border-t border-white/5">Giá cao
-                        đến thấp</div>
-                </div>
+            <div class="flex flex-col sm:flex-row gap-5 justify-center">
+                <a href="../pages/datphong.html"
+                    class="px-10 py-5 bg-mb-purple-600 text-white rounded-2xl font-extrabold text-lg hover:scale-105 transition-all shadow-2xl shadow-mb-purple-600/50">
+                    Đặt phòng ngay
+                </a>
+                <a href="#bang-gia"
+                    class="px-10 py-5 bg-white/5 backdrop-blur rounded-2xl font-extrabold text-lg border border-white/10 hover:bg-white/10 text-white transition-all">
+                    Xem bảng giá
+                </a>
             </div>
         </div>
+    </section>
 
-        <div id="room-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 relative z-10">
-        </div>
-
-        <div class="mt-16 flex justify-center">
-            <button class="group flex flex-col items-center gap-2 text-mb-purple-400 hover:text-white transition-all">
-                <span class="font-bold tracking-widest uppercase text-xs">Xem thêm phòng</span>
-                <svg class="w-6 h-6 animate-bounce" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
-                </svg>
-            </button>
-        </div>
-    </main>
-
-    <div x-show="step > 0" x-cloak
-        class="fixed inset-0 z-[110] bg-black/80 backdrop-blur-sm flex items-center justify-center p-4">
-        <!-- BƯỚC 0.5: CHỌN LỊCH TRỰC QUAN (New Step 1) -->
-        <div x-show="step === 1" x-transition:enter="transition ease-out duration-300"
-            x-transition:enter-start="opacity-0 scale-90" x-transition:enter-end="opacity-100 scale-100"
-            class="glass-card w-full max-w-2xl rounded-[2.5rem] overflow-hidden border border-white/20 shadow-[0_0_60px_rgba(139,92,246,0.3)]">
-
-            <div class="bg-gradient-to-br from-mb-purple-600 to-indigo-700 p-6 sm:p-7 relative">
-                <h2 class="text-xl sm:text-2xl font-black text-white uppercase tracking-tighter">Chọn thời gian đặt</h2>
-                <p class="text-mb-purple-100 text-[10px] uppercase tracking-widest font-bold opacity-70">Phòng P.402 -
-                    Kiểm tra tính khả dụng</p>
+    <section id="bang-gia" class="py-24 relative overflow-hidden">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="text-center mb-16">
+                <h2 class="text-3xl md:text-4xl font-black text-white uppercase tracking-tight">BẢNG GIÁ <span
+                        class="text-neon-purple">DỊCH VỤ</span></h2>
+                <p class="text-gray-500 mt-2 italic">Áp dụng tại: 122 Trường Chinh, TP. Huế</p>
             </div>
 
-            <div class="p-8 space-y-8">
-                <!-- 1. CHỌN NGÀY -->
-                <div class="space-y-3" x-data="{ 
-    selectedDate: '2026-05-05',
-    days: [
-        { date: '2026-05-04', label: 'Thứ 2' },
-        { date: '2026-05-05', label: 'Thứ 3' },
-        { date: '2026-05-06', label: 'Thứ 4' },
-        { date: '2026-05-07', label: 'Thứ 5' },
-        { date: '2026-05-08', label: 'Thứ 6' },
-        { date: '2026-05-09', label: 'Thứ 7' },
-        { date: '2026-05-10', label: 'Chủ Nhật' }
-    ]
-}">
-                    <label class="text-[11px] font-bold text-mb-purple-400 uppercase tracking-[0.2em]">
-                        1. Chọn ngày sử dụng
-                    </label>
-
-                    <div class="flex gap-3 overflow-x-auto pb-4 
-                [&::-webkit-scrollbar]:h-1.5 
-                [&::-webkit-scrollbar-track]:bg-white/5 
-                [&::-webkit-scrollbar-thumb]:bg-mb-purple-500/50 
-                [&::-webkit-scrollbar-thumb]:rounded-full
-                hover:[&::-webkit-scrollbar-thumb]:bg-mb-purple-400">
-                        <template x-for="day in days" :key="day.date">
-                            <button @click="selectedDate = day.date"
-                                :class="selectedDate === day.date ? 'bg-mb-purple-600 border-mb-purple-400 shadow-[0_0_20px_rgba(139,92,246,0.4)]' : 'bg-white/5 border-white/10 opacity-60'"
-                                class="flex-shrink-0 w-24 py-4 rounded-2xl border text-center transition-all hover:bg-mb-purple-500/20 group">
-
-                                <!-- Hiển thị Thứ (Nếu là Chủ Nhật thì đổi màu hoặc viết hoa đặc biệt) -->
-                                <span class="block text-[10px] uppercase font-bold mb-1 transition-colors"
-                                    :class="selectedDate === day.date ? 'text-white' : 'text-gray-500'"
-                                    x-text="day.label"></span>
-
-                                <!-- Hiển thị Ngày/Tháng -->
-                                <span class="block text-xl font-black transition-colors"
-                                    :class="selectedDate === day.date ? 'text-white' : 'text-gray-300'"
-                                    x-text="day.date.split('-')[2] + '/' + day.date.split('-')[1]"></span>
-                            </button>
-                        </template>
-                    </div>
-                </div>
-
-                <!-- 2. TIMELINE TRỰC QUAN -->
-                <div class="space-y-3">
-                    <div class="flex justify-between items-center">
-                        <label class="text-[11px] font-bold text-mb-purple-400 uppercase tracking-[0.2em]">2. Trình
-                            trạng phòng theo giờ</label>
-                        <div class="flex gap-4">
-                            <div class="flex items-center gap-1.5"><span
-                                    class="w-2 h-2 rounded-full bg-white/10"></span><span
-                                    class="text-[9px] text-gray-400 uppercase">Trống</span></div>
-                            <div class="flex items-center gap-1.5"><span
-                                    class="w-2 h-2 rounded-full bg-rose-500/50"></span><span
-                                    class="text-[9px] text-gray-400 uppercase">Đã đặt</span></div>
-                        </div>
-                    </div>
-
-                    <!-- Thanh Timeline -->
-                    <div class="relative bg-white/5 rounded-2xl p-4 border border-white/10">
-                        <!-- Header thời gian -->
-                        <div
-                            class="grid grid-cols-10 gap-0 text-[9px] font-bold text-gray-500 mb-2 uppercase tracking-tighter px-1">
-                            <span>08h</span><span>10h</span><span>12h</span><span>14h</span><span>16h</span><span>18h</span><span>20h</span><span>22h</span><span>00h</span><span>02h</span>
-                        </div>
-
-                        <!-- Thanh Timeline chính -->
-                        <div
-                            class="h-12 w-full bg-white/5 rounded-xl relative overflow-hidden flex border border-white/5">
-
-                            <!-- 1. Khoảng trắng trước (08h - 09h30): chiếm ~10% -->
-                            <div class="h-full w-[10%] border-r border-white/5"></div>
-
-                            <!-- 2. KHOẢNG BẠN CHỌN (09h30 - 11h00): chiếm ~12% -->
-                            <div
-                                class="h-full w-[12%] bg-mb-purple-500/40 border-x border-mb-purple-400/50 relative flex items-center justify-center group shadow-[inset_0_0_20px_rgba(139,92,246,0.2)]">
-                                <div class="absolute inset-0 bg-mb-purple-500/20 animate-pulse"></div>
-                                <span
-                                    class="relative text-[8px] font-black text-white uppercase italic tracking-tighter drop-shadow-md">Bạn
-                                    chọn</span>
-
-                                <!-- Tooltip hiện giờ chính xác khi hover -->
-                                <span
-                                    class="absolute -top-1 left-1/2 -translate-x-1/2 w-max px-2 py-0.5 bg-mb-purple-600 text-white text-[7px] rounded opacity-0 group-hover:opacity-100 transition-opacity">
-                                    09:30 - 11:00
-                                </span>
-                            </div>
-
-                            <!-- 3. Khoảng trống giữa: chiếm ~15% -->
-                            <div class="h-full w-[15%]"></div>
-
-                            <!-- 4. Một slot đã có người đặt khác để minh họa: chiếm ~18% -->
-                            <div
-                                class="h-full bg-rose-500/20 border-x border-rose-500/30 w-[18%] flex items-center justify-center relative group">
-                                <div
-                                    class="h-full w-full bg-[repeating-linear-gradient(45deg,transparent,transparent_5px,rgba(244,63,94,0.1)_5px,rgba(244,63,94,0.1)_10px)]">
-                                </div>
-                                <span
-                                    class="hidden group-hover:block absolute -top-8 bg-rose-600 text-white px-2 py-1 rounded text-[8px] whitespace-nowrap z-10">
-                                    Đã có người đặt (13h30 - 16h00)
-                                </span>
-                            </div>
-
-                            <!-- 5. Phần còn lại -->
-                            <div class="h-full bg-white/5 flex-1"></div>
-                        </div>
-
-                        <!-- Chú thích nhanh phía dưới -->
-                        <div class="mt-3 flex justify-center gap-4">
-                            <div class="flex items-center gap-1">
-                                <div class="w-2 h-0.5 bg-mb-purple-500"></div>
-                                <span class="text-[8px] text-gray-500 uppercase font-bold">Thời gian đang chọn</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- 3. INPUT NHANH -->
-                <div class="grid grid-cols-2 gap-6">
-                    <div class="space-y-1.5">
-                        <label class="text-[10px] font-bold text-gray-500 uppercase tracking-widest ml-1">Giờ bắt
-                            đầu</label>
-                        <select
-                            class="w-full bg-white/5 border border-white/10 rounded-2xl px-4 py-3 text-sm text-white focus:outline-none focus:border-mb-purple-500">
-                            <option>09:30</option>
-                        </select>
-                    </div>
-                    <div class="space-y-1.5">
-                        <label class="text-[10px] font-bold text-gray-500 uppercase tracking-widest ml-1">Giờ kết
-                            thúc</label>
-                        <select
-                            class="w-full bg-white/5 border border-white/10 rounded-2xl px-4 py-3 text-sm text-white focus:outline-none focus:border-mb-purple-500">
-                            <option>11:00</option>
-                        </select>
-                    </div>
-                </div>
-
-                <!-- BUTTON CHUYỂN BƯỚC -->
-                <button @click="step = 2"
-                    class="w-full py-4 rounded-2xl bg-gradient-to-r from-mb-purple-600 to-indigo-600 font-bold text-white text-[11px] uppercase tracking-[0.2em] shadow-xl hover:scale-[1.02] transition-all">
-                    Tiếp tục xác nhận
-                </button>
+            <div class="overflow-x-auto">
+                <table class="w-full text-left border-separate border-spacing-y-4">
+                    <thead>
+                        <tr class="text-mb-purple-400 uppercase text-sm tracking-widest">
+                            <th class="px-8 py-4">Khung Giờ</th>
+                            <th class="px-8 py-4">Small Box (2-3 NG)</th>
+                            <th class="px-8 py-4">Medium Box (4-7 NG)</th>
+                            <th class="px-8 py-4">Large Box (10 NG)</th>
+                        </tr>
+                    </thead>
+                    <tbody class="text-white">
+                        <tr class="glass-card-light hover:bg-white/5 transition-colors">
+                            <td class="px-8 py-6 rounded-l-3xl border-l border-white/10 font-bold">08:00 - 14:00</td>
+                            <td class="px-8 py-6 text-xl">49.000đ<span class="text-xs text-gray-500 block">/giờ</span>
+                            </td>
+                            <td class="px-8 py-6 text-xl text-neon-purple">69.000đ<span
+                                    class="text-xs text-gray-500 block">/giờ</span></td>
+                            <td class="px-8 py-6 rounded-r-3xl border-r border-white/10 text-xl font-bold">89.000đ<span
+                                    class="text-xs text-gray-500 block">/giờ</span></td>
+                        </tr>
+                        <tr class="glass-card-light hover:bg-white/5 transition-colors">
+                            <td class="px-8 py-6 rounded-l-3xl border-l border-white/10 font-bold">14:00 - 17:00</td>
+                            <td class="px-8 py-6 text-xl font-bold">69.000đ<span
+                                    class="text-xs text-gray-500 block">/giờ</span></td>
+                            <td class="px-8 py-6 text-xl font-bold">89.000đ<span
+                                    class="text-xs text-gray-500 block">/giờ</span></td>
+                            <td class="px-8 py-6 rounded-r-3xl border-r border-white/10 text-xl font-bold">110.000đ<span
+                                    class="text-xs text-gray-500 block">/giờ</span></td>
+                        </tr>
+                        <tr class="glass-card-light hover:bg-white/5 transition-colors">
+                            <td class="px-8 py-6 rounded-l-3xl border-l border-white/10 font-bold bg-mb-purple-600/10">
+                                17:00 - 24:00</td>
+                            <td class="px-8 py-6 text-xl font-bold">89.000đ<span
+                                    class="text-xs text-gray-500 block">/giờ</span></td>
+                            <td class="px-8 py-6 text-xl font-bold">115.000đ<span
+                                    class="text-xs text-gray-500 block">/giờ</span></td>
+                            <td
+                                class="px-8 py-6 rounded-r-3xl border-r border-white/10 text-xl font-bold text-mb-purple-400">
+                                130.000đ<span class="text-xs text-gray-500 block">/giờ</span></td>
+                        </tr>
+                    </tbody>
+                </table>
             </div>
         </div>
-        <div x-show="step === 2" x-transition:enter="transition ease-out duration-300"
-            x-transition:enter-start="opacity-0 scale-90" x-transition:enter-end="opacity-100 scale-100"
-            @click.away="step = 0"
-            class="glass-card w-full max-w-lg rounded-[2.5rem] overflow-hidden border border-white/20 shadow-[0_0_60px_rgba(139,92,246,0.3)]">
+    </section>
 
-            <div class="bg-gradient-to-br from-mb-purple-600 to-indigo-700 p-6 sm:p-7 relative">
-                <div class="flex flex-col sm:flex-row justify-between items-center gap-3 mb-2">
-                    <div class="text-center sm:text-left order-2 sm:order-1">
-                        <h2 class="text-xl sm:text-2xl font-black text-white uppercase tracking-tighter leading-tight">
-                            Xác nhận lịch đặt
-                        </h2>
-                        <p class="text-mb-purple-100 text-[10px] mt-1 uppercase tracking-[0.15em] font-bold opacity-70">
-                            Chi tiết hợp đồng đặt phòng
+    <section id="quy-dinh" class="py-24 bg-slate-950/40">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="flex flex-col md:flex-row gap-16 items-start">
+                <div class="md:w-1/3">
+                    <h2 class="text-4xl font-black text-white leading-tight uppercase">QUY ĐỊNH & <br><span
+                            class="text-neon-purple">NỘI QUY</span></h2>
+                    <p class="text-gray-400 mt-4 leading-relaxed">
+                        Để đảm bảo trải nghiệm tốt nhất cho mọi khách hàng, vui lòng tuân thủ các quy định chung của
+                        <span class="font-bold text-white">KEYBOX</span>.
+                    </p>
+                    <div class="mt-8 p-6 rounded-2xl border border-dashed border-mb-purple-500/30 bg-mb-purple-500/5">
+                        <span
+                            class="text-xs text-mb-purple-400 font-bold uppercase block mb-2 text-center underline">Hotline
+                            hỗ trợ 24/7</span>
+                        <p class="text-2xl font-black text-white text-center tracking-widest">034 3132 123</p>
+                    </div>
+                </div>
+
+                <div class="md:w-2/3 grid sm:grid-cols-2 gap-6">
+                    <div class="glass-card-light p-6 rounded-2xl flex gap-4">
+                        <span class="text-2xl font-black text-mb-purple-600">#1</span>
+                        <p class="text-sm text-gray-300">Không hút thuốc và sử dụng chất kích thích (ma túy, shisha,
+                            bia...).</p>
+                    </div>
+                    <div class="glass-card-light p-6 rounded-2xl flex gap-4">
+                        <span class="text-2xl font-black text-mb-purple-600">#2</span>
+                        <p class="text-sm text-gray-300">Không mang thức ăn và đồ uống bên ngoài vào KEYBOX.</p>
+                    </div>
+                    <div class="glass-card-light p-6 rounded-2xl flex gap-4 border-l-2 border-l-mb-purple-500">
+                        <span class="text-2xl font-black text-mb-purple-600">#3</span>
+                        <p class="text-sm text-gray-300">Tự bảo quản tư trang cá nhân trong quá trình sử dụng phòng.</p>
+                    </div>
+                    <div class="glass-card-light p-6 rounded-2xl flex gap-4">
+                        <span class="text-2xl font-black text-mb-purple-600">#4</span>
+                        <p class="text-sm text-gray-300">Liên hệ nhân viên nếu không hài lòng về âm thanh hoặc
+                            microphone.</p>
+                    </div>
+                    <div class="glass-card-light p-6 rounded-2xl flex gap-4">
+                        <span class="text-2xl font-black text-mb-purple-600">#5</span>
+                        <p class="text-sm text-gray-300">Vui lòng bảo quản và nâng niu tài sản (mic, màn hình, sofa...).
                         </p>
                     </div>
+                    <div class="glass-card-light p-6 rounded-2xl flex gap-4">
+                        <span class="text-2xl font-black text-mb-purple-600">#6</span>
+                        <p class="text-sm text-gray-300">Hãy cùng nhau giữ gìn vệ sinh chung và sử dụng đúng mục đích.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="vi-tri" class="py-24 border-t border-white/5">
+        <div class="max-w-7xl mx-auto px-6 text-center">
+            <div
+                class="glass-card-light w-full max-w-5xl mx-auto p-6 md:p-10 rounded-[2.5rem] border border-mb-purple-500/20 shadow-2xl">
+                <div class="mb-8">
+                    <div
+                        class="w-16 h-16 bg-mb-purple-600/10 rounded-2xl flex items-center justify-center mx-auto mb-6 border border-mb-purple-500/20">
+                        <svg class="w-8 h-8 text-mb-purple-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z">
+                            </path>
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                        </svg>
+                    </div>
+                    <h3 class="text-3xl font-black text-white mb-2 uppercase tracking-tight">Ghé thăm <span
+                            class="text-neon-purple">chúng tôi</span></h3>
+                    <p class="text-gray-400 font-medium">122 Trường Chinh, Phường An Cựu, TP. Huế</p>
+                </div>
+
+                <div
+                    class="relative w-full h-[450px] bg-slate-900 rounded-3xl overflow-hidden border border-white/10 shadow-inner group">
+                    <iframe
+                        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3826.6633469032766!2d107.59567977583681!3d16.442080029339454!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3141a1005f0ed52b%3A0xc4eb78d913612d5e!2zMTIyIFRyxrDhu51uZyBDaGluaCwgQW4gQ-G7sXUsIFRow6BuaCBwaOG7kSBIdeG6vywgVGjhu6thIFRoacOqbiBIdeG6vywgVmlldG5hbQ!5e0!3m2!1svi!2s!4v1715431234567!5m2!1svi!2s"
+                        class="absolute inset-0 w-full h-full border-0 transition-all duration-700 contrast-[1.1] brightness-[0.9] grayscale-[0.2] group-hover:grayscale-0 group-hover:brightness-100"
+                        allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade">
+                    </iframe>
 
                     <div
-                        class="order-1 sm:order-2 bg-white/10 backdrop-blur-md border border-white/20 px-3 py-1 rounded-full shrink-0">
-                        <span class="text-[10px] font-bold text-white whitespace-nowrap">P.402 - VIP</span>
-                    </div>
-                </div>
-            </div>
-
-            <div class="p-8 space-y-6">
-                <div class="grid grid-cols-2 gap-4">
-                    <div class="space-y-1.5">
-                        <label class="text-[10px] font-bold text-gray-500 uppercase tracking-widest ml-1">Tên khách
-                            hàng</label>
-                        <input type="text" value="Nguyễn Hoàng Nam" disabled
-                            class="w-full bg-white/5 border border-white/10 rounded-2xl px-4 py-3 text-sm text-white focus:outline-none">
-                    </div>
-                    <div class="space-y-1.5">
-                        <label class="text-[10px] font-bold text-gray-500 uppercase tracking-widest ml-1">Số điện
-                            thoại</label>
-                        <input type="text" value="0987 654 321" disabled
-                            class="w-full bg-white/5 border border-white/10 rounded-2xl px-4 py-3 text-sm text-white focus:outline-none">
+                        class="absolute inset-0 pointer-events-none border-[12px] border-transparent rounded-3xl group-hover:border-mb-purple-500/10 transition-all duration-500">
                     </div>
                 </div>
 
-                <div class="space-y-4">
-                    <div class="space-y-1.5">
-                        <label class="text-[10px] font-bold text-mb-purple-400 uppercase tracking-widest ml-1">Ngày sử
-                            dụng</label>
-                        <input type="date" value="2026-05-04" disabled
-                            class="w-full bg-white/5 border border-white/10 rounded-2xl px-4 py-3 text-sm text-white [color-scheme:dark] focus:outline-none">
-                    </div>
-
-                    <div class="grid grid-cols-2 gap-4 relative">
-                        <div class="space-y-1.5">
-                            <label class="text-[10px] font-bold text-gray-500 uppercase tracking-widest ml-1">Giờ bắt
-                                đầu</label>
-                            <input type="time" value="19:30" disabled
-                                class="w-full bg-white/5 border border-white/10 rounded-2xl px-4 py-3 text-sm text-white [color-scheme:dark] focus:outline-none font-bold">
-                        </div>
-
-                        <div class="space-y-1.5">
-                            <label class="text-[10px] font-bold text-gray-500 uppercase tracking-widest ml-1">Giờ kết
-                                thúc</label>
-                            <input type="time" value="22:30" disabled
-                                class="w-full bg-mb-purple-500/10 border border-mb-purple-500/40 rounded-2xl px-4 py-3 text-sm text-mb-purple-400 [color-scheme:dark] focus:outline-none font-black">
-                        </div>
-                    </div>
-
-                    <div class="flex justify-center">
-                        <div
-                            class="bg-emerald-500/10 border border-emerald-500/20 px-4 py-1.5 rounded-full flex items-center gap-2">
-                            <span class="w-1.5 h-1.5 bg-emerald-500 rounded-full animate-pulse"></span>
-                            <span class="text-[11px] font-bold text-emerald-400 uppercase tracking-tight">Tổng thời
-                                lượng dự kiến: 03 Giờ</span>
-                        </div>
-                    </div>
-                </div>
-
-                <div
-                    class="bg-gradient-to-r from-white/5 to-transparent border border-white/10 rounded-[1.5rem] p-5 flex justify-between items-center">
-                    <div>
-                        <span class="text-[10px] text-gray-400 uppercase font-bold tracking-widest">Tiền cọc giữ
-                            chỗ</span>
-                        <p class="text-[10px] text-rose-400 italic mt-0.5">* Khấu trừ trực tiếp vào hóa đơn</p>
-                    </div>
-                    <div class="text-right">
-                        <span class="text-3xl font-black text-white">200.000đ</span>
-                    </div>
-                </div>
-
-                <div class="flex flex-col gap-3 pt-2">
-                    <button @click="step = 2"
-                        class="w-full py-4 rounded-2xl bg-mb-purple-600 font-bold text-white text-[11px] uppercase tracking-[0.2em] shadow-lg shadow-mb-purple-900/40 hover:bg-mb-purple-500 transition-all">
-                        Thanh toán ngay
-                    </button>
-
-                    <button @click="step = 0"
-                        class="w-full py-3 rounded-2xl bg-transparent border border-white/10 font-bold text-gray-500 text-[10px] uppercase tracking-[0.2em] hover:bg-white/5 transition-all">
-                        Hủy bỏ (Quay lại)
-                    </button>
-                </div>
-            </div>
-        </div>
-
-        <div x-show="step === 3" class="bg-white text-slate-800 w-full max-w-md rounded-3xl overflow-hidden shadow-2xl">
-            <div class="bg-[#005baa] p-4 flex justify-center">
-                <img src="https://vnpay.vn/wp-content/uploads/2020/07/Logo-VNPAYQR-update.png"
-                    class="h-8 invert brightness-0">
-            </div>
-            <div class="p-8 text-center">
-                <p class="text-sm font-semibold text-gray-500 mb-1 uppercase tracking-widest">Đang kết nối đến cổng
-                    thanh toán...</p>
-                <h3 class="text-xl font-bold mb-6">Music Box - Thanh toán đặt phòng</h3>
-
-                <div class="space-y-3 mb-8">
-                    <button @click="step = 3; paymentStatus = 'success'"
-                        class="w-full py-4 rounded-xl border-2 border-emerald-500 text-emerald-600 font-bold hover:bg-emerald-50 flex items-center justify-center gap-2 transition-all">
-                        <span class="w-2 h-2 bg-emerald-500 rounded-full animate-ping"></span>
-                        Giả lập: Thanh toán thành công
-                    </button>
-                    <button @click="step = 3; paymentStatus = 'fail'"
-                        class="w-full py-4 rounded-xl border-2 border-rose-500 text-rose-600 font-bold hover:bg-rose-50 transition-all">
-                        Giả lập: Thanh toán lỗi/Hủy
-                    </button>
-                </div>
-                <p class="text-[10px] text-gray-400 italic">Đây là môi trường thử nghiệm giao diện</p>
-            </div>
-        </div>
-
-        <div x-show="step === 4"
-            class="glass-card w-full max-w-md rounded-3xl p-8 text-center border-white/10 shadow-2xl">
-
-            <div x-show="paymentStatus === 'success'">
-                <div
-                    class="w-20 h-20 bg-emerald-500/20 text-emerald-500 rounded-full flex items-center justify-center mx-auto mb-6">
-                    <svg class="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path>
+                <a href="https://maps.app.goo.gl/9T2E67yWvH2n7w6s8" target="_blank"
+                    class="inline-flex items-center gap-2 mt-8 px-6 py-3 bg-white/5 hover:bg-mb-purple-600/20 text-gray-300 hover:text-white rounded-xl border border-white/10 transition-all font-bold text-sm uppercase tracking-widest">
+                    <span>Xem bản đồ lớn hơn</span>
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"
+                            stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
                     </svg>
-                </div>
-                <h2 class="text-3xl font-black mb-2 uppercase">Thành công!</h2>
-                <p class="text-gray-400 mb-8">Phòng của bạn đã được giữ chỗ thành công. Hẹn gặp bạn tại Music Box!</p>
-                <button @click="step = 0"
-                    class="w-full py-4 rounded-xl bg-mb-purple-600 hover:bg-mb-purple-500 font-bold shadow-lg shadow-mb-purple-600/30 transition-all">
-                    Xem phòng đã đặt
-                </button>
-            </div>
-
-            <div x-show="paymentStatus === 'fail'">
-                <div
-                    class="w-20 h-20 bg-rose-500/20 text-rose-500 rounded-full flex items-center justify-center mx-auto mb-6">
-                    <svg class="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M6 18L18 6M6 6l12 12">
-                        </path>
-                    </svg>
-                </div>
-                <h2 class="text-3xl font-black mb-2 uppercase text-rose-400">Thất bại</h2>
-                <p class="text-gray-400 mb-8">Giao dịch bị hủy hoặc lỗi kết nối. Vui lòng thử lại sau ít phút.</p>
-                <div class="grid grid-cols-2 gap-3">
-                    <button @click="step = 0"
-                        class="py-3 rounded-xl bg-white/5 hover:bg-white/10 font-bold transition-all">Trang chủ</button>
-                    <button @click="step = 2"
-                        class="py-3 rounded-xl bg-rose-600 hover:bg-rose-500 font-bold transition-all">Thử lại</button>
-                </div>
+                </a>
             </div>
         </div>
+    </section>
 
-    </div>
 
-    <footer class="border-t border-white/5 bg-[#0f172a] py-8 text-center text-gray-500 text-sm">
-        <p>© 2026 MusicBox Inc. • Team AnD2</p>
+    <section id="dich-vu" class="py-24 relative overflow-hidden bg-slate-950/30" x-data="{ 
+        filter: 'all',
+        limit: 8, 
+        services: [
+            { id: 1, type: 'drink', name: 'Bia Heineken (Lon)', price: 35000, unit: 'Lon', img: 'https://product.hstatic.net/1000281508/product/6-lon-bia-heineken-330ml-201904241647511710_50bd7b00db4b40a9958a32df2e8cec08_master.jpg' },
+            { id: 2, type: 'drink', name: 'Bia Tiger Crystal', price: 32000, unit: 'Lon', img: 'https://images.unsplash.com/photo-1597290282695-edc43d0e7129?w=400' },
+            { id: 3, type: 'drink', name: 'Nước suối Aquafina', price: 15000, unit: 'Chai', img: 'https://images.unsplash.com/photo-1548839140-29a749e1cf4d?w=400' },
+            { id: 4, type: 'drink', name: 'Coca Cola', price: 20000, unit: 'Lon', img: 'https://images.unsplash.com/photo-1622483767028-3f66f32aef97?w=400' },
+            { id: 5, type: 'food', name: 'Trái cây dĩa (Lớn)', price: 250000, unit: 'Dĩa', img: 'https://images.unsplash.com/photo-1519996529931-28324d5a630e?w=400' },
+            { id: 6, type: 'food', name: 'Snack khoai tây', price: 45000, unit: 'Gói', img: 'https://images.unsplash.com/photo-1566478989037-eec170784d0b?w=400' },
+            { id: 7, type: 'food', name: 'Mực nướng ngũ vị', price: 185000, unit: 'Phần', img: 'https://images.unsplash.com/photo-1599487488170-d11ec9c172f0?w=400' },
+            { id: 8, type: 'food', name: 'Cơm chiên hải sản', price: 120000, unit: 'Phần', img: 'https://cdn.tgdd.vn/2021/01/CookProduct/comchienhaisan-1200x676.jpg' },
+            { id: 9, type: 'food', name: 'Gà rán KFC (Phần)', price: 95000, unit: 'Phần', img: 'https://content.jdmagicbox.com/v2/comp/mumbai/m1/022pxx22.xx22.200829100417.u5m1/catalogue/kfc-mumbai-fast-food-1gtb5g7j7r.jpg' },
+            { id: 10, type: 'drink', name: 'Rượu vang đỏ', price: 850000, unit: 'Chai', img: 'https://images.unsplash.com/photo-1510812431401-41d2bd2722f3?w=400' },
+            { id: 11, type: 'food', name: 'Đậu phộng rang muối', price: 25000, unit: 'Bịch', img: 'https://cdn2.fptshop.com.vn/unsafe/1920x0/filters:format(webp):quality(75)/2024_5_13_638511979750318955_lac-rang-muoi-duong-1.jpg' },
+            { id: 12, type: 'drink', name: 'Soda chanh', price: 30000, unit: 'Ly', img: 'https://images.unsplash.com/photo-1513558161293-cdaf765ed2fd?w=400' }
+        ],
+        get filteredServices() {
+            let list = this.filter === 'all' ? this.services : this.services.filter(s => s.type === this.filter);
+            return list.slice(0, this.limit);
+        },
+        get hasMore() {
+            let total = this.filter === 'all' ? this.services.length : this.services.filter(s => s.type === this.filter).length;
+            return this.limit < total;
+        }
+    }">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="text-center mb-12">
+                <h2 class="text-4xl font-black text-white uppercase tracking-tighter">MENU <span
+                        class="text-neon-purple">ẨM THỰC</span></h2>
+
+                <div class="flex justify-center gap-3 mt-8">
+                    <button @click="filter = 'all'; limit = 8"
+                        :class="filter === 'all' ? 'bg-mb-purple-600 shadow-[0_0_15px_rgba(139,92,246,0.4)]' : 'bg-white/5 text-gray-400'"
+                        class="px-6 py-2 rounded-xl font-bold transition-all border border-white/10 text-sm">Tất
+                        cả</button>
+                    <button @click="filter = 'food'; limit = 8"
+                        :class="filter === 'food' ? 'bg-mb-purple-600 shadow-[0_0_15px_rgba(139,92,246,0.4)]' : 'bg-white/5 text-gray-400'"
+                        class="px-6 py-2 rounded-xl font-bold transition-all border border-white/10 text-sm">Món
+                        ăn</button>
+                    <button @click="filter = 'drink'; limit = 8"
+                        :class="filter === 'drink' ? 'bg-mb-purple-600 shadow-[0_0_15px_rgba(139,92,246,0.4)]' : 'bg-white/5 text-gray-400'"
+                        class="px-6 py-2 rounded-xl font-bold transition-all border border-white/10 text-sm">Đồ
+                        uống</button>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+                <template x-for="item in filteredServices" :key="item.id">
+                    <div x-transition:enter="transition ease-out duration-500"
+                        x-transition:enter-start="opacity-0 translate-y-8"
+                        x-transition:enter-end="opacity-100 translate-y-0"
+                        class="glass-card-light rounded-[2rem] overflow-hidden hover:border-mb-purple-500/50 transition-all group border border-white/5">
+
+                        <div class="relative h-44 overflow-hidden">
+                            <img :src="item.img" :alt="item.name"
+                                class="w-full h-full object-cover group-hover:scale-110 transition-all duration-700">
+                            <div class="absolute top-4 left-4 px-3 py-1 bg-mb-dark/80 backdrop-blur-md rounded-lg text-[10px] font-bold text-mb-purple-400 border border-white/10"
+                                x-text="item.unit"></div>
+                        </div>
+
+                        <div class="p-5">
+                            <h3 class="text-white font-bold text-sm mb-1 truncate" x-text="item.name"></h3>
+                            <div class="flex justify-between items-center mt-4">
+                                <span class="text-mb-purple-400 font-black text-lg"
+                                    x-text="new Intl.NumberFormat('vi-VN').format(item.price) + 'đ'"></span>
+                            </div>
+                        </div>
+                    </div>
+                </template>
+            </div>
+
+            <div class="mt-16 text-center">
+                <template x-if="hasMore">
+                    <button @click="limit += 4"
+                        class="px-8 py-4 bg-white/5 hover:bg-white/10 text-white rounded-2xl font-bold border border-white/10 transition-all hover:scale-105 active:scale-95 shadow-xl">
+                        Xem thêm món khác
+                        <svg class="w-4 h-4 inline-block ml-2 animate-bounce" fill="none" stroke="currentColor"
+                            viewBox="0 0 24 24">
+                            <path d="M19 14l-7 7-7-7m14-8l-7 7-7-7" stroke-width="2" stroke-linecap="round"
+                                stroke-linejoin="round" />
+                        </svg>
+                    </button>
+                </template>
+
+                <template x-if="!hasMore && services.length > 8">
+                    <button @click="limit = 8"
+                        class="px-8 py-4 bg-mb-purple-600/10 text-mb-purple-400 rounded-2xl font-bold border border-mb-purple-600/20 transition-all hover:bg-mb-purple-600/20">
+                        Thu gọn danh sách
+                    </button>
+                </template>
+            </div>
+        </div>
+    </section>
+    <footer class="py-12 text-center text-gray-600 border-t border-white/5 bg-slate-950/50">
+        <p class="text-sm font-bold uppercase tracking-widest text-gray-500">Music<span
+                class="text-mb-purple-600/70">Box</span> • Team AnD2</p>
+        <p class="text-xs mt-2 italic text-gray-700 underline">Địa điểm: 122 Trường Chinh, An Cựu, Huế.</p>
     </footer>
 
-    <script>
-        const roomData = [
-            { id: "402", loai: "VIP", sucChua: 15, trangThai: "Trống", gia: { n: "150", c: "200", l: "300" }, img: "https://images.unsplash.com/photo-1598488035139-bdbb2231ce04?w=400" },
-            { id: "101", loai: "Thường", sucChua: 6, trangThai: "Đang bận", gia: { n: "100", c: "120", l: "180" }, img: "https://images.unsplash.com/photo-1514525253161-7a46d19cd819?w=400" },
-            { id: "305", loai: "VIP", sucChua: 20, trangThai: "Trống", gia: { n: "180", c: "250", l: "350" }, img: "https://images.unsplash.com/photo-1516280440614-37939bbacd81?w=400" },
-            { id: "202", loai: "Thường", sucChua: 8, trangThai: "Trống", gia: { n: "110", c: "140", l: "200" }, img: "https://images.unsplash.com/photo-1470225620780-dba8ba36b745?w=400" },
-            { id: "405", loai: "VIP", sucChua: 12, trangThai: "Trống", gia: { n: "160", c: "210", l: "310" }, img: "https://plus.unsplash.com/premium_photo-1681830630610-9f26c9729b75?w=400" },
-            { id: "105", loai: "Thường", sucChua: 5, trangThai: "Đang bận", gia: { n: "90", c: "110", l: "150" }, img: "https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?w=400" },
-            { id: "501", loai: "VIP", sucChua: 25, trangThai: "Trống", gia: { n: "250", c: "350", l: "500" }, img: "https://images.unsplash.com/photo-1429962714451-bb934ecdc4ec?w=400" },
-            { id: "208", loai: "Thường", sucChua: 10, trangThai: "Trống", gia: { n: "120", c: "160", l: "220" }, img: "https://images.unsplash.com/photo-1514525253161-7a46d19cd819?w=400" }
-        ];
-
-        function render(filteredData) {
-            // Định nghĩa giá cọc cố định cho từng loại phòng
-            const giaCocTheoLoai = {
-                'VIP': 200,
-                'Thường': 100
-            };
-            document.getElementById('room-grid').innerHTML = filteredData.map((r, index) => {
-                let loaiClass = r.loai === 'VIP'
-                    ? 'text-yellow-400 bg-yellow-500/20 border-yellow-400 shadow-[0_0_10px_rgba(250,204,21,0.3)]'
-                    : 'text-cyan-400 bg-cyan-500/10 border-cyan-400';
-                // Lấy giá cọc theo loại phòng
-                const giaCoc = giaCocTheoLoai[r.loai] || 0;
-                // Sử dụng @click của Alpine để mở Modal và truyền data
-                return `
-                <div class="glass-card rounded-2xl overflow-hidden flex flex-col group hover:border-mb-purple-500 transition-all duration-300">
-                    <div class="relative h-44 overflow-hidden">
-                        <img src="${r.img}" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
-                        <div class="absolute top-3 right-3 px-2 py-1 rounded-md text-[9px] font-bold uppercase ${r.trangThai === 'Trống' ? 'bg-emerald-500' : 'bg-red-500'}">${r.trangThai}</div>
-                    </div>
-                    <div class="p-5 flex flex-col flex-grow">
-                        <div class="flex justify-between items-center mb-4">
-                            <h3 class="text-lg font-bold">Phòng ${r.id}</h3>
-                            <span class="text-[9px] font-bold px-2 py-1 rounded border ${loaiClass}">${r.loai}</span>
-                        </div>
-
-                        <div class="grid grid-cols-3 gap-1 mb-3">
-                            <div class="bg-white/5 p-2 rounded-lg text-center">
-                                <p class="text-[7px] text-gray-500 uppercase">Ngày thường</p>
-                                <p class="text-xs font-bold">${r.gia.n}K/h</p>
-                            </div>
-                            <div class="bg-mb-purple-600/10 p-2 rounded-lg text-center border border-mb-purple-600/20">
-                                <p class="text-[7px] text-mb-purple-400 uppercase">Cuối tuần</p>
-                                <p class="text-xs font-bold text-mb-purple-400">${r.gia.c}K/h</p>
-                            </div>
-                            <div class="bg-rose-500/5 p-2 rounded-lg text-center">
-                                <p class="text-[7px] text-rose-400 uppercase">Ngày lễ</p>
-                                <p class="text-xs font-bold text-rose-400">${r.gia.l}K/h</p>
-                            </div>
-                        </div>
-
-                        <div class="mb-5">
-                            <div class="bg-amber-400/10 border border-amber-300 rounded px-2 py-2 text-center mb-1 min-h-[38px] flex items-center justify-center gap-1">
-                                <span class="text-[9px] font-semibold text-amber-500">Cọc: </span>
-                                <span class="text-sm font-bold text-amber-400">${giaCoc}.000đ</span>
-                            </div>
-                        </div>
-                        <button
-                            @click="openModal(${JSON.stringify(r).replace(/"/g, '&quot;')})"
-                            ${r.trangThai !== 'Trống' ? 'disabled' : ''}
-                            class="w-full py-2.5 rounded-xl font-bold text-xs ${r.trangThai === 'Trống' ? 'bg-mb-purple-600 hover:bg-mb-purple-500 shadow-lg shadow-mb-purple-600/20' : 'bg-gray-800 text-gray-600 cursor-not-allowed'} uppercase transition-all">
-                            ${r.trangThai === 'Trống' ? 'Đặt phòng ngay' : 'Đang phục vụ'}
-                        </button>
-                    </div>
-                </div>`;
-            }).join('');
-        }
-
-        document.addEventListener('DOMContentLoaded', () => { render(roomData); });
-    </script>
 </body>
 
 </html>
