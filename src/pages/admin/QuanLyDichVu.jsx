@@ -66,7 +66,7 @@ export default function QuanLyDichVu() {
   };
 
   return (
-    <div className="min-h-screen bg-[#0f1424] text-[#e2e8f0] p-8 space-y-8 font-['Plus_Jakarta_Sans',sans-serif]">
+   <div className="min-h-screen bg-[#0f172a] text-slate-200 p-8 space-y-8">
       {/* Header */}
       <header className="flex justify-between items-end">
         <div>

@@ -61,18 +61,18 @@ export default function BaoHong() {
   });
 
   return (
-    <div className="min-h-screen bg-[#1e1b4b] p-4 sm:p-6 lg:p-8 text-white font-sans antialiased selection:bg-[#8b5cf6] selection:text-white">
+    <div className="min-h-screen bg-[#0f172a] p-4 sm:p-8 lg:p-10 text-slate-200 font-['Plus_Jakarta_Sans',sans-serif] relative overflow-hidden">
       {/* CONTAINER CHÍNH BỌC NỘI DUNG (Fix lỗi layout tràn/ép dòng) */}
       {/* --- HEADER --- */}
-      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-[30px]">
-        <h1 className="text-2xl md:text-3xl font-bold tracking-wider bg-gradient-to-r from-white to-[#c4b5fd] bg-clip-text text-transparent uppercase">
-          Tiếp Nhận Báo Hỏng
+      <header className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-8">
+        <h1 className="text-2xl sm:text-3xl font-extrabold tracking-wider bg-gradient-to-r from-white to-[#c4b5fd] bg-clip-text text-transparent">
+          TIẾP NHẬN BÁO HỎNG
         </h1>
-        <div className="border-l-4 border-[#8b5cf6] pl-[15px] text-left sm:text-right">
-          <span className="block text-2xl font-bold text-[#fb923c] font-mono tracking-wide">{currentTime}</span>
-          <span className="text-xs text-[#94a3b8] uppercase">{currentDate}</span>
+        <div className="border-l-4 border-[#8b5cf6] pl-4 text-left sm:text-right">
+          <span className="block text-xl font-bold font-mono text-orange-400 tracking-wider">{currentTime}</span>
+          <span className="text-xs text-slate-400 font-medium">{currentDate}</span>
         </div>
-      </div>
+      </header>
 
       {/* --- NAVBAR FILTER (GLASSMORPHISM) --- */}
       <div className="bg-white/[0.03] backdrop-blur-md border border-white/10 rounded-2xl p-5 mb-[25px] flex flex-col sm:flex-row gap-[15px]">

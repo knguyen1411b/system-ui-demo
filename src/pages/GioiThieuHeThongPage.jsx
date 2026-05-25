@@ -2,7 +2,6 @@ import { Link } from 'react-router-dom';
 
 const links = [
   ['Trang chủ', '/'],
-  ['Bảng điều khiển', '/pages/bangdieukhien'],
   ['Đăng ký', '/pages/dangky'],
   ['Đăng nhập', '/pages/dangnhap'],
   ['Lịch sử', '/pages/lichsu'],

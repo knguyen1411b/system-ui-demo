@@ -7,6 +7,7 @@ import {
   getSupportHistory,
   placeRoomServiceOrder,
 } from '@/services/api';
+import Logo from '@/components/Logo';
 
 export default function PhonghientaiPage() {
   const [tab, setTab] = useState('all');
@@ -80,23 +81,12 @@ export default function PhonghientaiPage() {
   return (
     <div className="min-h-screen bg-gradient-to-br from-[#1e1b4b] to-[#0f172a] text-white">
       <header className="bg-[#0f172a]/80 backdrop-blur-md sticky top-0 z-40 border-b border-white/10">
-        <div className="max-w-[1440px] mx-auto px-6 py-3 flex items-center justify-between">
-          <div className="flex items-center gap-4">
-            <Link
-              to="/"
-              className="p-2 hover:bg-white/10 rounded-xl text-gray-400 hover:text-mb-purple-400"
-            >
-              Trang chủ
-            </Link>
-            <span className="text-xl font-extrabold tracking-tighter">
-              MUSIC<span className="text-mb-purple-400">BOX</span>
-            </span>
-          </div>
-
+        <div className="max-w-7xl mx-auto px-6 py-3 flex items-center justify-between">
+          <Logo></Logo>
         </div>
       </header>
 
-      <main className="max-w-[1440px] mx-auto px-6 py-8 grid grid-cols-1 lg:grid-cols-12 gap-8">
+      <main className="max-w-7xl mx-auto px-6 py-8 grid grid-cols-1 lg:grid-cols-12 gap-8">
 
         <div className="lg:col-span-4 space-y-6">
           <div className='space-x-3'>
@@ -109,11 +99,11 @@ export default function PhonghientaiPage() {
 
 
             <Link to={"/pages/phonghat"}>
-            <button
-              className="bg-cyan-500/20 text-cyan-400 border border-cyan-500/50 px-4 py-2 rounded-lg text-xs font-bold hover:bg-cyan-500 hover:text-white transition"
-            >
-              THAM GIA PHÒNG HÁT
-            </button>
+              <button
+                className="bg-cyan-500/20 text-cyan-400 border border-cyan-500/50 px-4 py-2 rounded-lg text-xs font-bold hover:bg-cyan-500 hover:text-white transition"
+              >
+                THAM GIA PHÒNG HÁT
+              </button>
             </Link>
           </div>
 
@@ -121,23 +111,22 @@ export default function PhonghientaiPage() {
 
 
           <div className="glass-card rounded-3xl p-6 border-l-4 border-mb-purple-500">
-            <span className="text-[10px] font-bold text-emerald-400 uppercase tracking-widest">
-              Đang sử dụng
-            </span>
-            <h1 className="text-4xl font-black mt-1 uppercase">{session.roomCode}</h1>
-            <p className="text-gray-400 text-xs">
-              Phí dịch vụ: {session.roomPricePerHour.toLocaleString('vi-VN')}đ/h
-            </p>
-            <div className="bg-white/5 rounded-2xl p-5 mt-4">
-              <div className="flex justify-between items-center">
-                <span className="text-gray-400 text-[10px] uppercase font-bold">Khách</span>
-                <span className="font-bold">{session.customerName}</span>
+            <div className="mb-6">
+              <span className="text-[10px] font-bold text-emerald-400 uppercase tracking-widest">
+                Đang sử dụng
+              </span>
+              <h1 className="text-4xl font-black mt-1 uppercase">{session.roomCode}</h1>
+              <p className="text-gray-400 text-xs">
+                Phí dịch vụ: {session.roomPricePerHour.toLocaleString('vi-VN')}đ/h
+              </p>
+            </div>
+            <div class="bg-white/5 rounded-2xl p-5 space-y-4">
+              <div class="flex justify-between items-end"><span class="text-gray-400 text-[10px] uppercase font-bold">Thời gian</span><span class="font-mono text-2xl font-bold text-mb-purple-400" x-text="formattedDuration">01:15:00</span>
               </div>
-              <div className="pt-4 mt-4 border-t border-white/10 flex justify-between items-end">
-                <span className="text-gray-400 text-[10px] uppercase font-bold">Tiền phòng</span>
-                <span className="text-2xl font-black text-mb-purple-400">
-                  {roomTotal.toLocaleString('vi-VN')}đ
-                </span>
+              <div class="pt-4 border-t border-white/10 flex justify-between items-end">
+                <span class="text-gray-400 text-[10px] uppercase font-bold">Tiền phòng</span>
+                <div class="text-right"><span class="text-2xl font-black" x-text="roomTotalFormatted">137,500</span><span class="text-xs text-gray-500 ml-1">đ</span>
+                </div>
               </div>
             </div>
           </div>

@@ -90,7 +90,7 @@ export default function ThuePhong() {
   });
 
   return (
-    <div className="min-h-screen bg-[#1e1b4b] p-4 sm:p-6 lg:p-8 text-white font-sans antialiased selection:bg-[#8b5cf6] selection:text-white">
+    <div className="min-h-screen bg-[#0f172a] p-4 sm:p-8 lg:p-10 text-slate-200 font-['Plus_Jakarta_Sans',sans-serif] relative overflow-hidden">
       
       {/* Header trên + Thanh lọc bộ lọc */}
       <div className="flex flex-col items-start gap-6 mb-10 print:hidden">
@@ -134,7 +134,7 @@ export default function ThuePhong() {
       </div>
 
       {/* GRID HIỂN THỊ DANH SÁCH CARD PHÒNG */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-[30px] print:block">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 gap-[30px] print:block">
         {filteredRooms.map((room) => {
           const state = roomStates[room.id] || { showForm: false, isRented: false, phone: '' };
 

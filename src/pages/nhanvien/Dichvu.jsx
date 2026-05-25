@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 
-export default function ServiceReception() {
+export default function DichVu() {
   // Trạng thái thời gian thực
   const [currentTime, setCurrentTime] = useState('00:00:00');
   const [currentDate, setCurrentDate] = useState('Chủ Nhật, 03/05/2026');
@@ -90,7 +90,7 @@ export default function ServiceReception() {
   };
 
   return (
-    <div className="min-h-screen bg-[#1e1b4b] p-4 sm:p-6 lg:p-8 text-white font-sans antialiased selection:bg-[#8b5cf6] selection:text-white">
+    <div className="min-h-screen bg-[#0f172a] p-4 sm:p-8 lg:p-10 text-slate-200 font-['Plus_Jakarta_Sans',sans-serif] relative overflow-hidden">
       {/* --- NỘI DUNG CHÍNH --- */}
       <header className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-8">
         <h1 className="text-2xl sm:text-3xl font-extrabold tracking-wider bg-gradient-to-r from-white to-[#c4b5fd] bg-clip-text text-transparent">

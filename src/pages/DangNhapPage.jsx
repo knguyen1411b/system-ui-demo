@@ -65,7 +65,7 @@ export default function DangNhapPage() {
           <p className="text-[#c4b5fd] text-sm mt-2">Hệ thống quản trị & Đặt phòng</p>
         </div>
 
-        <div className="rounded-3xl p-8 border-t border-white/10 bg-white/5 backdrop-blur-xl border border-white/10 shadow-[0_25px_50px_-12px_rgba(0,0,0,0.5)]">
+        <div className="rounded-3xl p-8 border-t bg-white/5 backdrop-blur-xl border border-white/10 shadow-[0_25px_50px_-12px_rgba(0,0,0,0.5)]">
           <h2 className="text-xl font-bold mb-6 text-center">Đăng nhập tài khoản</h2>
 
           {errorMessage && (

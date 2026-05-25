@@ -1,4 +1,3 @@
-export { default as BangdieukhienPage } from './BangdieukhienPage';
 export { default as BaohongPage } from './nhanvien/Baohong';
 export { default as DangkyPage } from './DangkyPage';
 export { default as DangNhapPage } from './DangNhapPage';

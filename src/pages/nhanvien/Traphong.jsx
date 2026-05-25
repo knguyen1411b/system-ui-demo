@@ -51,7 +51,7 @@ export default function TraPhongPage() {
   });
 
   return (
-    <div className="min-h-screen bg-[#1e1b4b] p-4 sm:p-6 lg:p-8 text-white font-sans antialiased selection:bg-[#8b5cf6] selection:text-white">
+    <div className="min-h-screen bg-[#0f172a] p-4 sm:p-8 lg:p-10 text-slate-200 font-['Plus_Jakarta_Sans',sans-serif] relative overflow-hidden">
       
       {/* Tiêu đề trang con */}
       <div className="mb-8">
@@ -92,7 +92,7 @@ export default function TraPhongPage() {
           <p className="text-slate-400 text-sm">Không tìm thấy phòng nào phù hợp.</p>
         </div>
       ) : (
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 gap-6">
           {filteredRooms.map(room => (
             <RoomCard 
               key={room.id} 
