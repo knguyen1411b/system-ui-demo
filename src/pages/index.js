@@ -13,6 +13,7 @@ export { default as QuanlyloaiphongPage } from './QuanlyloaiphongPage';
 export { default as QuanlyphongPage } from './QuanlyphongPage';
 export { default as QuanlytaikhoanPage } from './QuanlytaikhoanPage';
 export { default as ThuephongPage } from './ThuephongPage';
+export { default as DatPhongPage } from './DatPhongPage';
 export { default as TrangcanhanPage } from './TrangcanhanPage';
 export { default as TraphongPage } from './TraphongPage';
 export { default as PhongHatPage } from './PhongHatPage';
