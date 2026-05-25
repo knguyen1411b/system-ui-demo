@@ -13,7 +13,7 @@ const links = [
   ['Quản lý phòng', '/pages/quanlyphong'],
   ['Quản lý tài khoản', '/pages/quanlytaikhoan'],
   ['Trang cá nhân', '/pages/trangcanhan'],
-  ['Dahboard Nhân viên', '/pages/dashboard-nhan-vien'],
+  ['Dashboard Admin', '/pages/dashboard-admin'],
 ];
 
 export default function GioiThieuHeThongPage() {
