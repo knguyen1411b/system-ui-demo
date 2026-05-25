@@ -4,6 +4,7 @@ import {
   BaohongPage,
   DangkyPage,
   DangNhapPage,
+  DatPhongPage,
   DichvuPage,
   GioiThieuHeThongPage,
   HomePage,
@@ -39,6 +40,7 @@ export default function AppRouter() {
         <Route path="/pages/quanlyphong" element={<QuanlyphongPage />} />
         <Route path="/pages/quanlytaikhoan" element={<QuanlytaikhoanPage />} />
         <Route path="/pages/thuephong" element={<ThuephongPage />} />
+        <Route path="/pages/DatPhong" element={<DatPhongPage />} />
         <Route path="/pages/trangcanhan" element={<TrangcanhanPage />} />
         <Route path="/pages/traphong" element={<TraphongPage />} />
         <Route path="/pages/phonghat" element={<PhongHatPage />} />
