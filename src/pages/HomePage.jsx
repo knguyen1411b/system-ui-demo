@@ -2,6 +2,7 @@ import { useState, useMemo } from 'react';
 import { Link } from 'react-router-dom';
 
 export default function HomePage() {
+  const [isOpen, setIsOpen] = useState(false);
   // Mock data danh sách dịch vụ ẩm thực
   const initialServices = [
     { id: 1, type: 'drink', name: 'Bia Heineken (Lon)', price: 35000, unit: 'Lon', img: 'https://product.hstatic.net/1000281508/product/6-lon-bia-heineken-330ml-201904241647511710_50bd7b00db4b40a9958a32df2e8cec08_master.jpg' },
@@ -47,10 +48,12 @@ export default function HomePage() {
 
   return (
     <div className="bg-[#0f172a] bg-gradient-to-br from-[#1e1b4b] to-[#0f172a] min-h-screen text-slate-200 overflow-x-hidden font-['Plus_Jakarta_Sans',sans-serif]">
-      
+
       {/* HEADER */}
       <header className="fixed w-full z-50 bg-[#0f172a]/80 backdrop-blur-xl border-b border-white/5">
-        <nav className="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
+        <nav className="max-w-7xl mx-auto px-4 sm:px-6 py-4 flex justify-between items-center">
+
+          {/* LOGO */}
           <div className="flex items-center gap-3">
             <div className="p-2 bg-[#7c3aed] rounded-xl shadow-[0_0_15px_rgba(139,92,246,0.5)]">
               <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -62,17 +65,92 @@ export default function HomePage() {
             </span>
           </div>
 
-          <div className="hidden md:flex gap-6 text-sm font-medium">
+          {/* NAVIGATION LINKS (DESKTOP) */}
+          <div className="hidden md:flex items-center gap-6 text-sm font-medium">
+            <Link to={"pages/gioithieuhethong"}
+             className="text-gray-300 hover:text-white transition"
+            >
+              Giới thiệu hệ thống
+            </Link>
             <a href="#bang-gia" className="text-gray-300 hover:text-white transition">Bảng giá</a>
-            <a href="#quy-dinh" class="text-gray-300 hover:text-white transition">Nội quy</a>
+            <a href="#quy-dinh" className="text-gray-300 hover:text-white transition">Nội quy</a>
             <a href="#vi-tri" className="text-gray-300 hover:text-white transition">Vị trí</a>
             <a href="#dich-vu" className="text-gray-300 hover:text-white transition">Dịch vụ ăn uống</a>
           </div>
 
-          <Link to={"pages/datphong"} className="bg-[#7c3aed] hover:bg-[#8b5cf6] px-6 py-2.5 rounded-xl font-bold text-sm transition-all shadow-lg shadow-mb-purple-600/30 text-white">
-            Đặt phòng ngay
-          </Link>
+          {/* RIGHT SIDE BUTTONS (Cả Desktop và Mobile) */}
+          <div className="flex items-center gap-3">
+            {/* Nút Đặt phòng ngay (Ẩn bớt padding trên mobile để tránh tràn) */}
+            <Link
+              to="/pages/datphong"
+              className="bg-[#7c3aed] hover:bg-[#8b5cf6] px-4 py-2 sm:px-6 sm:py-2.5 rounded-xl font-bold text-xs sm:text-sm transition-all shadow-lg shadow-purple-600/30 text-white whitespace-nowrap"
+            >
+              Đặt phòng ngay
+            </Link>
+
+            {/* HAMBURGER BUTTON (Chỉ hiện trên Mobile < md) */}
+            <button
+              onClick={() => setIsOpen(!isOpen)}
+              className="p-2 text-gray-400 hover:text-white focus:outline-none md:hidden transition"
+              aria-label="Toggle Menu"
+            >
+              {isOpen ? (
+                // Icon Đóng (X)
+                <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" />
+                </svg>
+              ) : (
+                // Icon Menu (3 gạch)
+                <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 6h16M4 12h16M4 18h16" />
+                </svg>
+              )}
+            </button>
+          </div>
         </nav>
+
+        {/* MOBILE MENU DROPDOWN (Chỉ xuất hiện khi isOpen = true) */}
+        <div
+          className={`md:hidden border-t border-white/5 bg-[#0f172a] transition-all duration-300 ease-in-out overflow-hidden ${isOpen ? 'max-h-60 opacity-100' : 'max-h-0 opacity-0 pointer-events-none'
+            }`}
+        >
+          <div className="px-6 py-4 flex flex-col gap-4 text-sm font-medium">
+            <Link to={"pages/gioithieuhethong"}
+              onClick={() => setIsOpen(false)}
+              className="text-gray-300 hover:text-white py-1 transition"
+            >
+              Giới thiệu hệ thống
+            </Link>
+            <a
+              href="#bang-gia"
+              onClick={() => setIsOpen(false)}
+              className="text-gray-300 hover:text-white py-1 transition"
+            >
+              Bảng giá
+            </a>
+            <a
+              href="#quy-dinh"
+              onClick={() => setIsOpen(false)}
+              className="text-gray-300 hover:text-white py-1 transition"
+            >
+              Nội quy
+            </a>
+            <a
+              href="#vi-tri"
+              onClick={() => setIsOpen(false)}
+              className="text-gray-300 hover:text-white py-1 transition"
+            >
+              Vị trí
+            </a>
+            <a
+              href="#dich-vu"
+              onClick={() => setIsOpen(false)}
+              className="text-gray-300 hover:text-white py-1 transition"
+            >
+              Dịch vụ ăn uống
+            </a>
+          </div>
+        </div>
       </header>
 
       {/* HERO SECTION */}
