@@ -3,10 +3,8 @@ import { Link } from 'react-router-dom';
 const links = [
   ['Trang chủ', '/'],
   ['Bảng điều khiển', '/pages/bangdieukhien'],
-  ['Báo hỏng', '/pages/baohong'],
   ['Đăng ký', '/pages/dangky'],
   ['Đăng nhập', '/pages/dangnhap'],
-  ['Dịch vụ', '/pages/dichvu'],
   ['Lịch sử', '/pages/lichsu'],
   ['Phòng hiện tại', '/pages/phonghientai'],
   ['Quản lý bảng giá', '/pages/quanlybanggia'],
@@ -14,10 +12,8 @@ const links = [
   ['Quản lý loại phòng', '/pages/quanlyloaiphong'],
   ['Quản lý phòng', '/pages/quanlyphong'],
   ['Quản lý tài khoản', '/pages/quanlytaikhoan'],
-  ['Thuê phòng', '/pages/thuephong'],
   ['Trang cá nhân', '/pages/trangcanhan'],
-  ['Trả phòng', '/pages/traphong'],
-  ['Dahboard nhân viên', '/pages/dashboard-nhan-vien'],
+  ['Dahboard Nhân viên', '/pages/dashboard-nhan-vien'],
 ];
 
 export default function GioiThieuHeThongPage() {

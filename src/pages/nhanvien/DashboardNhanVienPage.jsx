@@ -3,6 +3,11 @@ import TraPhong from './TraPhong';
 import { BellRing } from 'lucide-react';
 import { ChevronDown } from 'lucide-react';
 import { LayoutDashboard } from 'lucide-react';
+import { Thuephong } from '..';
+import Checkin from './Checkin';
+import Dichvu from './Dichvu';
+import Baohong from './Baohong';
+import Logo from '@/components/Logo';
 
 export default function DashboardNhanVienPage() {
   // 1. Quản lý trạng thái đóng/mở Sidebar trên Mobile Layout
@@ -13,14 +18,14 @@ export default function DashboardNhanVienPage() {
   const [isRequestGroupOpen, setIsRequestGroupOpen] = useState(false);
 
   // 3. State điều khiển đổi trang nội bộ
-  const [currentPage, setCurrentPage] = useState('traphong');
+  const [currentPage, setCurrentPage] = useState('thuephong'); // Mặc định hiển thị trang Thuê phòng
 
   // Hàm render nội dung Sidebar (Tránh khai báo dạng Component lồng nhau gây re-render)
   const renderSidebarContent = () => (
     <div className="w-[260px] h-full bg-[#1e1b4b]/70 text-slate-100 border-r border-white/10 flex flex-col backdrop-blur-xl">
       {/* Thương hiệu */}
-      <div className="py-8 text-xl font-extrabold text-[#8b5cf6] text-center tracking-[0.2em] border-b border-white/5">
-        MUSICBOX
+      <div className="py-8 flex items-center justify-center border-b border-white/10">
+        <Logo></Logo>
       </div>
 
       {/* Hồ sơ nhân viên (Hiệu ứng Glassmorphic) */}
@@ -52,14 +57,24 @@ export default function DashboardNhanVienPage() {
           </div>
 
           <div className={`pl-12 space-y-1 transition-all duration-300 overflow-hidden ${isRoomGroupOpen ? 'max-h-40 opacity-100' : 'max-h-0 opacity-0'}`}>
-            <a href="#thuephong" className="block py-2.5 text-sm text-slate-400 hover:text-white transition-colors duration-150">Thuê phòng</a>
-            <a href="#checkin" className="block py-2.5 text-sm text-slate-400 hover:text-white transition-colors duration-150">Check-in đặt phòng</a>
+            <a href="#thuephong"
+              onClick={(e) => { e.preventDefault(); setCurrentPage('thuephong'); setIsSidebarOpen(false); }}
+              className={`block py-2.5 text-sm transition-all duration-150 font-bold relative before:absolute before:left-[-14px] before:top-1/2 before:-translate-y-1/2 before:w-1 before:h-3 before:rounded-full ${currentPage === 'thuephong'
+                ? 'text-[#8b5cf6] before:bg-[#8b5cf6]'
+                : 'text-slate-400 hover:text-white before:bg-transparent'
+                }`}>Thuê phòng</a>
+            <a href="#checkin"
+              onClick={(e) => { e.preventDefault(); setCurrentPage('checkin'); setIsSidebarOpen(false); }}
+              className={`block py-2.5 text-sm transition-all duration-150 font-bold relative before:absolute before:left-[-14px] before:top-1/2 before:-translate-y-1/2 before:w-1 before:h-3 before:rounded-full ${currentPage === 'checkin'
+                ? 'text-[#8b5cf6] before:bg-[#8b5cf6]'
+                : 'text-slate-400 hover:text-white before:bg-transparent'
+                }`}>Check-in đặt phòng</a>
             <a
               href="#traphong"
               onClick={(e) => { e.preventDefault(); setCurrentPage('traphong'); setIsSidebarOpen(false); }}
               className={`block py-2.5 text-sm transition-all duration-150 font-bold relative before:absolute before:left-[-14px] before:top-1/2 before:-translate-y-1/2 before:w-1 before:h-3 before:rounded-full ${currentPage === 'traphong'
-                  ? 'text-[#8b5cf6] before:bg-[#8b5cf6]'
-                  : 'text-slate-400 hover:text-white before:bg-transparent'
+                ? 'text-[#8b5cf6] before:bg-[#8b5cf6]'
+                : 'text-slate-400 hover:text-white before:bg-transparent'
                 }`}
             >
               Trả phòng
@@ -82,8 +97,14 @@ export default function DashboardNhanVienPage() {
           </div>
 
           <div className={`pl-12 space-y-1 transition-all duration-300 overflow-hidden ${isRequestGroupOpen ? 'max-h-32 opacity-100' : 'max-h-0 opacity-0'}`}>
-            <a href="#dichvu" className="block py-2.5 text-sm text-slate-400 hover:text-white transition-colors duration-150">Dịch vụ</a>
-            <a href="#baohong" className="block py-2.5 text-sm text-slate-400 hover:text-white transition-colors duration-150">Báo hỏng</a>
+            <a onClick={(e) => { e.preventDefault(); setCurrentPage('dichvu'); setIsSidebarOpen(false); }} className={`block py-2.5 text-sm transition-all duration-150 font-bold relative before:absolute before:left-[-14px] before:top-1/2 before:-translate-y-1/2 before:w-1 before:h-3 before:rounded-full ${currentPage === 'dichvu'
+                ? 'text-[#8b5cf6] before:bg-[#8b5cf6]'
+                : 'text-slate-400 hover:text-white before:bg-transparent'
+                }`}>Dịch vụ</a>
+            <a onClick={(e) => { e.preventDefault(); setCurrentPage('baohong'); setIsSidebarOpen(false); }} className={`block py-2.5 text-sm transition-all duration-150 font-bold relative before:absolute before:left-[-14px] before:top-1/2 before:-translate-y-1/2 before:w-1 before:h-3 before:rounded-full ${currentPage === 'baohong'
+                ? 'text-[#8b5cf6] before:bg-[#8b5cf6]'
+                : 'text-slate-400 hover:text-white before:bg-transparent'
+                }`}>Báo hỏng</a>
           </div>
         </div>
 
@@ -133,16 +154,44 @@ export default function DashboardNhanVienPage() {
         </header>
 
         {/* Khung chứa các trang con khi bấm điều hướng */}
-        <main className="flex-1 overflow-y-auto relative z-10 print:p-0">
-          {currentPage === 'traphong' ? (
-            <div className="bg-white/5 border border-white/10 backdrop-blur-md shadow-2xl">
-              <TraPhong />
-            </div>
-          ) : (
-            <div className="py-20 text-center text-slate-400 italic bg-white/5 border border-white/10 rounded-3xl backdrop-blur-md">
-              Tính năng đang được phát triển...
+        {/* 2. KHU VỰC HIỂN THỊ NỘI DUNG CHÍNH (Đã tích hợp định tuyến động) */}
+        <main className="flex-1 overflow-y-auto relative z-10 print:p-0 print:overflow-visible">
+
+          {/* Render Thuê Phòng */}
+          {currentPage === 'thuephong' && (
+            <div className="animate-fadeIn">
+              <Thuephong />
             </div>
           )}
+
+          {/* Render Trả Phòng */}
+          {currentPage === 'traphong' && (
+            <div className="animate-fadeIn">
+              <TraPhong />
+            </div>
+          )}
+
+          {/* Render Check-in đặt phòng */}
+          {currentPage === 'checkin' && (
+            <div className="animate-fadeIn">
+              <Checkin />
+            </div>
+          )}
+
+          {/* Render Báo Hỏng */}
+          {currentPage === 'dichvu' && (
+            <div className="animate-fadeIn">
+              <Dichvu />
+            </div>
+          )}
+
+          {/* Render Dịch vụ phụ trợ */}
+          {currentPage === 'baohong' && (
+            <div className="animate-fadeIn">
+              <Baohong />
+            </div>
+          )}
+
         </main>
       </div>
 
