@@ -55,7 +55,7 @@ export default function QuanLyPhong() {
   });
 
   return (
-    <div className="min-h-screen bg-[#0f172a] text-slate-200 p-8 space-y-8">
+    <div className="bg-[#0f172a] text-slate-200 p-8 space-y-8">
       {/* Header */}
       <header className="flex justify-between items-end">
         <div>
