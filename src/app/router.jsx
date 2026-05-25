@@ -20,6 +20,7 @@ import {
   TrangcanhanPage,
   TraphongPage,
 } from '@/pages';
+import DashboardNhanVienPage from '@/pages/nhanvien/DashboardNhanVienPage';
 
 export default function AppRouter() {
   return (
@@ -43,6 +44,7 @@ export default function AppRouter() {
         <Route path="/pages/DatPhong" element={<DatPhongPage />} />
         <Route path="/pages/trangcanhan" element={<TrangcanhanPage />} />
         <Route path="/pages/traphong" element={<TraphongPage />} />
+        <Route path="/pages/dashboard-nhan-vien" element={<DashboardNhanVienPage />} />
         <Route path="/pages/phonghat" element={<PhongHatPage />} />
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>

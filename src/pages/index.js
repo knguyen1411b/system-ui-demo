@@ -15,5 +15,6 @@ export { default as QuanlytaikhoanPage } from './QuanlytaikhoanPage';
 export { default as ThuephongPage } from './ThuephongPage';
 export { default as DatPhongPage } from './DatPhongPage';
 export { default as TrangcanhanPage } from './TrangcanhanPage';
-export { default as TraphongPage } from './TraphongPage';
+export { default as TraphongPage } from './nhanvien/Traphong';
+export { default as DashboardNhanVienPage } from './nhanvien/DashboardNhanVienPage';
 export { default as PhongHatPage } from './PhongHatPage';
