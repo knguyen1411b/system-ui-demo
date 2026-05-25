@@ -7,13 +7,9 @@ const links = [
   ['Đăng nhập', '/pages/dangnhap'],
   ['Lịch sử', '/pages/lichsu'],
   ['Phòng hiện tại', '/pages/phonghientai'],
-  ['Quản lý bảng giá', '/pages/quanlybanggia'],
-  ['Quản lý dịch vụ', '/pages/quanlydichvu'],
-  ['Quản lý loại phòng', '/pages/quanlyloaiphong'],
-  ['Quản lý phòng', '/pages/quanlyphong'],
-  ['Quản lý tài khoản', '/pages/quanlytaikhoan'],
   ['Trang cá nhân', '/pages/trangcanhan'],
   ['Dahboard Nhân viên', '/pages/dashboard-nhan-vien'],
+  ['Dahboard Admin', '/pages/dashboard-admin'],
 ];
 
 export default function GioiThieuHeThongPage() {
