@@ -77,7 +77,7 @@ export default function DangNhapPage() {
           <form onSubmit={handleLogin} className="space-y-5">
             <div>
               <label className="block text-xs font-semibold text-[#c4b5fd] uppercase tracking-wider mb-2">
-                Tên đăng nhập / SĐT
+                Số điện thoại
               </label>
               <input
                 value={username}

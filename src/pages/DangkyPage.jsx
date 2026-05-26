@@ -72,12 +72,6 @@ export default function DangkyPage() {
             className="w-full bg-black/20 border border-white/10 rounded-xl py-3 px-4 text-sm"
           />
           <input
-            value={form.username}
-            onChange={(e) => onChange('username', e.target.value)}
-            placeholder="Tên đăng nhập"
-            className="w-full bg-black/20 border border-white/10 rounded-xl py-3 px-4 text-sm"
-          />
-          <input
             value={form.phone}
             onChange={(e) => onChange('phone', e.target.value)}
             placeholder="Số điện thoại"
