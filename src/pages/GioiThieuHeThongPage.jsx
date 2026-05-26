@@ -4,11 +4,11 @@ const links = [
   ['Trang chủ', '/'],
   ['Đăng ký', '/pages/dangky'],
   ['Đăng nhập', '/pages/dangnhap'],
-  ['Lịch sử', '/pages/lichsu'],
   ['Phòng hiện tại', '/pages/phonghientai'],
   ['Trang cá nhân', '/pages/trangcanhan'],
   ['Dahboard Nhân viên', '/pages/dashboard-nhan-vien'],
   ['Dahboard Admin', '/pages/dashboard-admin'],
+  ['Phòng hát Karaoke', '/pages/phonghat'],
 ];
 
 export default function GioiThieuHeThongPage() {
