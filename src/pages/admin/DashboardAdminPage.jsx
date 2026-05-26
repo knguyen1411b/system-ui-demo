@@ -12,12 +12,13 @@ import {
   ChevronDown
 } from 'lucide-react';
 import Logo from '@/components/Logo';
+
 import { Chart as ChartJS, registerables } from 'chart.js';
+
 ChartJS.register(...registerables);
 
 
 import { 
-  Chart as ChartJS, 
   CategoryScale, 
   LinearScale, // <-- Thằng này chính là thủ phạm gây ra lỗi "linear" is not a registered scale
   PointElement, 
