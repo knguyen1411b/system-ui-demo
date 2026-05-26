@@ -1,7 +1,5 @@
 import { useEffect, useMemo, useState } from 'react';
-import { cancelBooking, getBookingHistory } from '@/services/api';
-import { Calendar, User, Clock, Trash2 } from 'lucide-react';
-import { Wallet } from 'lucide-react';
+import {  getBookingHistory } from '@/services/api';
 
 export default function LichSuDatPhong() {
     const [rows, setRows] = useState([]);
@@ -23,13 +21,6 @@ export default function LichSuDatPhong() {
         () => rows.filter((r) => (tab === 'all' ? true : r.status === tab)),
         [rows, tab]
     );
-
-    const onCancel = async (id) => {
-        if (window.confirm('Bạn có chắc chắn muốn hủy yêu cầu đặt phòng này?')) {
-            await cancelBooking(id);
-            setRows(await getBookingHistory());
-        }
-    };
 
     return (
         <div className="min-h-screen">
