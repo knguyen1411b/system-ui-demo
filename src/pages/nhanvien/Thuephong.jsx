@@ -49,10 +49,12 @@ export default function ThuePhong() {
   const [capacityFilter, setCapacityFilter] = useState('all');
   const [roomStates, setRoomStates] = useState({});
 
- 
+
   // HÀNH ĐỘNG: Căn cứ vào giờ hiện tại để tính toán lại lịch trống các phòng
   const handleRefreshAvailableRooms = () => {
     const now = new Date();
+    // setHours(giờ, phút, giây, mili-giây)
+    now.setHours(15, 0, 0, 0);
     const floatTime = now.getHours() + (now.getMinutes() / 60);
     setAppliedTime(floatTime);
     setRoomStates({}); // Reset trạng thái các form đang nhập để cập nhật theo mốc mới
@@ -67,8 +69,8 @@ export default function ThuePhong() {
 
     setRoomStates(prev => ({
       ...prev,
-      [roomId]: { 
-        ...prev[roomId], 
+      [roomId]: {
+        ...prev[roomId],
         showForm: true,
         outHour: defaultOutHour,
         outMinute: 0
@@ -79,7 +81,7 @@ export default function ThuePhong() {
   const handleConfirmRent = (roomId, maxOutTime) => {
     const state = roomStates[roomId];
     const chosenOutTime = parseInt(state?.outHour || 0) + (parseInt(state?.outMinute || 0) / 60);
-    
+
     // Validate kiểm tra nếu giờ ra nhỏ hơn giờ hiện tại hoặc vượt quá giờ chặn lịch tiếp theo
     if (chosenOutTime <= appliedTime) {
       alert("Thời gian ra dự kiến phải lớn hơn thời gian hiện tại!");
@@ -107,9 +109,9 @@ export default function ThuePhong() {
   const handleOutTimeChange = (roomId, field, value) => {
     setRoomStates(prev => ({
       ...prev,
-      [roomId]: { 
-        ...prev[roomId], 
-        [field]: parseInt(value) 
+      [roomId]: {
+        ...prev[roomId],
+        [field]: parseInt(value)
       }
     }));
   };
@@ -138,7 +140,7 @@ export default function ThuePhong() {
 
   return (
     <div className="min-h-screen bg-[#0f172a] p-4 sm:p-8 lg:p-10 text-slate-200 font-['Plus_Jakarta_Sans',sans-serif] relative overflow-hidden">
-      
+
       {/* HEADER ĐỒNG BỘ THỜI GIAN THỰC */}
       <header className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-8">
         <h1 className="text-2xl sm:text-3xl font-extrabold tracking-wider bg-gradient-to-r from-white to-[#c4b5fd] bg-clip-text text-transparent uppercase">
@@ -150,7 +152,7 @@ export default function ThuePhong() {
       {/* THANH BỘ LỌC & NÚT TÌM PHÒNG TRỐNG THEO GIỜ HIỆN TẠI */}
       <div className="flex flex-col gap-4 mb-10 print:hidden">
         <div className="flex flex-wrap gap-5 w-full bg-white/5 p-4 rounded-2xl border border-white/10 shadow-lg items-end">
-          
+
           {/* Bộ lọc Loại phòng */}
           <div className="flex flex-col gap-1.5 flex-1 min-w-[150px]">
             <label className="text-xs text-slate-400 font-bold uppercase tracking-wider">Loại phòng:</label>
@@ -221,7 +223,7 @@ export default function ThuePhong() {
 
             // Ẩn phòng có Số Giờ Trống <= 0 theo đúng nghiệp vụ đầu ra OUTPUT
             if (soGioTrong <= 0 && !state.isRented) {
-              return null; 
+              return null;
             }
 
             // Tính số phút đếm ngược còn lại cho tới khi bị chặn lịch
@@ -297,7 +299,7 @@ export default function ThuePhong() {
                           <label className="text-xs text-[#94a3b8] font-bold">Chọn giờ ra dự kiến:</label>
                           <span className="text-[11px] text-amber-400 font-mono">Trống đến: {formatHour(tChan)}</span>
                         </div>
-                        
+
                         <div className="flex gap-2">
                           {/* Dropdown chọn Giờ */}
                           <div className="flex-1 flex flex-col gap-1">
