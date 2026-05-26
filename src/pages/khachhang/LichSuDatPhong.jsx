@@ -1,9 +1,11 @@
 import { useEffect, useMemo, useState } from 'react';
 import {  getBookingHistory } from '@/services/api';
+import BookingQrModal from '@/components/BookingQrModal';
 
 export default function LichSuDatPhong() {
     const [rows, setRows] = useState([]);
     const [tab, setTab] = useState('all');
+    const [selectedBooking, setSelectedBooking] = useState(null);
 
     // Bản đồ chuyển đổi trạng thái sang Tiếng Việt & Màu sắc
     const statusConfig = {
@@ -28,6 +30,9 @@ export default function LichSuDatPhong() {
             {/* Hiệu ứng hào quang phát sáng phía sau */}
             <div className="absolute top-[-10%] left-[-10%] w-[50%] h-[50%] rounded-full bg-[#8b5cf6]/10 blur-[120px] pointer-events-none" />
             <div className="absolute bottom-[-10%] right-[-10%] w-[50%] h-[50%] rounded-full bg-[#7c3aed]/15 blur-[120px] pointer-events-none" />
+
+            {/* QR Modal */}
+            <BookingQrModal booking={selectedBooking} onClose={() => setSelectedBooking(null)} />
 
             <div className="relative z-10 max-w-5xl mx-auto space-y-8">
 
@@ -61,7 +66,8 @@ export default function LichSuDatPhong() {
                         filtered.map((b) => (
                             <div
                                 key={b.id}
-                                className="bg-white/[0.01] backdrop-blur-md border border-slate-800/60 rounded-2xl overflow-hidden hover:border-violet-500/50 hover:bg-slate-900/40 transition-all duration-300 group flex items-center gap-4 p-4 text-left shadow-sm"
+                                onClick={() => b.status === 'completed' && setSelectedBooking(b)}
+                                className={`bg-white/[0.01] backdrop-blur-md border border-slate-800/60 rounded-2xl overflow-hidden hover:border-violet-500/50 hover:bg-slate-900/40 transition-all duration-300 group flex items-center gap-4 p-4 text-left shadow-sm ${b.status === 'completed' ? 'cursor-pointer' : ''}`}
                             >
                                 {/* Room Image - Bo góc mềm mại hơn, đồng bộ với tổng thể */}
                                 <div className="relative shrink-0 overflow-hidden rounded-xl border border-slate-700/30 w-16 h-16">
