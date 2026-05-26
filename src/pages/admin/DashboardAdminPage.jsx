@@ -12,6 +12,9 @@ import {
   ChevronDown
 } from 'lucide-react';
 import Logo from '@/components/Logo';
+import { Chart as ChartJS, registerables } from 'chart.js';
+ChartJS.register(...registerables);
+
 
 export default function Dashboard() {
   const [openSettings, setOpenSettings] = useState(false);
