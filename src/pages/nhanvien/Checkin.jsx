@@ -1,3 +1,4 @@
+import CurrentTimeBox from '@/components/CurrentTimeBox';
 import { useState, useRef } from 'react';
 
 export default function Checkin() {
@@ -6,16 +7,16 @@ export default function Checkin() {
   const [bookingCode, setBookingCode] = useState('');
   const [checkinAlert, setCheckinAlert] = useState({ show: false, type: '', message: '' });
   const [checkinStep, setCheckinStep] = useState('scanner'); // 'scanner' hoặc 'success'
-  const [successData, setSuccessData] = useState({ 
-    code: '', 
-    name: '', 
+  const [successData, setSuccessData] = useState({
+    code: '',
+    name: '',
     roomName: '', // Tên phòng riêng
     roomType: '', // Loại phòng riêng
     bookingAt: '', // Ngày đặt phòng (Ngày giờ)
     usageDate: '', // Ngày sử dụng
-    checkInTime: '', 
-    checkOutTime: '', 
-    qr: '' 
+    checkInTime: '',
+    checkOutTime: '',
+    qr: ''
   });
   const [isCheckinFormDisabled, setIsCheckinFormDisabled] = useState(false);
   const [isRented, setIsRented] = useState(false); // Trạng thái đã bấm Thuê phòng chưa
@@ -70,12 +71,12 @@ export default function Checkin() {
       checkOutTime: "17:30 (17.5)",
       qr: `https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=https://musicbox.com/verify-entrance?code=${code}`
     });
-    setIsRented(false); 
+    setIsRented(false);
     setCheckinStep('success');
   };
 
   const handleRentRoom = () => {
-    setIsRented(true); 
+    setIsRented(true);
   };
 
   const resetCheckInForm = () => {
@@ -93,11 +94,12 @@ export default function Checkin() {
 
   return (
     <div className="min-h-screen bg-[#0f172a] p-4 sm:p-8 lg:p-10 text-slate-200 font-['Plus_Jakarta_Sans',sans-serif] relative overflow-hidden">
-      <div className="flex flex-col items-start gap-6 mb-10 print:hidden">
-        <h1 className="text-2xl font-bold border-l-4 border-[#8b5cf6] pl-[15px] tracking-wide uppercase">
+      <header className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-8">
+        <h1 className="text-2xl sm:text-3xl font-extrabold tracking-wider bg-gradient-to-r from-white to-[#c4b5fd] bg-clip-text text-transparent uppercase">
           Check-in Đặt phòng
         </h1>
-      </div>
+        <CurrentTimeBox></CurrentTimeBox>
+      </header>
 
       <div className="main-content">
         {/* ================= PHÂN VÙNG CHECK-IN THUÊ PHÒNG ================= */}
@@ -177,7 +179,7 @@ export default function Checkin() {
                   <span className="text-slate-400">Tên khách hàng</span>
                   <span id="resCustomerName" className="font-medium text-white">{successData.name}</span>
                 </div>
-                
+
                 {/* PHÂN TÁCH TÊN PHÒNG VÀ LOẠI PHÒNG */}
                 <div className="info-row flex justify-between border-b border-white/5 pb-2.5">
                   <span className="text-slate-400">Tên phòng</span>
