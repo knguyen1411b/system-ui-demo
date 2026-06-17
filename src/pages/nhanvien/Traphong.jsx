@@ -2,6 +2,38 @@ import { useEffect, useState } from 'react'
 
 import CurrentTimeBox from '@/components/CurrentTimeBox'
 
+const parseTimeToDate = (timeString, referenceDate = new Date()) => {
+    const [hours = 0, minutes = 0] = String(timeString || '')
+        .trim()
+        .split(':')
+        .map(Number)
+    const date = new Date(referenceDate)
+    date.setHours(hours, minutes, 0, 0)
+    date.setSeconds(0)
+    date.setMilliseconds(0)
+    return date
+}
+
+const normalizeSessionMinutes = (timeIn, now = new Date()) => {
+    const startDate = parseTimeToDate(timeIn, now)
+    const start = new Date(startDate)
+
+    if (start > now) {
+        start.setDate(start.getDate() - 1)
+    }
+
+    const diffMs = Math.max(0, now - start)
+    return Math.ceil(diffMs / 1000 / 60)
+}
+
+const formatDuration = minutes => {
+    const hrs = Math.floor(minutes / 60)
+    const mins = minutes % 60
+    if (hrs === 0) return `${mins} phút`
+    if (mins === 0) return `${hrs} giờ`
+    return `${hrs} giờ ${mins} phút`
+}
+
 // 1. DỮ LIỆU GỐC ĐÃ ĐƯỢC CHUẨN HÓA CẤU TRÚC DỊCH VỤ VÀ THỜI GIAN
 // Đã thêm 1 phòng giả lập không có số điện thoại để kiểm thử tính năng tích điểm
 const INITIAL_ROOMS = [
@@ -395,24 +427,14 @@ function CheckoutConfirmModal({ room, onClose, onConfirm }) {
 
     useEffect(() => {
         const now = new Date()
-        const currentHourStr = now.toLocaleTimeString('vi-VN', { hour: '2-digit', minute: '2-digit' })
+        const currentHourStr = now.toLocaleTimeString('vi-VN', { hour: '2-digit', minute: '2-digit', hour12: false })
         setCurrentTimeStr(currentHourStr)
 
-        const [inHours, inMinutes] = room.timeIn.split(':').map(Number)
-        const dateIn = new Date()
-        dateIn.setHours(inHours, inMinutes, 0, 0)
+        const totalMinutes = normalizeSessionMinutes(room.timeIn, now)
+        const durationStr = formatDuration(totalMinutes)
+        setDurationText(durationStr)
 
-        let diffMs = now - dateIn
-        if (diffMs < 0) diffMs = 0
-
-        const totalMinutes = Math.floor(diffMs / 1000 / 60)
-        const hrs = Math.floor(totalMinutes / 60)
-        const mins = totalMinutes % 60
-
-        const durationStr = `${hrs > 0 ? hrs + ' giờ ' : ''}${mins} phút`
-        setDurationText(durationStr || '0 phút')
-
-        const useHoursDecimal = totalMinutes / 60
+        const useHoursDecimal = Math.max(0, totalMinutes / 60)
         const roomCost = Math.round(useHoursDecimal * room.roomPricePerHour)
 
         const serviceCost = room.services.reduce((acc, curr) => {
@@ -439,8 +461,8 @@ function CheckoutConfirmModal({ room, onClose, onConfirm }) {
         setCalculatedData({
             ...room,
             timeOut: currentHourStr,
-            duration: durationStr || '0 phút',
-            subtotal: subtotal,
+            duration: durationStr,
+            subtotal,
             items: billItems
         })
     }, [room])
@@ -458,7 +480,7 @@ function CheckoutConfirmModal({ room, onClose, onConfirm }) {
                     <span className="text-[#c4b5fd] font-bold">Phòng {room.id}</span>.
                 </p>
 
-                <div className="bg-black/30 border border-white/5 rounded-xl p-4 text-left space-y-2 mb-6 text-sm">
+                <div className="bg-black/30 border border-white/5 rounded-xl p-4 text-left space-y-2 mb-4 text-sm">
                     <div className="flex justify-between">
                         <span className="text-slate-400">Giờ khách vào:</span>
                         <b className="text-white">{room.timeIn}</b>
@@ -473,9 +495,27 @@ function CheckoutConfirmModal({ room, onClose, onConfirm }) {
                     </div>
                 </div>
 
+                {/* KHỐI SELECT CHỌN LOẠI NGÀY MỚI THÊM VÀO */}
+                <div className="text-left mb-6">
+                    <label className="block text-xs font-bold text-slate-400 uppercase tracking-wider mb-2">
+                        Áp dụng giá cho ngày:
+                    </label>
+                    <select className="w-full bg-black/40 border border-violet-500/20 rounded-xl px-4 py-3 text-sm text-slate-200 font-medium focus:outline-none focus:border-violet-500 transition cursor-pointer appearance-none bg-[url('data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22292.4%22%20height%3D%22292.4%22%3E%3Cpath%20fill%3D%22%23a78bfa%22%20d%3D%22M287%2069.4a17.6%2017.6%200%200%200-13-5.4H18.4c-5%200-9.3%201.8-12.9%205.4A17.6%2017.6%200%200%200%200%2082.2c0%205%201.8%209.3%205.4%2012.9l128%20127.9c3.6%203.6%207.8%205.4%2012.8%205.4s9.2-1.8%2012.8-5.4L287%2095c3.5-3.5%205.4-7.8%205.4-12.8%200-5-1.9-9.2-5.5-12.8z%22%2F%3E%3C%2Fsvg%3E')] bg-[length:12px_12px] bg-[right_16px_center] bg-no-repeat pr-10">
+                        <option value="NGAY_THUONG" className="bg-[#1e1b4b] text-white">
+                            Ngày thường
+                        </option>
+                        <option value="CUOI_TUAN" className="bg-[#1e1b4b] text-white">
+                            Cuối tuần
+                        </option>
+                        <option value="NGAY_LE" className="bg-[#1e1b4b] text-white">
+                            Ngày lễ
+                        </option>
+                    </select>
+                </div>
+
                 <div className="flex gap-3">
                     <button
-                        onClick={() => calculatedData && onConfirm(calculatedData)}
+                        onClick={() => calculatedData && onConfirm({ ...calculatedData })}
                         className="flex-1 bg-[#8b5cf6] hover:bg-[#7c3aed] text-white font-bold py-3 rounded-xl text-sm transition"
                     >
                         ĐỒNG Ý CHỐT GIỜ
@@ -591,7 +631,14 @@ function InvoiceModal({ room, onClose, onUpdatePhone }) {
                         </div>
                         <div className="text-center border-r border-white/10 print:border-slate-200">
                             <span className="text-slate-400 block mb-0.5 print:text-slate-500">Giờ ra</span>
-                            <b className="text-rose-400 font-bold text-sm print:text-black">{room.timeOut}</b>
+                            <b className="text-rose-400 font-bold text-sm print:text-black">
+                                {room.timeOut ||
+                                    new Date().toLocaleTimeString('vi-VN', {
+                                        hour: '2-digit',
+                                        minute: '2-digit',
+                                        hour12: false
+                                    })}
+                            </b>
                         </div>
                         <div className="text-center">
                             <span className="text-slate-400 block mb-0.5 print:text-slate-500">Tổng thời gian</span>
