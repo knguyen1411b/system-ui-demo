@@ -15,3 +15,5 @@ thumb
 sketch
 
 pnpm-debug.log*
+
+.env**
