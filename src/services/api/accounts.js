@@ -1,2 +1,1 @@
-export { getAccounts, createAccount, updateAccount, deleteAccount } from './core';
-
+export { getAccounts, createAccount, updateAccount, deleteAccount } from './core'

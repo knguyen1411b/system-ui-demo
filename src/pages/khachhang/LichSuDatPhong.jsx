@@ -1,11 +1,12 @@
-import { useEffect, useMemo, useState } from 'react';
-import {  getBookingHistory } from '@/services/api';
-import BookingQrModal from '@/components/BookingQrModal';
+import { useEffect, useMemo, useState } from 'react'
+
+import BookingQrModal from '@/components/BookingQrModal'
+import { getBookingHistory } from '@/services/api'
 
 export default function LichSuDatPhong() {
-    const [rows, setRows] = useState([]);
-    const [tab, setTab] = useState('all');
-    const [selectedBooking, setSelectedBooking] = useState(null);
+    const [rows, setRows] = useState([])
+    const [tab, setTab] = useState('all')
+    const [selectedBooking, setSelectedBooking] = useState(null)
 
     // Bản đồ chuyển đổi trạng thái sang Tiếng Việt & Màu sắc
     const statusConfig = {
@@ -13,20 +14,16 @@ export default function LichSuDatPhong() {
         pending: { label: 'Đang chờ', class: 'bg-amber-500/10 text-amber-500 border-amber-500/20' },
         completed: { label: 'Đã hoàn tất', class: 'bg-emerald-500/10 text-emerald-500 border-emerald-500/20' },
         cancelled: { label: 'Đã hủy', class: 'bg-rose-500/10 text-rose-500 border-rose-500/20' }
-    };
+    }
 
     useEffect(() => {
-        getBookingHistory().then(setRows);
-    }, []);
+        getBookingHistory().then(setRows)
+    }, [])
 
-    const filtered = useMemo(
-        () => rows.filter((r) => (tab === 'all' ? true : r.status === tab)),
-        [rows, tab]
-    );
+    const filtered = useMemo(() => rows.filter(r => (tab === 'all' ? true : r.status === tab)), [rows, tab])
 
     return (
         <div className="min-h-screen">
-
             {/* Hiệu ứng hào quang phát sáng phía sau */}
             <div className="absolute top-[-10%] left-[-10%] w-[50%] h-[50%] rounded-full bg-[#8b5cf6]/10 blur-[120px] pointer-events-none" />
             <div className="absolute bottom-[-10%] right-[-10%] w-[50%] h-[50%] rounded-full bg-[#7c3aed]/15 blur-[120px] pointer-events-none" />
@@ -35,7 +32,6 @@ export default function LichSuDatPhong() {
             <BookingQrModal booking={selectedBooking} onClose={() => setSelectedBooking(null)} />
 
             <div className="relative z-10 max-w-5xl mx-auto space-y-8">
-
                 {/* HEADER SECTION */}
                 <div className="flex justify-between items-center mb-6 px-1">
                     <h3 className="text-sm font-bold uppercase tracking-[0.2em] text-gray-500">Giao dịch gần đây</h3>
@@ -46,14 +42,15 @@ export default function LichSuDatPhong() {
 
                 {/* TABS FILTER */}
                 <div className="flex flex-wrap items-center gap-2 bg-slate-900/40 p-1.5 rounded-2xl border border-slate-800 backdrop-blur-xl w-fit mb-6">
-                    {Object.keys(statusConfig).map((key) => (
+                    {Object.keys(statusConfig).map(key => (
                         <button
                             key={key}
                             onClick={() => setTab(key)}
-                            className={`px-5 py-2 rounded-xl text-xs font-semibold tracking-wide transition-all duration-300 ${tab === key
-                                ? 'bg-gradient-to-r from-violet-600 to-indigo-600 text-white shadow-md shadow-violet-600/20 font-bold'
-                                : 'text-slate-400 hover:text-slate-200 hover:bg-slate-800/50'
-                                }`}
+                            className={`px-5 py-2 rounded-xl text-xs font-semibold tracking-wide transition-all duration-300 ${
+                                tab === key
+                                    ? 'bg-gradient-to-r from-violet-600 to-indigo-600 text-white shadow-md shadow-violet-600/20 font-bold'
+                                    : 'text-slate-400 hover:text-slate-200 hover:bg-slate-800/50'
+                            }`}
                         >
                             {statusConfig[key].label}
                         </button>
@@ -63,7 +60,7 @@ export default function LichSuDatPhong() {
                 {/* LIST BOOKINGS */}
                 <div className="space-y-3">
                     {filtered.length > 0 ? (
-                        filtered.map((b) => (
+                        filtered.map(b => (
                             <div
                                 key={b.id}
                                 onClick={() => b.status === 'completed' && setSelectedBooking(b)}
@@ -86,24 +83,32 @@ export default function LichSuDatPhong() {
                                         </span>
 
                                         {/* Badge Trạng thái Đặt phòng - Bo góc mượt, text dễ nhìn hơn */}
-                                        <span className={`px-2.5 py-0.5 rounded-full text-[10px] font-medium tracking-wide border backdrop-blur-sm ${statusConfig[b.status]?.class || ''}`}>
+                                        <span
+                                            className={`px-2.5 py-0.5 rounded-full text-[10px] font-medium tracking-wide border backdrop-blur-sm ${statusConfig[b.status]?.class || ''}`}
+                                        >
                                             {statusConfig[b.status]?.label || b.status}
                                         </span>
                                     </div>
 
                                     {/* Metadata hàng ngang ngăn cách bằng dấu chấm tròn tinh tế */}
                                     <div className="flex flex-wrap items-center gap-x-2.5 gap-y-1 text-xs text-slate-400">
-                                        <span className="truncate max-w-[130px] font-medium text-slate-300">{b.customerName}</span>
+                                        <span className="truncate max-w-[130px] font-medium text-slate-300">
+                                            {b.customerName}
+                                        </span>
                                         <span className="text-slate-700/60 text-[10px]">•</span>
                                         <span className="font-light">{b.date}</span>
                                         <span className="text-slate-700/60 text-[10px]">•</span>
-                                        <span className="font-light text-slate-400/90">{b.time} <span className="text-slate-500 text-[11px]">({b.duration})</span></span>
+                                        <span className="font-light text-slate-400/90">
+                                            {b.time} <span className="text-slate-500 text-[11px]">({b.duration})</span>
+                                        </span>
                                     </div>
                                 </div>
 
                                 {/* Tiền cọc & Nút hành động bên phải */}
                                 <div className="text-right min-w-[120px] shrink-0 flex flex-col items-end justify-center pl-2 border-l border-slate-800/40">
-                                    <p className="text-[10px] text-slate-500 font-medium tracking-wider uppercase mb-0.5">Tiền Cọc</p>
+                                    <p className="text-[10px] text-slate-500 font-medium tracking-wider uppercase mb-0.5">
+                                        Tiền Cọc
+                                    </p>
                                     <p className="text-base font-bold text-emerald-400 tracking-tight mb-1.5">
                                         {b.deposit}
                                     </p>
@@ -129,5 +134,5 @@ export default function LichSuDatPhong() {
                 </div>
             </div>
         </div>
-    );
+    )
 }

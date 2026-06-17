@@ -86,9 +86,9 @@ Dự án đã cấu hình alias `@` trỏ tới `src`:
 Ví dụ:
 
 ```js
-import { HomePage } from '@/pages';
-import { login } from '@/services/api';
-import Header from '@/components/Header';
+import Header from '@/components/Header'
+import { HomePage } from '@/pages'
+import { login } from '@/services/api'
 ```
 
 ## 7. Router

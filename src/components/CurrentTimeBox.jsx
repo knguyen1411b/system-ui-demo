@@ -1,29 +1,27 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState } from 'react'
 
 export default function CurrentTimeBox() {
     // Trạng thái thời gian thực
-    const [currentTime, setCurrentTime] = useState('00:00:00');
-    const [currentDate, setCurrentDate] = useState('Chủ Nhật, 03/05/2026');
+    const [currentTime, setCurrentTime] = useState('00:00:00')
+    const [currentDate, setCurrentDate] = useState('Chủ Nhật, 03/05/2026')
 
     // --- EFFECT: ĐỒNG HỒ THỜI GIAN THỰC ---
     useEffect(() => {
         const updateTime = () => {
-            const now = new Date();
-            const timeStr = now.toLocaleTimeString('vi-VN', { hour12: false });
-            const options = { weekday: 'long', year: 'numeric', month: '2-digit', day: '2-digit' };
-            const dateStr = now.toLocaleDateString('vi-VN', options);
+            const now = new Date()
+            const timeStr = now.toLocaleTimeString('vi-VN', { hour12: false })
+            const options = { weekday: 'long', year: 'numeric', month: '2-digit', day: '2-digit' }
+            const dateStr = now.toLocaleDateString('vi-VN', options)
 
-            setCurrentTime(timeStr);
-            setCurrentDate(dateStr);
-        };
+            setCurrentTime(timeStr)
+            setCurrentDate(dateStr)
+        }
 
-        updateTime(); // Chạy ngay lập tức lần đầu
-        const timerId = setInterval(updateTime, 1000);
+        updateTime() // Chạy ngay lập tức lần đầu
+        const timerId = setInterval(updateTime, 1000)
 
-        return () => clearInterval(timerId); // Cleanup khi unmount
-    }, []);
-
-
+        return () => clearInterval(timerId) // Cleanup khi unmount
+    }, [])
 
     return (
         <div className="border-l-4 border-[#8b5cf6] pl-4 text-left sm:text-right">

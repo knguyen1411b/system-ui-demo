@@ -1,2 +1,1 @@
-export { login, registerUser, getProfile, updateProfile } from './core';
-
+export { login, registerUser, getProfile, updateProfile } from './core'
